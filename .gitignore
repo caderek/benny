@@ -1,0 +1,8 @@
+node_modules
+lib
+coverage
+.history
+*/**/*.temp.*
+*.temp.*
+*.log.*
+*.log

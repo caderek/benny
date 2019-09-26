@@ -1,0 +1,8 @@
+node_modules
+coverage
+.history
+.circleci
+*/**/*.temp.*
+*.temp.*
+*.log.*
+*.log
