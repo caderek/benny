@@ -3,4 +3,4 @@ const run = (options = {}) => (suiteObj) => {
 }
 
 export { run }
-export default { run }
+export default run

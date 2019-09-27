@@ -8,11 +8,11 @@ const getEssentialResults = (currentTarget) => {
     .map(([_, target]) => {
       return {
         // @ts-ignore
-        deviation: Number(target.stats.rme.toFixed(2)),
-        // @ts-ignore
         name: target.name,
         // @ts-ignore
         ops: Math.round(target.hz),
+        // @ts-ignore
+        deviation: Number(target.stats.rme.toFixed(2)),
       }
     })
 }
