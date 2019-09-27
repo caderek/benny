@@ -142,11 +142,11 @@ describe('suite', () => {
       await new Promise((resolve) => {
         suite(
           add.only('First', () => {
-            return () => [1, 2].reduce((a, b) => a + b)
+            return () => [1, 2, 3, 4, 5].reduce((a, b) => a + b)
           }),
 
           add('Second', () => {
-            return () => [1, 2, 3, 4, 5].reduce((a, b) => a + b)
+            return () => [1, 2].reduce((a, b) => a + b)
           }),
 
           cycle(),

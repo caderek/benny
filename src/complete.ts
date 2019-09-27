@@ -1,7 +1,5 @@
-import arr from '@arrows/array'
-import { pipe } from '@arrows/composition'
-import * as fs from 'fs'
 import kleur = require('kleur')
+import { Suite } from './internal/common-types'
 import getEssentialResults from './internal/getEssentialResults'
 
 const defaultComplete = (event) => {
@@ -15,10 +13,13 @@ const defaultComplete = (event) => {
   )
 }
 
-const complete = (fn = defaultComplete) => (suiteObj) => {
+type CompleteFn = (event: object) => any
+type Complete = (fn?: CompleteFn) => (suiteObj: Suite) => Suite
+
+const complete: Complete = (fn = defaultComplete) => (suiteObj) => {
   suiteObj.on('complete', fn)
   return suiteObj
 }
 
-export { complete }
+export { complete, Complete }
 export default complete

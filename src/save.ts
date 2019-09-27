@@ -1,6 +1,7 @@
 import * as fs from 'fs-extra'
 import * as kleur from 'kleur'
 import * as path from 'path'
+import { Suite } from './internal/common-types'
 import getEssentialResults from './internal/getEssentialResults'
 
 const defaultOptions = {
@@ -11,7 +12,15 @@ const defaultOptions = {
   version: null,
 }
 
-const save = (options = {}) => (suiteObj) => {
+type Options = {
+  file?: string
+  folder?: string
+  version?: string
+}
+
+type Save = (options?: Options) => (suiteObj: Suite) => Suite
+
+const save: Save = (options = {}) => (suiteObj) => {
   const opt = { ...defaultOptions, ...options }
 
   suiteObj.on('complete', (event) => {
@@ -35,5 +44,5 @@ const save = (options = {}) => (suiteObj) => {
   return suiteObj
 }
 
-export { save }
+export { save, Save }
 export default save

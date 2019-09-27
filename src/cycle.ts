@@ -1,4 +1,5 @@
 import * as kleur from 'kleur'
+import { Suite } from './internal/common-types'
 import format from './internal/format'
 
 const defaultCycle = ({ target }) => {
@@ -9,10 +10,13 @@ const defaultCycle = ({ target }) => {
   console.log(`  ${hz} ops/s, ±${rme}%`) // tslint:disable-line
 }
 
-const cycle = (fn = defaultCycle) => (suiteObj) => {
+type CycleFn = (event: object) => any
+type Cycle = (fn?: CycleFn) => (suiteObj: Suite) => Suite
+
+const cycle: Cycle = (fn = defaultCycle) => (suiteObj) => {
   suiteObj.on('cycle', fn)
   return suiteObj
 }
 
-export { cycle }
+export { cycle, Cycle }
 export default cycle
