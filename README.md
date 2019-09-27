@@ -1,10 +1,10 @@
 # Benny - handy benchmarking tool based on
 
-![CircleCI](https://img.shields.io/circleci/build/github/caderek/redux-multimethod)
-![David](https://img.shields.io/david/caderek/redux-multimethod)
-![Codecov](https://img.shields.io/codecov/c/github/caderek/redux-multimethod)
-![npm bundle size](https://img.shields.io/bundlephobia/minzip/redux-multimethod)
-[![GitHub license](https://img.shields.io/github/license/caderek/redux-multimethod)](https://github.com/caderek/redux-multimethod/blob/master/LICENSE)
+![npm](https://img.shields.io/npm/v/benny)
+![CircleCI](https://img.shields.io/circleci/build/github/caderek/benny)
+![David](https://img.shields.io/david/caderek/benny)
+![Codecov](https://img.shields.io/codecov/c/github/caderek/benny)
+![GitHub](https://img.shields.io/github/license/caderek/benny)
 
 ## Overview
 
