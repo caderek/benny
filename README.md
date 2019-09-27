@@ -144,6 +144,8 @@ suite(
 )
 ```
 
+Of course, all methods are optional - use the ones you need.
+
 ## License
 
 Project is under open, non-restrictive [ISC license](LICENSE).

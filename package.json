@@ -1,6 +1,6 @@
 {
   "name": "benny",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "main": "lib/index.js",
   "license": "ISC",
   "repository": "https://github.com/caderek/benny",
@@ -8,6 +8,8 @@
   "description": "Handy benchmarking tool based on benchmark package",
   "keywords": [
     "benchmark",
+    "simple",
+    "save",
     "performance",
     "perf",
     "test",
