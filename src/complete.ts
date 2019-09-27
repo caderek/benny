@@ -5,9 +5,9 @@ import kleur = require('kleur')
 import getEssentialResults from './internal/getEssentialResults'
 
 const defaultComplete = (event) => {
-  const results = arr._sortBy((result) => result.ops)((a, b) =>
-    a < b ? 1 : 0,
-  )(getEssentialResults(event.currentTarget))
+  const results = getEssentialResults(event.currentTarget).sort(
+    (a, b) => b.ops - a.ops,
+  )
   const fastest = results[0]
 
   console.log(

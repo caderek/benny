@@ -36,7 +36,6 @@
     "typescript": "^3.6.3"
   },
   "dependencies": {
-    "@arrows/array": "^0.4.9",
     "@arrows/composition": "^0.2.5",
     "benchmark": "^2.1.4",
     "fs-extra": "^8.1.0",

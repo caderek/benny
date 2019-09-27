@@ -7,7 +7,7 @@ const suite = (...fns) => {
     ? fns.filter((fn) => fn.name !== 'add' && fn.name !== 'skip')
     : fns.filter((fn) => fn.name !== 'skip')
 
-  pipe(...items)(new Benchmark.Suite())
+  return pipe(...items)(new Benchmark.Suite())
 }
 
 export { suite }

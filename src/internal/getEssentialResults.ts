@@ -1,7 +1,6 @@
 const getEssentialResults = (currentTarget) => {
   return Object.entries(currentTarget)
     .filter(([key]) => !Number.isNaN(Number(key)))
-    .sort(([keyA], [keyB]) => (keyA > keyB ? 1 : 0))
     .map((item) => {
       return item
     })

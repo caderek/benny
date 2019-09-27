@@ -1,4 +1,4 @@
-# Benny - handy benchmarking tool based on
+# Benny - a dead simple benchmarking framework
 
 ![npm](https://img.shields.io/npm/v/benny)
 ![CircleCI](https://img.shields.io/circleci/build/github/caderek/benny)
@@ -14,7 +14,8 @@ It provides an improved API that allows you to:
 
 - prepare local setup for each case
 - skip or run only selected cases
-- save essential results to a file in JSOn format
+- save essential results to a file in a JSON format
+- sound defaults suited for most projects
 
 ## Quick example
 
@@ -115,13 +116,13 @@ suite(
   }),
 
   // This will run when each case is benchmarked.
-  // You can pass a function that takes an event with current result.
-  // By default it pretty-prints case summary
+  // You can pass a function that takes an event with the current result.
+  // By default, it pretty-prints case summary
   cycle(),
 
   // This will run when all cases are benchmarked.
   // You can pass a function that takes an event with all results.
-  // By default it prints simple summary.
+  // By default, it prints a simple summary.
   complete(),
 
   // This will save essential results to a file.
@@ -133,8 +134,7 @@ suite(
     file: 'myFileNameWithoutExtension'
     // Destination folder (can be nested), will be created if not exists:
     folder: 'myFolder',
-    // Version string - if provided will be added to the default file name
-    // and included in the file content
+    // Version string - if provided will be included in the file content
     version: require('package.json').version,
   }),
 

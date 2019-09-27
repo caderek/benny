@@ -5,8 +5,7 @@ import getEssentialResults from './internal/getEssentialResults'
 
 const defaultOptions = {
   file: ({ timeStamp }) => {
-    const version = defaultOptions.version ? `${defaultOptions.version}-` : ''
-    return `${version}${new Date(timeStamp).toISOString()}`
+    return new Date(timeStamp).toISOString()
   },
   folder: 'benchmark/results',
   version: null,
