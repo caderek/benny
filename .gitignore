@@ -6,3 +6,4 @@ coverage
 *.temp.*
 *.log.*
 *.log
+benchmark
