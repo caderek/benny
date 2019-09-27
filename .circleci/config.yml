@@ -1,0 +1,34 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:10.16.3
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      - run:
+          name: "Setup custom environment variables"
+          command: |
+            echo 'export CODECOV_TOKEN="a97d9e97-f657-4b08-a14a-1470f2ba4304"' >> $BASH_ENV # Redirect MY_ENV_VAR into $BASH_ENV
+
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-
+
+      - run: yarn install
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+
+      - run: yarn coverage
+      - run: yarn lint
