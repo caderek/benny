@@ -20,3 +20,11 @@ Initial release.
 
 - Improved README (installation instruction)
 - Improved type definitions
+
+## 2.0.3
+
+- Added snippets
+
+## 2.0.4
+
+- Added snippet for ES/TS modules
