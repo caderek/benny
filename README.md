@@ -24,6 +24,8 @@ It provides an improved API that allows you to:
 const b = require('benny').default
 
 b.suite(
+  'Example',
+
   b.add('Reduce two elements', () => {
     ;[1, 2].reduce((a, b) => a + b)
   }),
@@ -35,7 +37,6 @@ b.suite(
   b.cycle(),
   b.complete(),
   b.save({ file: 'reduce', version: '1.0.0' }),
-  b.run(),
 )
 ```
 
@@ -47,11 +48,12 @@ node benchmark.js
 
 Output:
 
-```sh
-Reduce two elements:
-  147 859 561 ops/s, ±0.82%
-Reduce five elements:
-  119 060 793 ops/s, ±1.01%
+```
+Running "Example" suite...
+  Reduce two elements:
+    156 340 552 ops/s, ±0.24%
+  Reduce five elements:
+    125 796 511 ops/s, ±0.59%
 Finished 2 cases, fastest: Reduce two elements
 Saved to: benchmark/results/reduce.json
 ```
@@ -60,20 +62,25 @@ File content:
 
 ```json
 {
-  "date": "2019-09-27T00:51:40.230Z",
+  "name": "Example",
+  "date": "2019-09-28T01:39:05.804Z",
   "version": "1.0.0",
   "results": [
     {
       "name": "Reduce two elements",
-      "ops": 147859561,
-      "deviation": 0.82
+      "ops": 156340552,
+      "deviation": 0.24
     },
     {
       "name": "Reduce five elements",
-      "ops": 119060793,
-      "deviation": 1.01
+      "ops": 125796511,
+      "deviation": 0.59
     }
-  ]
+  ],
+  "fastest": {
+    "name": "Reduce two elements",
+    "index": 0
+  }
 }
 ```
 
@@ -81,13 +88,16 @@ File content:
 
 ```js
 /* benchmark.js */
-const { add, complete, cycle, run, save, suite } = require('benny')
+const { add, complete, cycle, save, suite } = require('benny')
 // Or use other import methods:
 // const benny = require('benny').default
-// import { add, complete, cycle, run, save, suite } from 'benny'
+// import { add, complete, cycle, save, suite } from 'benny'
 // import benny from 'benny'
 
 suite(
+  // Name of the suite - required
+  "My suite",
+
   // If the code that you want to benchmark has no setup,
   // you can run it directly:
   add('My first case', () => {
@@ -137,14 +147,148 @@ suite(
     // Version string - if provided will be included in the file content
     version: require('package.json').version,
   }),
-
-
-  // Run the suite
-  run()
 )
 ```
 
 Of course, all methods are optional - use the ones you need.
+
+Additionally, each suite returns a `Promise` that resolves with result event (the same as passed to `complete` method).
+
+## Working with promises
+
+Each suite returns a Promise with all the detailed results and setup, so you can easily
+
+## Working with many suites
+
+You can create as many suites as you want. It is a good practice to define each suite in a separate file, so you can run them independently if you need. To run multiple suites create a main file when you import all your suites.
+
+Example:
+
+```js
+/* suites/suite-one.js */
+
+const b = require('benny').default
+
+module.exports = b.suite(
+  'Suite one',
+
+  b.add('Reduce two elements', () => {
+    ;[1, 2].reduce((a, b) => a + b)
+  }),
+
+  b.add('Reduce five elements', () => {
+    ;[1, 2, 3, 4, 5].reduce((a, b) => a + b)
+  }),
+
+  b.cycle(),
+  b.complete(),
+  b.save({ file: 'reduce' }),
+)
+```
+
+```js
+/* suites/suite-two.js */
+
+const b = require('benny').default
+
+module.exports = b.suite(
+  'Suite two',
+
+  b.add('Multiple two numbers', () => {
+    2 * 2
+  }),
+
+  b.add('Multiply three numbers', () => {
+    2 * 2 * 2
+  }),
+
+  b.cycle(),
+  b.complete(),
+  b.save({ file: 'add' }),
+)
+```
+
+```js
+/* benchmark.js */
+
+require('./suites/suite-one')
+require('./suites/suite-two')
+```
+
+Run:
+
+```
+node benchmark.js
+```
+
+## Tweaking benchmarks
+
+If the default results are not optimal (high deviation etc.), you can change parameters for each case by providing an options object as a third parameter to `add` function.
+
+Available options:
+
+```typescript
+/**
+ * The delay between test cycles (secs).
+ *
+ * @default 0.005
+ */
+delay?: number
+
+/**
+ * The default number of times to execute a test on a benchmark's first cycle.
+ *
+ * @default 1
+ */
+initCount?: number
+
+/**
+ * The maximum time a benchmark is allowed to run before finishing (secs).
+ *
+ * Note: Cycle delays aren't counted toward the maximum time.
+ *
+ * @default 5
+ */
+maxTime?: number
+
+/**
+ * The minimum sample size required to perform statistical analysis.
+ *
+ * @default 5
+ */
+minSamples?: number
+
+/**
+ * The time needed to reduce the percent uncertainty of measurement to 1% (secs).
+ *
+ * @default 0
+ */
+minTime?: number
+```
+
+Example usage:
+
+```js
+const b = require('benny').default
+
+const options = {
+  minSamples: 10,
+  maxTime: 2,
+}
+
+b.suite(
+  'My suite',
+
+  b.add(
+    'Reduce two elements',
+    () => {
+      ;[1, 2].reduce((a, b) => a + b)
+    },
+    options,
+  ),
+  // ...other methods
+)
+```
 
 ## License
 

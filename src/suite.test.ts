@@ -1,5 +1,5 @@
 import * as fs from 'fs-extra'
-import { add, complete, cycle, run, save, suite } from './index'
+import { add, complete, cycle, save, suite } from './index'
 
 const TIMEOUT = 30000
 
@@ -13,22 +13,21 @@ describe('suite', () => {
   it(
     'Works with defaults and direct cases',
     async () => {
-      await new Promise((resolve) => {
-        suite(
-          add('First', () => {
-            ;[1, 2].reduce((a, b) => a + b)
-          }),
+      await suite(
+        'Example 1',
 
-          add('Second', () => {
-            ;[1, 2, 3, 4, 5].reduce((a, b) => a + b)
-          }),
+        add('First', () => {
+          ;[1, 2].reduce((a, b) => a + b)
+        }),
 
-          cycle(),
-          complete(),
-          save(),
-          run(),
-        ).on('complete', resolve)
-      })
+        add('Second', () => {
+          ;[1, 2, 3, 4, 5].reduce((a, b) => a + b)
+        }),
+
+        cycle(),
+        complete(),
+        save(),
+      )
 
       await delay(2000)
 
@@ -48,6 +47,8 @@ describe('suite', () => {
       expect(typeof content.results[1].ops).toEqual('number')
       expect(typeof content.results[0].deviation).toEqual('number')
       expect(typeof content.results[1].deviation).toEqual('number')
+      expect(content.fastest.name).toEqual('First')
+      expect(content.fastest.index).toEqual(0)
       expect(content.version).toEqual(null)
     },
     TIMEOUT,
@@ -56,22 +57,21 @@ describe('suite', () => {
   it(
     'Works with defaults and cases returned in wrapping function',
     async () => {
-      await new Promise((resolve) => {
-        suite(
-          add('First', () => {
-            return () => [1, 2].reduce((a, b) => a + b)
-          }),
+      await suite(
+        'Example 2',
 
-          add('Second', () => {
-            return () => [1, 2, 3, 4, 5].reduce((a, b) => a + b)
-          }),
+        add('First', () => {
+          return () => [1, 2, 3, 4, 5].reduce((a, b) => a + b)
+        }),
 
-          cycle(),
-          complete(),
-          save(),
-          run(),
-        ).on('complete', resolve)
-      })
+        add('Second', () => {
+          return () => [1, 2].reduce((a, b) => a + b)
+        }),
+
+        cycle(),
+        complete(),
+        save(),
+      )
 
       await delay(2000)
 
@@ -91,6 +91,8 @@ describe('suite', () => {
       expect(typeof content.results[1].ops).toEqual('number')
       expect(typeof content.results[0].deviation).toEqual('number')
       expect(typeof content.results[1].deviation).toEqual('number')
+      expect(content.fastest.name).toEqual('Second')
+      expect(content.fastest.index).toEqual(1)
       expect(content.version).toEqual(null)
     },
     TIMEOUT,
@@ -99,22 +101,21 @@ describe('suite', () => {
   it(
     'Works with .only and direct cases',
     async () => {
-      await new Promise((resolve) => {
-        suite(
-          add.only('First', () => {
-            ;[1, 2].reduce((a, b) => a + b)
-          }),
+      await suite(
+        'Example 3',
 
-          add('Second', () => {
-            ;[1, 2, 3, 4, 5].reduce((a, b) => a + b)
-          }),
+        add.only('First', () => {
+          ;[1, 2].reduce((a, b) => a + b)
+        }),
 
-          cycle(),
-          complete(),
-          save(),
-          run(),
-        ).on('complete', resolve)
-      })
+        add('Second', () => {
+          ;[1, 2, 3, 4, 5].reduce((a, b) => a + b)
+        }),
+
+        cycle(),
+        complete(),
+        save(),
+      )
 
       await delay(2000)
 
@@ -131,6 +132,8 @@ describe('suite', () => {
       expect(content.results[0].name).toEqual('First')
       expect(typeof content.results[0].ops).toEqual('number')
       expect(typeof content.results[0].deviation).toEqual('number')
+      expect(content.fastest.name).toEqual('First')
+      expect(content.fastest.index).toEqual(0)
       expect(content.version).toEqual(null)
     },
     TIMEOUT,
@@ -139,22 +142,21 @@ describe('suite', () => {
   it(
     'Works with .only and cases returned in wrapping function',
     async () => {
-      await new Promise((resolve) => {
-        suite(
-          add.only('First', () => {
-            return () => [1, 2, 3, 4, 5].reduce((a, b) => a + b)
-          }),
+      await suite(
+        'Example 4',
 
-          add('Second', () => {
-            return () => [1, 2].reduce((a, b) => a + b)
-          }),
+        add.only('First', () => {
+          return () => [1, 2, 3, 4, 5].reduce((a, b) => a + b)
+        }),
 
-          cycle(),
-          complete(),
-          save(),
-          run(),
-        ).on('complete', resolve)
-      })
+        add('Second', () => {
+          return () => [1, 2].reduce((a, b) => a + b)
+        }),
+
+        cycle(),
+        complete(),
+        save(),
+      )
 
       await delay(2000)
 
@@ -171,6 +173,8 @@ describe('suite', () => {
       expect(content.results[0].name).toEqual('First')
       expect(typeof content.results[0].ops).toEqual('number')
       expect(typeof content.results[0].deviation).toEqual('number')
+      expect(content.fastest.name).toEqual('First')
+      expect(content.fastest.index).toEqual(0)
       expect(content.version).toEqual(null)
     },
     TIMEOUT,
@@ -179,22 +183,21 @@ describe('suite', () => {
   it(
     'Works with .skip',
     async () => {
-      await new Promise((resolve) => {
-        suite(
-          add.skip('First', () => {
-            ;[1, 2].reduce((a, b) => a + b)
-          }),
+      await suite(
+        'Example 5',
 
-          add('Second', () => {
-            ;[1, 2, 3, 4, 5].reduce((a, b) => a + b)
-          }),
+        add.skip('First', () => {
+          ;[1, 2].reduce((a, b) => a + b)
+        }),
 
-          cycle(),
-          complete(),
-          save(),
-          run(),
-        ).on('complete', resolve)
-      })
+        add('Second', () => {
+          ;[1, 2, 3, 4, 5].reduce((a, b) => a + b)
+        }),
+
+        cycle(),
+        complete(),
+        save(),
+      )
 
       await delay(2000)
 
@@ -211,6 +214,8 @@ describe('suite', () => {
       expect(content.results[0].name).toEqual('Second')
       expect(typeof content.results[0].ops).toEqual('number')
       expect(typeof content.results[0].deviation).toEqual('number')
+      expect(content.fastest.name).toEqual('Second')
+      expect(content.fastest.index).toEqual(0)
       expect(content.version).toEqual(null)
     },
     TIMEOUT,
@@ -219,26 +224,25 @@ describe('suite', () => {
   it(
     'Works with custom options',
     async () => {
-      await new Promise((resolve) => {
-        suite(
-          add('First', () => {
-            ;[1, 2].reduce((a, b) => a + b)
-          }),
+      await suite(
+        'Example 6',
 
-          add('Second', () => {
-            ;[1, 2, 3, 4, 5].reduce((a, b) => a + b)
-          }),
+        add('First', () => {
+          ;[1, 2].reduce((a, b) => a + b)
+        }),
 
-          cycle(),
-          complete(),
-          save({
-            file: 'foo',
-            folder: 'benchmark/bar',
-            version: '1.2.3',
-          }),
-          run(),
-        ).on('complete', resolve)
-      })
+        add('Second', () => {
+          ;[1, 2, 3, 4, 5].reduce((a, b) => a + b)
+        }),
+
+        cycle(),
+        complete(),
+        save({
+          file: 'foo',
+          folder: 'benchmark/bar',
+          version: '1.2.3',
+        }),
+      )
 
       await delay(2000)
 
@@ -256,6 +260,8 @@ describe('suite', () => {
       expect(typeof content.results[1].ops).toEqual('number')
       expect(typeof content.results[0].deviation).toEqual('number')
       expect(typeof content.results[1].deviation).toEqual('number')
+      expect(content.fastest.name).toEqual('First')
+      expect(content.fastest.index).toEqual(0)
       expect(content.version).toEqual('1.2.3')
     },
     TIMEOUT,

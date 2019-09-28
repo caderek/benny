@@ -25,13 +25,26 @@ const save: Save = (options = {}) => (suiteObj) => {
 
   suiteObj.on('complete', (event) => {
     const results = getEssentialResults(event.currentTarget)
+
+    const fastestIndex = results.reduce(
+      (prev, next, index) => {
+        return next.ops > prev.ops ? { ops: next.ops, index } : prev
+      },
+      { ops: 0, index: null },
+    ).index
+
     const fileName = typeof opt.file === 'function' ? opt.file(event) : opt.file
     const fullPath = path.join(opt.folder, `${fileName}.json`)
 
     const fileContent = {
+      name: event.currentTarget.name,
       date: new Date(event.timeStamp).toISOString(),
       version: opt.version,
       results,
+      fastest: {
+        name: results[fastestIndex].name,
+        index: fastestIndex,
+      },
     }
 
     fs.ensureDirSync(opt.folder)

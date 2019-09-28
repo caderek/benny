@@ -6,8 +6,8 @@ const defaultCycle = ({ target }) => {
   const hz = format(Math.round(target.hz))
   const rme = target.stats.rme.toFixed(2)
 
-  console.log(kleur.green(`${target.name}:`)) // tslint:disable-line
-  console.log(`  ${hz} ops/s, ±${rme}%`) // tslint:disable-line
+  console.log(kleur.green(`  ${target.name}:`)) // tslint:disable-line
+  console.log(`    ${hz} ops/s, ±${rme}%`) // tslint:disable-line
 }
 
 type CycleFn = (event: object) => any
