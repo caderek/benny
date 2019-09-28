@@ -10,6 +10,12 @@ describe('suite', () => {
     fs.removeSync('benchmark')
   })
 
+  it('Returns a Promise', () => {
+    const mySuite = suite('Example')
+
+    expect(mySuite).toBeInstanceOf(Promise)
+  })
+
   it(
     'Works with defaults and direct cases',
     async () => {
