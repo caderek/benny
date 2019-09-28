@@ -9,11 +9,12 @@
 ## Table of contents
 
 1. [Overview](#overview)
-2. [Quick example](#quick-example)
-3. [API](#api)
-4. [Working with many suites](#many-suites)
-5. [Tweaking benchmarks](#tweaking)
-6. [License](#license)
+2. [Installation](#installation)
+3. [Quick example](#quick-example)
+4. [API](#api)
+5. [Working with many suites](#many-suites)
+6. [Tweaking benchmarks](#tweaking)
+7. [License](#license)
 
 <a id='overview'></a>
 
@@ -29,7 +30,23 @@ It provides an improved API that allows you to:
 - pretty-print results without additional setup
 - use suite results as Promises
 
-Additionally, it provides sound defaults suitable for most use cases.
+Additionally, it provides sound defaults suitable for most use cases and excellent IDE support with built-in type definitions.
+
+<a id='installation'></a>
+
+## Installation
+
+Using NPM:
+
+```sh
+npm i benny -D
+```
+
+Using Yarn:
+
+```
+yarn add benny -D
+```
 
 <a id='quick-example'></a>
 
@@ -144,12 +161,12 @@ suite(
   }),
 
   // This will run when each case is benchmarked.
-  // You can pass a function that takes an event with the current result.
+  // You can pass a function that takes an Event with the current results.
   // By default, it pretty-prints case summary
   cycle(),
 
   // This will run when all cases are benchmarked.
-  // You can pass a function that takes an event with all results.
+  // You can pass a function that takes an Event with all results.
   // By default, it prints a simple summary.
   complete(),
 
@@ -158,7 +175,7 @@ suite(
   // By default saves to benchmark/results/<ISO-DATE-TIME>.json
   save({
     // String or function that produces a string,
-    // if function, then result event will be passed as argument:
+    // if function, then results Event will be passed as argument:
     file: 'myFileNameWithoutExtension'
     // Destination folder (can be nested), will be created if not exists:
     folder: 'myFolder',

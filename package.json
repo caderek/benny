@@ -1,14 +1,16 @@
 {
   "name": "benny",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "main": "lib/index.js",
   "license": "ISC",
   "repository": "https://github.com/caderek/benny",
-  "homepage": "https://github.com/caderek/benny",
+  "homepage": "https://caderek.github.io/benny/",
   "description": "A dead simple benchmarking framework",
   "keywords": [
     "benchmark",
+    "benchmarking",
     "simple",
+    "framework",
     "save",
     "performance",
     "perf",

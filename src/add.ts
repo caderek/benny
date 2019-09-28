@@ -1,4 +1,4 @@
-import { Suite } from './internal/common-types'
+import { Suite } from 'benchmark'
 
 type Options = {
   /**

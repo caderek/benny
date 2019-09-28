@@ -1,8 +1,10 @@
+import { Event, Suite } from 'benchmark'
 import kleur = require('kleur')
-import { Suite } from './internal/common-types'
 import getEssentialResults from './internal/getEssentialResults'
 
-const defaultComplete = (event) => {
+type CompleteFn = (event: Event) => any
+
+const defaultComplete: CompleteFn = (event) => {
   const results = getEssentialResults(event.currentTarget).sort(
     (a, b) => b.ops - a.ops,
   )
@@ -13,7 +15,6 @@ const defaultComplete = (event) => {
   )
 }
 
-type CompleteFn = (event: object) => any
 type Complete = (fn?: CompleteFn) => (suiteObj: Suite) => Suite
 
 /**

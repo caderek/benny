@@ -1,8 +1,10 @@
+import { Event, Suite } from 'benchmark'
 import * as kleur from 'kleur'
-import { Suite } from './internal/common-types'
 import format from './internal/format'
 
-const defaultCycle = ({ target }) => {
+type CycleFn = (event: Event) => any
+
+const defaultCycle: CycleFn = ({ target }) => {
   const hz = format(Math.round(target.hz))
   const rme = target.stats.rme.toFixed(2)
 
@@ -10,7 +12,6 @@ const defaultCycle = ({ target }) => {
   console.log(`    ${hz} ops/s, ±${rme}%`) // tslint:disable-line
 }
 
-type CycleFn = (event: object) => any
 type Cycle = (fn?: CycleFn) => (suiteObj: Suite) => Suite
 
 /**

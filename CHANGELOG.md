@@ -15,3 +15,8 @@ Initial release.
 ## 2.0.1
 
 - Improved documentation (table of contents, better overview)
+
+## 2.0.2
+
+- Improved README (installation instruction)
+- Improved type definitions

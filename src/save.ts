@@ -1,21 +1,38 @@
+import { Event, Suite } from 'benchmark'
 import * as fs from 'fs-extra'
 import * as kleur from 'kleur'
 import * as path from 'path'
-import { Suite } from './internal/common-types'
 import getEssentialResults from './internal/getEssentialResults'
 
-const defaultOptions = {
-  file: ({ timeStamp }) => {
-    return new Date(timeStamp).toISOString()
+type Options = {
+  /**
+   * File name or function that takes case timestamp and produces file name
+   *
+   * @default '<ISO_DATE_TIME>.json'
+   */
+  file?: string | ((event: Event) => string)
+  /**
+   * Destination folder fo for results file
+   *
+   * Note: will be created if not exists
+   *
+   * @default 'benchmark/results'
+   */
+  folder?: string
+  /**
+   * Suite version - will be added to the results file content
+   *
+   * @default null
+   */
+  version?: string
+}
+
+const defaultOptions: Options = {
+  file: (event) => {
+    return new Date(event.timeStamp).toISOString()
   },
   folder: 'benchmark/results',
   version: null,
-}
-
-type Options = {
-  file?: string
-  folder?: string
-  version?: string
 }
 
 type Save = (options?: Options) => (suiteObj: Suite) => Suite
