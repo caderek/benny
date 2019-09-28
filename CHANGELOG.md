@@ -11,3 +11,7 @@ Initial release.
 - Added name string as a required first parameter of `suite` function.
 - Added suite name and fastest result to saved file content.
 - `suite` function now returns a `Promise` with all results, instead of internal `Suite` object.
+
+## 2.0.1
+
+- Improved documentation (table of contents, better overview)

@@ -3,6 +3,7 @@
   "api_key": "",
   "dictionary": [
     "README",
+    "changelog",
     "linter",
     "typings"
   ],
