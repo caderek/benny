@@ -16,7 +16,8 @@
 4. [API](#api)
 5. [Working with many suites](#many-suites)
 6. [Tweaking benchmarks](#tweaking)
-7. [License](#license)
+7. [Snippets](#snippets)
+8. [License](#license)
 
 <a id='overview'></a>
 
@@ -326,6 +327,16 @@ b.suite(
   // ...other methods
 )
 ```
+
+<a id="snippets"></a>
+
+## Snippets
+
+If you are using Visual Studio Code or [VSCodium](https://github.com/VSCodium/vscodium), you can use following code snippets -> [click](snippets.json)
+
+To add them, open `File -> Preferences -> User Snippets`, chose a language (JS, TS or both) and paste additional keys from snippets file.
+
+You can see how they work in the demo GIF.
 
 <a id="license"></a>
 

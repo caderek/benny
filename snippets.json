@@ -1,0 +1,39 @@
+{
+  "Benny single suite file": {
+    "prefix": "benny",
+    "body": [
+      "const { add, complete, cycle, save, suite } = require('benny')",
+      "",
+      "module.exports = suite(",
+      "  '$1',",
+      "",
+      "  $3",
+      "",
+      "  cycle(),",
+      "  complete(),",
+      "  save({ file: '$2' }),",
+      ")"
+    ],
+    "description": "Log output to console"
+  },
+  "Benny suite": {
+    "prefix": "bsuite",
+    "body": [
+      "suite(",
+      "  '$1',",
+      "",
+      "  $3",
+      "",
+      "  cycle(),",
+      "  complete(),",
+      "  save({ file: '$2' }),",
+      ")"
+    ],
+    "description": "Log output to console"
+  },
+  "Benny add suite case": {
+    "prefix": "badd",
+    "body": ["add('$1', () => {", "  $2", "}),"],
+    "description": "Log output to console"
+  }
+}
