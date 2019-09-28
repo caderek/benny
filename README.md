@@ -6,6 +6,8 @@
 ![Codecov](https://img.shields.io/codecov/c/github/caderek/benny)
 ![GitHub](https://img.shields.io/github/license/caderek/benny)
 
+![Example](benny.gif)
+
 ## Table of contents
 
 1. [Overview](#overview)
