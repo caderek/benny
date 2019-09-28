@@ -6,16 +6,32 @@
 ![Codecov](https://img.shields.io/codecov/c/github/caderek/benny)
 ![GitHub](https://img.shields.io/github/license/caderek/benny)
 
+## Table of contents
+
+1. [Overview](#overview)
+2. [Quick example](#quick-example)
+3. [API](#api)
+4. [Working with many suites](#many-suites)
+5. [Tweaking benchmarks](#tweaking)
+6. [License](#license)
+
+<a id='overview'></a>
+
 ## Overview
 
-Benny is a wrapper for [benchmark](https://www.npmjs.com/package/benchmark) package.
+Benny is a wrapper for an excellent (but complex) [benchmark](https://www.npmjs.com/package/benchmark) package.
 
 It provides an improved API that allows you to:
 
 - prepare local setup for each case
 - skip or run only selected cases
 - save essential results to a file in a JSON format
-- sound defaults suited for most projects
+- pretty-print results without additional setup
+- use suite results as Promises
+
+Additionally, it provides sound defaults suitable for most use cases.
+
+<a id='quick-example'></a>
 
 ## Quick example
 
@@ -83,6 +99,8 @@ File content:
   }
 }
 ```
+
+<a id='api'></a>
 
 ## API
 
@@ -154,9 +172,7 @@ Of course, all methods are optional - use the ones you need.
 
 Additionally, each suite returns a `Promise` that resolves with result event (the same as passed to `complete` method).
 
-## Working with promises
-
-Each suite returns a Promise with all the detailed results and setup, so you can easily
+<a id="many-suites"></a>
 
 ## Working with many suites
 
@@ -220,6 +236,8 @@ Run:
 ```
 node benchmark.js
 ```
+
+<a id="tweaking"></a>
 
 ## Tweaking benchmarks
 
@@ -289,6 +307,8 @@ b.suite(
   // ...other methods
 )
 ```
+
+<a id="license"></a>
 
 ## License
 
