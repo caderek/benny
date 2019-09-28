@@ -57,7 +57,7 @@ yarn add benny -D
 
 ```js
 /* benchmark.js */
-const b = require('benny').default
+const b = require('benny')
 
 b.suite(
   'Example',
@@ -128,7 +128,7 @@ File content:
 /* benchmark.js */
 const { add, complete, cycle, save, suite } = require('benny')
 // Or use other import methods:
-// const benny = require('benny').default
+// const benny = require('benny')
 // import { add, complete, cycle, save, suite } from 'benny'
 // import benny from 'benny'
 
@@ -203,7 +203,7 @@ Example:
 ```js
 /* suites/suite-one.js */
 
-const b = require('benny').default
+const b = require('benny')
 
 module.exports = b.suite(
   'Suite one',
@@ -225,7 +225,7 @@ module.exports = b.suite(
 ```js
 /* suites/suite-two.js */
 
-const b = require('benny').default
+const b = require('benny')
 
 module.exports = b.suite(
   'Suite two',
@@ -307,7 +307,7 @@ minTime?: number
 Example usage:
 
 ```js
-const b = require('benny').default
+const b = require('benny')
 
 const options = {
   minSamples: 10,
