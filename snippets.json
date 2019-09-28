@@ -1,5 +1,5 @@
 {
-  "Benny single suite file": {
+  "Benny single suite file - require": {
     "prefix": "benny",
     "body": [
       "const { add, complete, cycle, save, suite } = require('benny')",
@@ -16,6 +16,25 @@
     ],
     "description": "Log output to console"
   },
+
+  "Benny single suite file - ES/TS modules": {
+    "prefix": "esbenny",
+    "body": [
+      "import { add, complete, cycle, save, suite } from 'benny'",
+      "",
+      "export default suite(",
+      "  '$1',",
+      "",
+      "  $3",
+      "",
+      "  cycle(),",
+      "  complete(),",
+      "  save({ file: '$2' }),",
+      ")"
+    ],
+    "description": "Log output to console"
+  },
+
   "Benny suite": {
     "prefix": "bsuite",
     "body": [
@@ -31,6 +50,7 @@
     ],
     "description": "Log output to console"
   },
+
   "Benny add suite case": {
     "prefix": "badd",
     "body": ["add('$1', () => {", "  $2", "}),"],
