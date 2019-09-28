@@ -47,8 +47,6 @@ describe('suite', () => {
       expect(typeof content.results[1].ops).toEqual('number')
       expect(typeof content.results[0].deviation).toEqual('number')
       expect(typeof content.results[1].deviation).toEqual('number')
-      expect(content.fastest.name).toEqual('First')
-      expect(content.fastest.index).toEqual(0)
       expect(content.version).toEqual(null)
     },
     TIMEOUT,
@@ -91,8 +89,6 @@ describe('suite', () => {
       expect(typeof content.results[1].ops).toEqual('number')
       expect(typeof content.results[0].deviation).toEqual('number')
       expect(typeof content.results[1].deviation).toEqual('number')
-      expect(content.fastest.name).toEqual('Second')
-      expect(content.fastest.index).toEqual(1)
       expect(content.version).toEqual(null)
     },
     TIMEOUT,
@@ -260,8 +256,6 @@ describe('suite', () => {
       expect(typeof content.results[1].ops).toEqual('number')
       expect(typeof content.results[0].deviation).toEqual('number')
       expect(typeof content.results[1].deviation).toEqual('number')
-      expect(content.fastest.name).toEqual('First')
-      expect(content.fastest.index).toEqual(0)
       expect(content.version).toEqual('1.2.3')
     },
     TIMEOUT,
