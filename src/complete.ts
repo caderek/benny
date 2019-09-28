@@ -16,6 +16,9 @@ const defaultComplete = (event) => {
 type CompleteFn = (event: object) => any
 type Complete = (fn?: CompleteFn) => (suiteObj: Suite) => Suite
 
+/**
+ * Handles complete event
+ */
 const complete: Complete = (fn = defaultComplete) => (suiteObj) => {
   suiteObj.on('complete', fn)
   return suiteObj

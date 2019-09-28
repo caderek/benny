@@ -20,6 +20,9 @@ type Options = {
 
 type Save = (options?: Options) => (suiteObj: Suite) => Suite
 
+/**
+ * Saves results to a file
+ */
 const save: Save = (options = {}) => (suiteObj) => {
   const opt = { ...defaultOptions, ...options }
 

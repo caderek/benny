@@ -11,6 +11,9 @@ type PartialMethod =
 
 type SuiteFn = (name: string, ...fns: PartialMethod[]) => Promise<Event>
 
+/**
+ * Creates and runs benchmark suite
+ */
 const suite: SuiteFn = (name, ...fns) => {
   const suiteObj = new Benchmark.Suite(name).on('start', () => {
     console.log(kleur.yellow(`Running "${name}" suite...`))

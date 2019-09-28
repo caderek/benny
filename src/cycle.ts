@@ -13,6 +13,9 @@ const defaultCycle = ({ target }) => {
 type CycleFn = (event: object) => any
 type Cycle = (fn?: CycleFn) => (suiteObj: Suite) => Suite
 
+/**
+ * Handles complete events of each case
+ */
 const cycle: Cycle = (fn = defaultCycle) => (suiteObj) => {
   suiteObj.on('cycle', fn)
   return suiteObj

@@ -55,6 +55,9 @@ type Add = {
   skip: (...args: any[]) => SkipResult
 }
 
+/**
+ * Adds a benchmark case
+ */
 const add: Add = (caseName, test, options = {}) => {
   const fn = (suiteObj) => {
     suiteObj.add(
