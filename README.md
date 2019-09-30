@@ -201,7 +201,7 @@ Additionally, each suite returns a `Promise` that resolves with results object (
 
 ## Working with many suites
 
-You can create as many suites as you want. It is a good practice to define each suite in a separate file, so you can run them independently if you need. To run multiple suites create the main file when you import all your suites.
+You can create as many suites as you want. It is a good practice to define each suite in a separate file, so you can run them independently if you need. To run multiple suites, create the main file, where you import all your suites.
 
 Example:
 
@@ -426,7 +426,7 @@ You can see how they work in the demo GIF.
 
 For more examples check out the [/examples](examples) folder.
 
-You can run all the examples locally if you want. Just remember to run `npm i` or `yarn` in the examples folder firs.
+You can run all the examples locally if you want. Just remember to run `npm i` or `yarn` in the examples folder first.
 
 <a id="license"></a>
 
