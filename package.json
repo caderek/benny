@@ -20,7 +20,9 @@
     "fp",
     "typed",
     "ts",
-    "typescript"
+    "typescript",
+    "async",
+    "promise"
   ],
   "author": "Maciej Cąderek",
   "scripts": {
