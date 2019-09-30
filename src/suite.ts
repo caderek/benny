@@ -5,7 +5,8 @@ import { SkipResult } from './add'
 import { Summary } from './internal/common-types'
 import getSummary from './internal/getSummary'
 
-type PartialMethod = Promise<((suiteObj: Suite) => Suite) | SkipResult>
+type RawPartialMethod = (suiteObj: Suite) => Suite
+type PartialMethod = Promise<RawPartialMethod | SkipResult>
 
 type SuiteFn = (name: string, ...fns: PartialMethod[]) => Promise<Summary>
 
@@ -19,12 +20,11 @@ const suite: SuiteFn = async (name, ...fns) => {
   })
 
   const hasOnly = unpackedFns.filter((fn) => fn.name === 'only').length > 0
-  const items = hasOnly
+  const items = (hasOnly
     ? unpackedFns.filter((fn) => fn.name !== 'add' && fn.name !== 'skip')
-    : unpackedFns.filter((fn) => fn.name !== 'skip')
+    : unpackedFns.filter((fn) => fn.name !== 'skip')) as RawPartialMethod[]
 
   return new Promise((resolve, reject) => {
-    // @ts-ignore
     pipe(...items)(suiteObj)
       .on('complete', (event) => resolve(getSummary(event)))
       .on('error', reject)

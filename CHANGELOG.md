@@ -34,3 +34,9 @@ Initial release.
 - Simplified objects that are passed to `complete`, `cycle` and returned as a promise by running `suite` function (raw benchmark events are now hidden).
 - Added support for async benchmarks and async setup.
 - Added slowest case info to the file content.
+
+## 3.0.1
+
+- Improved type definitions for `suite` function.
+- Added async example to /examples folder.
+- Replaced example GIF with the current version.

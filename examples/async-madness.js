@@ -1,4 +1,4 @@
-const { add, complete, cycle, save, suite } = require('./lib')
+const { add, complete, cycle, save, suite } = require('../lib')
 
 const delay = (seconds) =>
   new Promise((resolve) => setTimeout(resolve, seconds * 1000))
