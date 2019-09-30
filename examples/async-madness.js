@@ -1,4 +1,5 @@
-const { add, complete, cycle, save, suite } = require('../lib')
+const { add, complete, cycle, save, suite } = require('benny')
+const path = require('path')
 
 const delay = (seconds) =>
   new Promise((resolve) => setTimeout(resolve, seconds * 1000))
@@ -36,5 +37,5 @@ module.exports = suite(
 
   cycle(),
   complete(),
-  save({ file: 'async-madness' }),
+  save({ file: 'async-madness', folder: path.join(__dirname, 'results') }),
 )

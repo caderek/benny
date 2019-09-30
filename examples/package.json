@@ -1,0 +1,12 @@
+{
+  "name": "benny-examples",
+  "version": "1.0.0",
+  "description": "Benny benchmark examples",
+  "author": "Maciej Cąderek",
+  "license": "ISC",
+  "dependencies": {
+    "benny": "^3.0.2",
+    "immer": "^4.0.0",
+    "immutable": "^4.0.0-rc.12"
+  }
+}

@@ -18,7 +18,8 @@
 6. [Working with async code](#async-code)
 7. [Tweaking benchmarks](#tweaking)
 8. [Snippets](#snippets)
-9. [License](#license)
+9. [Additional examples](#additional-examples)
+10. [License](#license)
 
 <a id='overview'></a>
 
@@ -418,6 +419,14 @@ If you are using Visual Studio Code or [VSCodium](https://github.com/VSCodium/vs
 To add them, open `File -> Preferences -> User Snippets`, chose a language (JS, TS or both) and paste additional keys from the snippets file.
 
 You can see how they work in the demo GIF.
+
+<a id="additional-examples"></a>
+
+## Additional examples
+
+For more examples check out the [/examples](examples) folder.
+
+You can run all the examples locally if you want. Just remember to run `npm i` or `yarn` in the examples folder firs.
 
 <a id="license"></a>
 
