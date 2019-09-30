@@ -13,11 +13,6 @@ jobs:
     steps:
       - checkout
 
-      - run:
-          name: "Setup custom environment variables"
-          command: |
-            echo 'export CODECOV_TOKEN="a97d9e97-f657-4b08-a14a-1470f2ba4304"' >> $BASH_ENV # Redirect MY_ENV_VAR into $BASH_ENV
-
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
