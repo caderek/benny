@@ -14,7 +14,7 @@
       "  save({ file: '$2' }),",
       ")"
     ],
-    "description": "Log output to console"
+    "description": "Creates a template with imports and default suite setup"
   },
 
   "Benny single suite file - ES/TS modules": {
@@ -32,10 +32,10 @@
       "  save({ file: '$2' }),",
       ")"
     ],
-    "description": "Log output to console"
+    "description": "Creates a template with imports and default suite setup"
   },
 
-  "Benny suite": {
+  "Benny add suite": {
     "prefix": "bsuite",
     "body": [
       "suite(",
@@ -48,12 +48,12 @@
       "  save({ file: '$2' }),",
       ")"
     ],
-    "description": "Log output to console"
+    "description": "Creates template for standalone suite"
   },
 
   "Benny add suite case": {
     "prefix": "badd",
     "body": ["add('$1', () => {", "  $2", "}),"],
-    "description": "Log output to console"
+    "description": "Creates template for suite case"
   }
 }

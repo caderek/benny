@@ -40,3 +40,8 @@ Initial release.
 - Improved type definitions for `suite` function.
 - Added async example to /examples folder.
 - Replaced example GIF with the current version.
+
+## 3.0.2
+
+- Improved snippets (fixed descriptions).
+- Improved grammar in README.

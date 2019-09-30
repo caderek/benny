@@ -267,7 +267,7 @@ node benchmark.js
 
 Benny handles Promises out of the box. You can have async benchmarks, async setup, or both.
 
-To demonstrate how his work I will use the `delay` function that simulates a long pending promise:
+To demonstrate how his work I will use the `delay` function that simulates a long-pending promise:
 
 ```js
 const delay = (seconds) =>
@@ -284,7 +284,7 @@ add('Async benchmark without setup', async () => {
 })
 ```
 
-If benchmark has many async operations you should await every statement that you want to be completed before next iteration:
+If a benchmark has many async operations you should await every statement that you want to be completed before the next iteration:
 
 ```js
 add('Async benchmark without setup - many async operations', async () => {
@@ -318,7 +318,7 @@ add('Sync benchmark with some async setup', async () => {
 })
 ```
 
-If we add these cases tu a suite and execute it, we will get results that would look similar to this:
+If we add these cases to a suite and execute it, we will get results that would look similar to this:
 
 ```
 Running "Async madness" suite...
@@ -415,7 +415,7 @@ b.suite(
 
 If you are using Visual Studio Code or [VSCodium](https://github.com/VSCodium/vscodium), you can use following code snippets -> [click](snippets.json)
 
-To add them, open `File -> Preferences -> User Snippets`, chose a language (JS, TS or both) and paste additional keys from snippets file.
+To add them, open `File -> Preferences -> User Snippets`, chose a language (JS, TS or both) and paste additional keys from the snippets file.
 
 You can see how they work in the demo GIF.
 
