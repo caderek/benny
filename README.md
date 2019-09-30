@@ -15,19 +15,21 @@
 3. [Quick example](#quick-example)
 4. [API](#api)
 5. [Working with many suites](#many-suites)
-6. [Tweaking benchmarks](#tweaking)
-7. [Snippets](#snippets)
-8. [License](#license)
+6. [Working with async code](#async-code)
+7. [Tweaking benchmarks](#tweaking)
+8. [Snippets](#snippets)
+9. [License](#license)
 
 <a id='overview'></a>
 
 ## Overview
 
-Benny is a wrapper for an excellent (but complex) [benchmark](https://www.npmjs.com/package/benchmark) package.
+Under the hood, Benny uses an excellent (but complex) [benchmark](https://www.npmjs.com/package/benchmark) package.
 
-It provides an improved API that allows you to:
+Benny provides an improved API that allows you to:
 
-- prepare local setup for each case
+- easily prepare benchmarks for synchronous, as well as async code,
+- prepare local setup (sync or async) for each case
 - skip or run only selected cases
 - save essential results to a file in a JSON format
 - pretty-print results without additional setup
@@ -87,10 +89,12 @@ Output:
 ```
 Running "Example" suite...
   Reduce two elements:
-    156 340 552 ops/s, ±0.24%
+    150 242 956 ops/s, ±0.88%
   Reduce five elements:
-    125 796 511 ops/s, ±0.59%
-Finished 2 cases, fastest: Reduce two elements
+    119 356 881 ops/s, ±1.34%
+Finished 2 cases!
+  Fastest: Reduce two elements
+  Slowest: Reduce five elements
 Saved to: benchmark/results/reduce.json
 ```
 
@@ -99,23 +103,27 @@ File content:
 ```json
 {
   "name": "Example",
-  "date": "2019-09-28T01:39:05.804Z",
+  "date": "2019-09-30T03:30:40.109Z",
   "version": "1.0.0",
   "results": [
     {
       "name": "Reduce two elements",
-      "ops": 156340552,
-      "deviation": 0.24
+      "ops": 150242956,
+      "margin": 0.88
     },
     {
       "name": "Reduce five elements",
-      "ops": 125796511,
-      "deviation": 0.59
+      "ops": 119356881,
+      "margin": 1.34
     }
   ],
   "fastest": {
     "name": "Reduce two elements",
     "index": 0
+  },
+  "slowest": {
+    "name": "Reduce five elements",
+    "index": 1
   }
 }
 ```
@@ -125,12 +133,8 @@ File content:
 ## API
 
 ```js
-/* benchmark.js */
+// You can also use ES Modules syntax and default imports
 const { add, complete, cycle, save, suite } = require('benny')
-// Or use other import methods:
-// const benny = require('benny')
-// import { add, complete, cycle, save, suite } from 'benny'
-// import benny from 'benny'
 
 suite(
   // Name of the suite - required
@@ -143,12 +147,12 @@ suite(
   }),
 
   // If the code that you want to benchmark requires setup,
-  // you should return it wrapped in function:
+  // you should return it wrapped in a function:
   add('My second case', () => {
     // Example setup:
     const testArr = Array.from({ length: 1000 }, (_, index) => index)
 
-    // Benchmarked code wrapped in function:
+    // Benchmarked code wrapped in a function:
     return () => myOtherFunction(testArr)
   }),
 
@@ -163,22 +167,22 @@ suite(
     Math.max(1, 2, 3, 4, 5)
   }),
 
-  // This will run when each case is benchmarked.
-  // You can pass a function that takes an Event with the current results.
-  // By default, it pretty-prints case summary
+  // This will run after each benchmark in the suite.
+  // You can pass a function that takes an object with the current results.
+  // By default, it pretty-prints case results
   cycle(),
 
-  // This will run when all cases are benchmarked.
-  // You can pass a function that takes an Event with all results.
-  // By default, it prints a simple summary.
+  // This will run after all benchmarks in the suite.
+  // You can pass a function that takes an object with all results.
+  // By default, it pretty-prints a simple summary.
   complete(),
 
-  // This will save essential results to a file.
+  // This will save the results to a file.
   // You can pass an options object.
   // By default saves to benchmark/results/<ISO-DATE-TIME>.json
   save({
     // String or function that produces a string,
-    // if function, then results Event will be passed as argument:
+    // if function, then results object will be passed as argument:
     file: 'myFileNameWithoutExtension'
     // Destination folder (can be nested), will be created if not exists:
     folder: 'myFolder',
@@ -188,15 +192,15 @@ suite(
 )
 ```
 
-Of course, all methods are optional - use the ones you need.
+All methods are optional - use the ones you need.
 
-Additionally, each suite returns a `Promise` that resolves with result event (the same as passed to `complete` method).
+Additionally, each suite returns a `Promise` that resolves with results object (the same as passed to the `complete` method).
 
 <a id="many-suites"></a>
 
 ## Working with many suites
 
-You can create as many suites as you want. It is a good practice to define each suite in a separate file, so you can run them independently if you need. To run multiple suites create a main file when you import all your suites.
+You can create as many suites as you want. It is a good practice to define each suite in a separate file, so you can run them independently if you need. To run multiple suites create the main file when you import all your suites.
 
 Example:
 
@@ -257,11 +261,88 @@ Run:
 node benchmark.js
 ```
 
+<a id="async-code"></a>
+
+## Working with async code
+
+Benny handles Promises out of the box. You can have async benchmarks, async setup, or both.
+
+To demonstrate how his work I will use the `delay` function that simulates a long pending promise:
+
+```js
+const delay = (seconds) =>
+  new Promise((resolve) => setTimeout(resolve, seconds * 1000))
+```
+
+### Async benchmark without setup
+
+```js
+add('Async benchmark without setup', async () => {
+  // You can use await or return - works the same,
+  // (async function always returns a Promise)
+  await delay(0.5) // Resulting in 2 ops/s
+})
+```
+
+If benchmark has many async operations you should await every statement that you want to be completed before next iteration:
+
+```js
+add('Async benchmark without setup - many async operations', async () => {
+  await delay(0.5)
+  await delay(0.5)
+  // Resulting in 1 ops/s
+})
+```
+
+### Async benchmark with setup - return a promise wrapped in a function
+
+```js
+add('Async benchmark with some setup', async () => {
+  await delay(2) // Setup can be async, it will not affect the results
+
+  return async () => {
+    await delay(0.5) // Still 2 ops/s
+  }
+})
+```
+
+### Synchronous benchmark with async setup
+
+```js
+add('Sync benchmark with some async setup', async () => {
+  await delay(2) // Setup can be async, it will not affect the results
+
+  return () => {
+    1 + 1 // High ops, not affected by slow, async setup
+  }
+})
+```
+
+If we add these cases tu a suite and execute it, we will get results that would look similar to this:
+
+```
+Running "Async madness" suite...
+  Async benchmark without setup:
+    2 ops/s, ±0.01%
+  Async benchmark without setup - many async operations:
+    1 ops/s, ±0.09%
+  Async benchmark with some setup:
+    2 ops/s, ±0.01%
+  Sync benchmark with some async setup:
+    671 618 174 ops/s, ±2.19%
+Finished 4 cases!
+  Fastest: Sync benchmark with some async setup
+  Slowest: Async benchmark without setup - many async operations
+Saved to: benchmark/results/async-madness.json
+```
+
+_Note: If you look closely, because of the `async` keyword, the last two examples return not a function, but a Promise, that resolves to a function, that returns either another Promise or other value (undefined in the last case). Benny is smart enough to get your intent and build proper async or sync benchmark for you._
+
 <a id="tweaking"></a>
 
 ## Tweaking benchmarks
 
-If the default results are not optimal (high deviation etc.), you can change parameters for each case by providing an options object as a third parameter to `add` function.
+If the default results are not optimal (high error margin, etc.), you can change parameters for each case by providing an options object as a third parameter to `add` function.
 
 Available options:
 
@@ -271,14 +352,14 @@ Available options:
  *
  * @default 0.005
  */
-delay?: number
+delay: number
 
 /**
  * The default number of times to execute a test on a benchmark's first cycle.
  *
  * @default 1
  */
-initCount?: number
+initCount: number
 
 /**
  * The maximum time a benchmark is allowed to run before finishing (secs).
@@ -287,21 +368,21 @@ initCount?: number
  *
  * @default 5
  */
-maxTime?: number
+maxTime: number
 
 /**
  * The minimum sample size required to perform statistical analysis.
  *
  * @default 5
  */
-minSamples?: number
+minSamples: number
 
 /**
  * The time needed to reduce the percent uncertainty of measurement to 1% (secs).
  *
  * @default 0
  */
-minTime?: number
+minTime: number
 ```
 
 Example usage:

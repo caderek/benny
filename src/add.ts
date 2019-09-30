@@ -66,7 +66,9 @@ const prepareCaseFn = async (test) => {
   if (returnType === types.Promise) {
     const promiseContent = await test()
 
-    if (getType(promiseContent) === types.Function) {
+    if (
+      [types.Function, types.AsyncFunction].includes(getType(promiseContent))
+    ) {
       const nestedReturnType = promiseContent()
 
       if (getType(nestedReturnType) === types.Promise) {

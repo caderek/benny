@@ -1,6 +1,6 @@
 {
   "name": "benny",
-  "version": "2.0.4",
+  "version": "3.0.0",
   "main": "lib/index.js",
   "license": "ISC",
   "repository": "https://github.com/caderek/benny",
@@ -41,7 +41,7 @@
   },
   "dependencies": {
     "@arrows/composition": "^0.2.5",
-    "@arrows/dispatch": "^0.2.4",
+    "@arrows/dispatch": "^0.2.5",
     "benchmark": "^2.1.4",
     "fs-extra": "^8.1.0",
     "kleur": "^3.0.3"

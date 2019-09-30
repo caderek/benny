@@ -14,10 +14,10 @@
   dependencies:
     "@arrows/array" "^0.4.9"
 
-"@arrows/dispatch@^0.2.4":
-  version "0.2.4"
-  resolved "https://registry.yarnpkg.com/@arrows/dispatch/-/dispatch-0.2.4.tgz#9d969495cd494ea9dfe9c4e3729f343719cfc57f"
-  integrity sha512-m4Glkj4PgDLiSOcgt81MjqDQSgiLmdkoH8PsoAE9hePvOsXdVNY9y2ZPt0LiRRZfDEIIgQB8RQKsnbc+bgMdbA==
+"@arrows/dispatch@^0.2.5":
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/@arrows/dispatch/-/dispatch-0.2.5.tgz#577cef190319e3d3bac4215c5d16bcb1e1343a6b"
+  integrity sha512-tLTqdWte6Ux+NCaU4FSgqupNmWE19q4SGCT+gMsmQSdFjVPKntO890y95v8iZ2CRRoU++DfHWXjHcp3exW+Dnw==
 
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.5.5":
   version "7.5.5"

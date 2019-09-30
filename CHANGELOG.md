@@ -14,17 +14,23 @@ Initial release.
 
 ## 2.0.1
 
-- Improved documentation (table of contents, better overview)
+- Improved documentation (table of contents, better overview).
 
 ## 2.0.2
 
-- Improved README (installation instruction)
-- Improved type definitions
+- Improved README (installation instruction).
+- Improved type definitions.
 
 ## 2.0.3
 
-- Added snippets
+- Added snippets.
 
 ## 2.0.4
 
-- Added snippet for ES/TS modules
+- Added snippet for ES/TS modules.
+
+## 3.0.0
+
+- Simplified objects that are passed to `complete`, `cycle` and returned as a promise by running `suite` function (raw benchmark events are now hidden).
+- Added support for async benchmarks and async setup.
+- Added slowest case info to the file content.
