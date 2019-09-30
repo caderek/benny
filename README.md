@@ -168,7 +168,7 @@ suite(
   }),
 
   // This will run after each benchmark in the suite.
-  // You can pass a function that takes an object with the current results.
+  // You can pass a function that takes an object with the current result.
   // By default, it pretty-prints case results
   cycle(),
 
@@ -267,7 +267,7 @@ node benchmark.js
 
 Benny handles Promises out of the box. You can have async benchmarks, async setup, or both.
 
-To demonstrate how his work I will use the `delay` function that simulates a long-pending promise:
+To demonstrate how this work, I will use the `delay` function that simulates a long-pending promise:
 
 ```js
 const delay = (seconds) =>
@@ -342,7 +342,7 @@ _Note: If you look closely, because of the `async` keyword, the last two example
 
 ## Tweaking benchmarks
 
-If the default results are not optimal (high error margin, etc.), you can change parameters for each case by providing an options object as a third parameter to `add` function.
+If the default results are not optimal (high error margin, etc.), you can change parameters for each case by providing an options object as a third parameter to the `add` function.
 
 Available options:
 
