@@ -16,12 +16,12 @@ const defaultComplete: CompleteFn = (summary) => {
   }
 }
 
-type Complete = (fn?: CompleteFn) => (suiteObj: Suite) => Suite
+type Complete = (fn?: CompleteFn) => Promise<(suiteObj: Suite) => Suite>
 
 /**
  * Handles complete event
  */
-const complete: Complete = (fn = defaultComplete) => (suiteObj) => {
+const complete: Complete = async (fn = defaultComplete) => (suiteObj) => {
   suiteObj.on('complete', (event) => fn(getSummary(event)))
   return suiteObj
 }

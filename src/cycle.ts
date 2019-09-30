@@ -14,12 +14,12 @@ const defaultCycle: CycleFn = (result) => {
   console.log(`    ${ops} ops/s, ±${margin}%`) // tslint:disable-line
 }
 
-type Cycle = (fn?: CycleFn) => (suiteObj: Suite) => Suite
+type Cycle = (fn?: CycleFn) => Promise<(suiteObj: Suite) => Suite>
 
 /**
  * Handles complete events of each case
  */
-const cycle: Cycle = (fn = defaultCycle) => (suiteObj) => {
+const cycle: Cycle = async (fn = defaultCycle) => (suiteObj) => {
   suiteObj.on('cycle', (event) => fn(getCaseResult(event)))
   return suiteObj
 }

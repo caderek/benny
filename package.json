@@ -41,6 +41,7 @@
   },
   "dependencies": {
     "@arrows/composition": "^0.2.5",
+    "@arrows/dispatch": "^0.2.4",
     "benchmark": "^2.1.4",
     "fs-extra": "^8.1.0",
     "kleur": "^3.0.3"

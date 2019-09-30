@@ -270,7 +270,7 @@ describe('suite', () => {
     'Returns a Promise with the array of results - default options',
     async () => {
       const summary = await suite(
-        'Example 6',
+        'Example 7',
 
         add('First', () => {
           ;[1, 2].reduce((a, b) => a + b)
@@ -322,7 +322,7 @@ describe('suite', () => {
     'Returns a Promise with the array of results - custom options',
     async () => {
       const summary = await suite(
-        'Example 6',
+        'Example 8',
 
         add(
           'First',
@@ -396,7 +396,7 @@ describe('suite', () => {
       try {
         const result: CaseResult = await new Promise((resolve) => {
           suite(
-            'Example 6',
+            'Example 9',
 
             add('First', () => {
               ;[1, 2].reduce((a, b) => a + b)
@@ -434,7 +434,7 @@ describe('suite', () => {
     async () => {
       const summary: Summary = await new Promise((resolve) => {
         suite(
-          'Example 6',
+          'Example 10',
 
           add('First', () => {
             ;[1, 2].reduce((a, b) => a + b)
@@ -479,6 +479,95 @@ describe('suite', () => {
       expect(results[1].options.minTime).toEqual(0.05)
       expect(results[1].options.maxTime).toEqual(5)
       expect(results[1].options.minSamples).toEqual(5)
+    },
+    TIMEOUT,
+  )
+
+  it(
+    'When test returns a promise that resolves to function that returns non-promise, runs returned function as ordinary test',
+    async () => {
+      const summary = await suite(
+        'Example 11',
+
+        add('Delay as a promise', async () => {
+          await delay(1000) // simulating some async setup for standard sync test
+
+          return () => 1 + 1
+        }),
+
+        cycle(),
+        complete(),
+      )
+
+      const result = summary.results[0]
+
+      expect(result.ops).toBeGreaterThan(1)
+    },
+    TIMEOUT,
+  )
+
+  it(
+    'When test returns a promise that resolves to function that returns a promise, runs returned function with automatic awaiting between iterations',
+    async () => {
+      const summary = await suite(
+        'Example 12',
+
+        add('Delay as a promise', async () => {
+          await delay(2000) // simulating some async setup for standard async test
+
+          // Setup will not affect results, still 1 ops/s
+          return () => delay(1000)
+        }),
+
+        cycle(),
+        complete(),
+      )
+
+      const result = summary.results[0]
+
+      expect(result.ops).toEqual(1)
+    },
+    TIMEOUT,
+  )
+
+  it(
+    'When test returns an other Promise, awaits automatically between each iteration',
+    async () => {
+      const summary = await suite(
+        'Example 13',
+
+        add('Delay as a promise', () => {
+          return delay(1000)
+        }),
+
+        cycle(),
+        complete(),
+      )
+
+      const result = summary.results[0]
+
+      expect(result.ops).toEqual(1)
+    },
+    TIMEOUT,
+  )
+
+  it(
+    'When test returns a function that returns a Promise, awaits automatically between each iteration',
+    async () => {
+      const summary = await suite(
+        'Example 14',
+
+        add('Delay as a promise', () => {
+          return () => delay(1000)
+        }),
+
+        cycle(),
+        complete(),
+      )
+
+      const result = summary.results[0]
+
+      expect(result.ops).toEqual(1)
     },
     TIMEOUT,
   )

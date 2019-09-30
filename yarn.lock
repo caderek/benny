@@ -14,6 +14,11 @@
   dependencies:
     "@arrows/array" "^0.4.9"
 
+"@arrows/dispatch@^0.2.4":
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/@arrows/dispatch/-/dispatch-0.2.4.tgz#9d969495cd494ea9dfe9c4e3729f343719cfc57f"
+  integrity sha512-m4Glkj4PgDLiSOcgt81MjqDQSgiLmdkoH8PsoAE9hePvOsXdVNY9y2ZPt0LiRRZfDEIIgQB8RQKsnbc+bgMdbA==
+
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.5.5":
   version "7.5.5"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.5.5.tgz#bc0782f6d69f7b7d49531219699b988f669a8f9d"

@@ -34,12 +34,12 @@ const defaultOptions: Options = {
   version: null,
 }
 
-type Save = (options?: Options) => (suiteObj: Suite) => Suite
+type Save = (options?: Options) => Promise<(suiteObj: Suite) => Suite>
 
 /**
  * Saves results to a file
  */
-const save: Save = (options = {}) => (suiteObj) => {
+const save: Save = async (options = {}) => (suiteObj) => {
   const opt = { ...defaultOptions, ...options }
 
   suiteObj.on('complete', (event: Event) => {
