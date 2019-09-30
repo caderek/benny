@@ -1,11 +1,13 @@
 import { pipe } from '@arrows/composition'
-import { Event, Suite } from 'benchmark'
+import { Suite } from 'benchmark'
 import kleur = require('kleur')
 import { SkipResult } from './add'
+import { Summary } from './internal/common-types'
+import getSummary from './internal/getSummary'
 
 type PartialMethod = ((suiteObj: Suite) => Suite) | SkipResult
 
-type SuiteFn = (name: string, ...fns: PartialMethod[]) => Promise<Event>
+type SuiteFn = (name: string, ...fns: PartialMethod[]) => Promise<Summary>
 
 /**
  * Creates and runs benchmark suite
@@ -23,7 +25,7 @@ const suite: SuiteFn = (name, ...fns) => {
   return new Promise((resolve, reject) => {
     // @ts-ignore
     pipe(...items)(suiteObj)
-      .on('complete', resolve)
+      .on('complete', (event) => resolve(getSummary(event)))
       .on('error', reject)
       .run()
   })

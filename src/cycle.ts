@@ -1,15 +1,17 @@
-import { Event, Suite } from 'benchmark'
+import { Suite } from 'benchmark'
 import * as kleur from 'kleur'
+import { CaseResult } from './internal/common-types'
 import format from './internal/format'
+import getCaseResult from './internal/getCaseResult'
 
-type CycleFn = (event: Event) => any
+type CycleFn = (result: CaseResult) => any
 
-const defaultCycle: CycleFn = ({ target }) => {
-  const hz = format(Math.round(target.hz))
-  const rme = target.stats.rme.toFixed(2)
+const defaultCycle: CycleFn = (result) => {
+  const ops = format(result.ops)
+  const margin = result.margin.toFixed(2)
 
-  console.log(kleur.green(`  ${target.name}:`)) // tslint:disable-line
-  console.log(`    ${hz} ops/s, ±${rme}%`) // tslint:disable-line
+  console.log(kleur.green(`  ${result.name}:`)) // tslint:disable-line
+  console.log(`    ${ops} ops/s, ±${margin}%`) // tslint:disable-line
 }
 
 type Cycle = (fn?: CycleFn) => (suiteObj: Suite) => Suite
@@ -18,7 +20,7 @@ type Cycle = (fn?: CycleFn) => (suiteObj: Suite) => Suite
  * Handles complete events of each case
  */
 const cycle: Cycle = (fn = defaultCycle) => (suiteObj) => {
-  suiteObj.on('cycle', fn)
+  suiteObj.on('cycle', (event) => fn(getCaseResult(event)))
   return suiteObj
 }
 

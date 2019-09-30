@@ -2,7 +2,8 @@ import { Event, Suite } from 'benchmark'
 import * as fs from 'fs-extra'
 import * as kleur from 'kleur'
 import * as path from 'path'
-import getEssentialResults from './internal/getEssentialResults'
+import { Summary } from './internal/common-types'
+import getSummary from './internal/getSummary'
 
 type Options = {
   /**
@@ -10,7 +11,7 @@ type Options = {
    *
    * @default '<ISO_DATE_TIME>.json'
    */
-  file?: string | ((event: Event) => string)
+  file?: string | ((summary: Summary) => string)
   /**
    * Destination folder fo for results file
    *
@@ -28,9 +29,7 @@ type Options = {
 }
 
 const defaultOptions: Options = {
-  file: (event) => {
-    return new Date(event.timeStamp).toISOString()
-  },
+  file: (summary) => summary.date.toISOString(),
   folder: 'benchmark/results',
   version: null,
 }
@@ -43,28 +42,24 @@ type Save = (options?: Options) => (suiteObj: Suite) => Suite
 const save: Save = (options = {}) => (suiteObj) => {
   const opt = { ...defaultOptions, ...options }
 
-  suiteObj.on('complete', (event) => {
-    const results = getEssentialResults(event.currentTarget)
+  suiteObj.on('complete', (event: Event) => {
+    const summary: Summary = getSummary(event)
 
-    const fastestIndex = results.reduce(
-      (prev, next, index) => {
-        return next.ops > prev.ops ? { ops: next.ops, index } : prev
-      },
-      { ops: 0, index: null },
-    ).index
+    const results = summary.results.map(({ name, ops, margin }) => {
+      return { name, ops, margin }
+    })
 
-    const fileName = typeof opt.file === 'function' ? opt.file(event) : opt.file
+    const fileName =
+      typeof opt.file === 'function' ? opt.file(summary) : opt.file
     const fullPath = path.join(opt.folder, `${fileName}.json`)
 
     const fileContent = {
-      name: event.currentTarget.name,
-      date: new Date(event.timeStamp).toISOString(),
+      name: summary.name,
+      date: summary.date.toISOString(),
       version: opt.version,
       results,
-      fastest: {
-        name: results[fastestIndex].name,
-        index: fastestIndex,
-      },
+      fastest: summary.fastest,
+      slowest: summary.slowest,
     }
 
     fs.ensureDirSync(opt.folder)

@@ -1,4 +1,6 @@
-const format = (num) => {
+type Format = (num: number) => string
+
+const format: Format = (num) => {
   const chunked = []
   String(num)
     .split('')

@@ -1,18 +1,19 @@
-import { Event, Suite } from 'benchmark'
+import { Suite } from 'benchmark'
 import kleur = require('kleur')
-import getEssentialResults from './internal/getEssentialResults'
+import { Summary } from './internal/common-types'
+import getSummary from './internal/getSummary'
 
-type CompleteFn = (event: Event) => any
+type CompleteFn = (summary: Summary) => any
 
-const defaultComplete: CompleteFn = (event) => {
-  const results = getEssentialResults(event.currentTarget).sort(
-    (a, b) => b.ops - a.ops,
-  )
-  const fastest = results[0]
+const defaultComplete: CompleteFn = (summary) => {
+  const length = summary.results.length
 
-  console.log(
-    kleur.blue(`Finished ${results.length} cases, fastest: ${fastest.name}`),
-  )
+  console.log(kleur.blue(`Finished ${length} case${length !== 1 ? 's' : ''}!`))
+
+  if (length > 1) {
+    console.log(kleur.blue('  Fastest:'), summary.fastest.name)
+    console.log(kleur.blue('  Slowest:'), summary.slowest.name)
+  }
 }
 
 type Complete = (fn?: CompleteFn) => (suiteObj: Suite) => Suite
@@ -21,7 +22,7 @@ type Complete = (fn?: CompleteFn) => (suiteObj: Suite) => Suite
  * Handles complete event
  */
 const complete: Complete = (fn = defaultComplete) => (suiteObj) => {
-  suiteObj.on('complete', fn)
+  suiteObj.on('complete', (event) => fn(getSummary(event)))
   return suiteObj
 }
 
