@@ -23,10 +23,21 @@ const getSummary: GetSummary = (event) => {
     { ops: Infinity, index: null },
   ).index
 
+  const resultsWithDiffs = results.map((result, index) => {
+    const percentSlower =
+      index === fastestIndex
+        ? 0
+        : Number(
+            ((1 - result.ops / results[fastestIndex].ops) * 100).toFixed(2),
+          )
+
+    return { ...result, percentSlower }
+  })
+
   return {
     name: event.currentTarget.name,
     date: new Date(event.timeStamp),
-    results,
+    results: resultsWithDiffs,
     fastest: {
       name: results[fastestIndex].name,
       index: fastestIndex,

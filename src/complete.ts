@@ -8,7 +8,9 @@ type CompleteFn = (summary: Summary) => any
 const defaultComplete: CompleteFn = (summary) => {
   const length = summary.results.length
 
-  console.log(kleur.blue(`Finished ${length} case${length !== 1 ? 's' : ''}!`))
+  console.log(
+    kleur.blue(`\nFinished ${length} case${length !== 1 ? 's' : ''}!`),
+  )
 
   if (length > 1) {
     console.log(kleur.blue('  Fastest:'), summary.fastest.name)

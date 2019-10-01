@@ -1,6 +1,6 @@
 {
   "name": "benny",
-  "version": "3.0.2",
+  "version": "3.1.0",
   "main": "lib/index.js",
   "license": "ISC",
   "repository": "https://github.com/caderek/benny",
@@ -46,6 +46,7 @@
     "@arrows/dispatch": "^0.2.5",
     "benchmark": "^2.1.4",
     "fs-extra": "^8.1.0",
-    "kleur": "^3.0.3"
+    "kleur": "^3.0.3",
+    "log-update": "^3.3.0"
   }
 }

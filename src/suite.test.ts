@@ -29,6 +29,10 @@ describe('suite', () => {
           ;[1, 2, 3, 4, 5].reduce((a, b) => a + b)
         }),
 
+        add('Third', () => {
+          ;[1, 2, 3].reduce((a, b) => a + b)
+        }),
+
         cycle(),
         complete(),
         save(),
@@ -45,13 +49,23 @@ describe('suite', () => {
       const date = new Date(content.date).toDateString()
 
       expect(date).not.toEqual('Invalid Date')
-      expect(content.results.length).toEqual(2)
+      expect(content.results.length).toEqual(3)
       expect(content.results[0].name).toEqual('First')
       expect(content.results[1].name).toEqual('Second')
+      expect(content.results[2].name).toEqual('Third')
       expect(typeof content.results[0].ops).toEqual('number')
       expect(typeof content.results[1].ops).toEqual('number')
+      expect(typeof content.results[2].ops).toEqual('number')
       expect(typeof content.results[0].margin).toEqual('number')
       expect(typeof content.results[1].margin).toEqual('number')
+      expect(typeof content.results[2].margin).toEqual('number')
+      expect(typeof content.results[0].percentSlower).toEqual('number')
+      expect(typeof content.results[1].percentSlower).toEqual('number')
+      expect(typeof content.results[2].percentSlower).toEqual('number')
+      expect(typeof content.fastest.name).toEqual('string')
+      expect(typeof content.slowest.name).toEqual('string')
+      expect(typeof content.fastest.index).toEqual('number')
+      expect(typeof content.slowest.index).toEqual('number')
       expect(content.version).toEqual(null)
     },
     TIMEOUT,

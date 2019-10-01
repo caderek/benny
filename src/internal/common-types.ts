@@ -13,10 +13,12 @@ export type CaseResult = {
   promise: boolean
 }
 
+type CaseResultWithDiff = CaseResult & { percentSlower: number }
+
 export type Summary = {
   name: string
   date: Date
-  results: CaseResult[]
+  results: CaseResultWithDiff[]
   fastest: {
     name: string
     index: number

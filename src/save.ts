@@ -45,9 +45,11 @@ const save: Save = async (options = {}) => (suiteObj) => {
   suiteObj.on('complete', (event: Event) => {
     const summary: Summary = getSummary(event)
 
-    const results = summary.results.map(({ name, ops, margin }) => {
-      return { name, ops, margin }
-    })
+    const results = summary.results.map(
+      ({ name, ops, margin, percentSlower }) => {
+        return { name, ops, margin, percentSlower }
+      },
+    )
 
     const fileName =
       typeof opt.file === 'function' ? opt.file(summary) : opt.file
@@ -66,7 +68,7 @@ const save: Save = async (options = {}) => (suiteObj) => {
 
     fs.writeFileSync(fullPath, JSON.stringify(fileContent, null, 2))
 
-    console.log(kleur.cyan(`Saved to: ${fullPath}`))
+    console.log(kleur.cyan(`\nSaved to: ${fullPath}`))
   })
 
   return suiteObj

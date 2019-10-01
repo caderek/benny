@@ -1,17 +1,50 @@
 import { Suite } from 'benchmark'
 import * as kleur from 'kleur'
-import { CaseResult } from './internal/common-types'
+import logUpdate from 'log-update'
+import { CaseResult, Summary } from './internal/common-types'
 import format from './internal/format'
 import getCaseResult from './internal/getCaseResult'
+import getSummary from './internal/getSummary'
 
-type CycleFn = (result: CaseResult) => any
+const getStatus = (item, index, summary, ops, fastestOps) => {
+  const isFastest = index === summary.fastest.index
+  const isSlowest = index === summary.slowest.index
+  const statusShift = fastestOps.length - ops.length + 2
 
-const defaultCycle: CycleFn = (result) => {
-  const ops = format(result.ops)
-  const margin = result.margin.toFixed(2)
+  return (
+    ' '.repeat(statusShift) +
+    (isFastest
+      ? kleur.green('| fastest')
+      : isSlowest
+      ? kleur.red(`| slowest, ${item.percentSlower}% slower`)
+      : kleur.yellow(`| ${item.percentSlower}% slower`))
+  )
+}
 
-  console.log(kleur.green(`  ${result.name}:`)) // tslint:disable-line
-  console.log(`    ${ops} ops/s, ±${margin}%`) // tslint:disable-line
+type CycleFn = (result: CaseResult, summary: Summary) => any
+
+const defaultCycle: CycleFn = (_, summary) => {
+  const allCompleted = summary.results.every((item) => item.samples > 0)
+  const fastestOps = format(summary.results[summary.fastest.index].ops)
+
+  const output = summary.results
+    .map((item, index) => {
+      const ops = format(item.ops)
+      const margin = item.margin.toFixed(2)
+
+      return item.samples
+        ? kleur.cyan(`\n  ${item.name}:\n`) +
+            `    ${ops} ops/s, ±${margin}% ${
+              allCompleted
+                ? getStatus(item, index, summary, ops, fastestOps)
+                : ''
+            }`
+        : null
+    })
+    .filter((item) => item !== null)
+    .join('\n')
+
+  return output
 }
 
 type Cycle = (fn?: CycleFn) => Promise<(suiteObj: Suite) => Suite>
@@ -20,7 +53,15 @@ type Cycle = (fn?: CycleFn) => Promise<(suiteObj: Suite) => Suite>
  * Handles complete events of each case
  */
 const cycle: Cycle = async (fn = defaultCycle) => (suiteObj) => {
-  suiteObj.on('cycle', (event) => fn(getCaseResult(event)))
+  suiteObj.on('cycle', (event) => {
+    const summary = getSummary(event)
+    const current = getCaseResult(event)
+    const output = fn(current, summary)
+
+    if (output) {
+      logUpdate(output)
+    }
+  })
   return suiteObj
 }
 

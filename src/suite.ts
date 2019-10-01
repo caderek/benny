@@ -16,7 +16,7 @@ type SuiteFn = (name: string, ...fns: PartialMethod[]) => Promise<Summary>
 const suite: SuiteFn = async (name, ...fns) => {
   const unpackedFns = await Promise.all([...fns])
   const suiteObj = new Suite(name).on('start', () => {
-    console.log(kleur.yellow(`Running "${name}" suite...`))
+    console.log(kleur.blue(`Running "${name}" suite...`))
   })
 
   const hasOnly = unpackedFns.filter((fn) => fn.name === 'only').length > 0

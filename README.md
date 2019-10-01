@@ -89,13 +89,17 @@ Output:
 
 ```
 Running "Example" suite...
+
   Reduce two elements:
-    150 242 956 ops/s, ±0.88%
+    147 663 243 ops/s, ±0.78%   | fastest
+
   Reduce five elements:
-    119 356 881 ops/s, ±1.34%
+    118 640 209 ops/s, ±0.93%   | slowest, 19.65% slower
+
 Finished 2 cases!
   Fastest: Reduce two elements
   Slowest: Reduce five elements
+
 Saved to: benchmark/results/reduce.json
 ```
 
@@ -104,18 +108,20 @@ File content:
 ```json
 {
   "name": "Example",
-  "date": "2019-09-30T03:30:40.109Z",
+  "date": "2019-10-01T21:45:13.058Z",
   "version": "1.0.0",
   "results": [
     {
       "name": "Reduce two elements",
-      "ops": 150242956,
-      "margin": 0.88
+      "ops": 147663243,
+      "margin": 0.78,
+      "percentSlower": 0
     },
     {
       "name": "Reduce five elements",
-      "ops": 119356881,
-      "margin": 1.34
+      "ops": 118640209,
+      "margin": 0.93,
+      "percentSlower": 19.65
     }
   ],
   "fastest": {
@@ -138,56 +144,86 @@ File content:
 const { add, complete, cycle, save, suite } = require('benny')
 
 suite(
-  // Name of the suite - required
+  /**
+   * Name of the suite - required
+   */
   "My suite",
 
-  // If the code that you want to benchmark has no setup,
-  // you can run it directly:
+  /**
+   * If the code that you want to benchmark has no setup,
+   * you can run it directly:
+   */
   add('My first case', () => {
     myFunction()
   }),
 
-  // If the code that you want to benchmark requires setup,
-  // you should return it wrapped in a function:
+  /**
+   * If the code that you want to benchmark requires setup,
+   * you should return it wrapped in a function:
+   */
   add('My second case', () => {
-    // Example setup:
+    // Some setup:
     const testArr = Array.from({ length: 1000 }, (_, index) => index)
 
     // Benchmarked code wrapped in a function:
     return () => myOtherFunction(testArr)
   }),
 
-  // This benchmark will be skipped:
+  /**
+   * This benchmark will be skipped:
+   */
   add.skip('My third case', () => {
     1 + 1
   }),
 
-  // This benchmark will be the only one that runs
-  // (unless there are other cases marked by .only)
+  /**
+   * This benchmark will be the only one that runs
+   * (unless there are other cases marked by .only)
+   */
   add.only('My fourth case', () => {
     Math.max(1, 2, 3, 4, 5)
   }),
 
-  // This will run after each benchmark in the suite.
-  // You can pass a function that takes an object with the current result.
-  // By default, it pretty-prints case results
+  /**
+   * This will run after each benchmark in the suite.
+   *
+   * You can pass a function that takes:
+   *   - as a first argument: an object with the current result
+   *   - as a first argument: an object with all results
+   * If you return a value, it will be logged,
+   * replacing in-place the previous cycle output.
+   *
+   * By default, it pretty-prints case results
+   */
   cycle(),
 
-  // This will run after all benchmarks in the suite.
-  // You can pass a function that takes an object with all results.
-  // By default, it pretty-prints a simple summary.
+  /**
+   * This will run after all benchmarks in the suite.
+   * You can pass a function that takes an object with all results.
+   *
+   * By default, it pretty-prints a simple summary.
+   */
   complete(),
 
-  // This will save the results to a file.
-  // You can pass an options object.
-  // By default saves to benchmark/results/<ISO-DATE-TIME>.json
+  /**
+   * This will save the results to a file.
+   * You can pass an options object.
+   *
+   * By default saves to benchmark/results/<ISO-DATE-TIME>.json
+   */
   save({
-    // String or function that produces a string,
-    // if function, then results object will be passed as argument:
+    /**
+     * String or function that produces a string,
+     * if function, then results object will be passed as argument:
+     */
     file: 'myFileNameWithoutExtension'
-    // Destination folder (can be nested), will be created if not exists:
+    /**
+     * Destination folder (can be nested), will be created if not exists:
+     */
     folder: 'myFolder',
-    // Version string - if provided will be included in the file content
+    /**
+     * Version string - if provided will be included in the file content
+     */
     version: require('package.json').version,
   }),
 )
@@ -323,17 +359,23 @@ If we add these cases to a suite and execute it, we will get results that would 
 
 ```
 Running "Async madness" suite...
+
   Async benchmark without setup:
-    2 ops/s, ±0.01%
+    2 ops/s, ±0.02%             | 100% slower
+
   Async benchmark without setup - many async operations:
-    1 ops/s, ±0.09%
+    1 ops/s, ±0.05%             | slowest, 100% slower
+
   Async benchmark with some setup:
-    2 ops/s, ±0.01%
+    2 ops/s, ±0.11%             | 100% slower
+
   Sync benchmark with some async setup:
-    671 618 174 ops/s, ±2.19%
+    674 553 637 ops/s, ±2.13%   | fastest
+
 Finished 4 cases!
   Fastest: Sync benchmark with some async setup
   Slowest: Async benchmark without setup - many async operations
+
 Saved to: benchmark/results/async-madness.json
 ```
 

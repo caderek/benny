@@ -45,3 +45,7 @@ Initial release.
 
 - Improved snippets (fixed descriptions).
 - Improved grammar in README.
+
+## 3.1.0
+
+- Added relative differences between cases (default cycle output and file content)
