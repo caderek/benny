@@ -1,6 +1,6 @@
 {
   "name": "benny",
-  "version": "3.2.1",
+  "version": "3.3.0",
   "main": "lib/index.js",
   "license": "ISC",
   "repository": "https://github.com/caderek/benny",
@@ -22,7 +22,12 @@
     "ts",
     "typescript",
     "async",
-    "promise"
+    "promise",
+    "statistics",
+    "statistical",
+    "execution time",
+    "time",
+    "hrtime"
   ],
   "author": "Maciej Cąderek",
   "scripts": {
@@ -47,6 +52,7 @@
     "benchmark": "^2.1.4",
     "fs-extra": "^8.1.0",
     "kleur": "^3.0.3",
-    "log-update": "^3.3.0"
+    "log-update": "^3.3.0",
+    "stats-median": "^1.0.1"
   }
 }

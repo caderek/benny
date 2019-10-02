@@ -226,6 +226,11 @@ suite(
      * Version string - if provided will be included in the file content
      */
     version: require('package.json').version,
+    /**
+     * A flag that indicates whether detailed or simplified result will be saved
+     * Default: false (simplified results)
+     */
+    details: true,
   }),
 )
 ```

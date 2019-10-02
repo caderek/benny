@@ -26,12 +26,19 @@ type Options = {
    * @default null
    */
   version?: string
+  /**
+   * Suite version - will be added to the results file content
+   *
+   * @default false
+   */
+  details?: boolean
 }
 
 const defaultOptions: Options = {
   file: (summary) => summary.date.toISOString(),
   folder: 'benchmark/results',
   version: null,
+  details: false,
 }
 
 type Save = (options?: Options) => Promise<(suiteObj: Suite) => Suite>
@@ -45,11 +52,11 @@ const save: Save = async (options = {}) => (suiteObj) => {
   suiteObj.on('complete', (event: Event) => {
     const summary: Summary = getSummary(event)
 
-    const results = summary.results.map(
-      ({ name, ops, margin, percentSlower }) => {
-        return { name, ops, margin, percentSlower }
-      },
-    )
+    const results = opt.details
+      ? summary.results
+      : summary.results.map(({ name, ops, margin, percentSlower }) => {
+          return { name, ops, margin, percentSlower }
+        })
 
     const fileName =
       typeof opt.file === 'function' ? opt.file(summary) : opt.file

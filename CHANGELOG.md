@@ -60,3 +60,9 @@ Initial release.
 
 - Fixed bug with overriding logs of many suites.
 - Added examples for running many async suites.
+
+## 3.3.0
+
+- Added details field to the benchmark result.
+- Added option to save detailed results.
+- Improved JSDocs for benchmark result object.

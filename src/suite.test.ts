@@ -237,7 +237,7 @@ describe('suite', () => {
   )
 
   it(
-    'Works with custom options',
+    'Works with custom save options',
     async () => {
       await suite(
         'Example 6',
@@ -256,6 +256,7 @@ describe('suite', () => {
           file: 'foo',
           folder: 'benchmark/bar',
           version: '1.2.3',
+          details: true,
         }),
       )
 
@@ -275,6 +276,8 @@ describe('suite', () => {
       expect(typeof content.results[1].ops).toEqual('number')
       expect(typeof content.results[0].margin).toEqual('number')
       expect(typeof content.results[1].margin).toEqual('number')
+      expect(typeof content.results[0].details).toEqual('object')
+      expect(typeof content.results[1].details).toEqual('object')
       expect(content.version).toEqual('1.2.3')
     },
     TIMEOUT,

@@ -1,44 +1,6 @@
 import { getType, types } from '@arrows/dispatch'
 import { Suite } from 'benchmark'
-
-type Options = {
-  /**
-   * The delay between test cycles (secs).
-   *
-   * @default 0.005
-   */
-  delay?: number
-
-  /**
-   * The default number of times to execute a test on a benchmark's first cycle.
-   *
-   * @default 1
-   */
-  initCount?: number
-
-  /**
-   * The maximum time a benchmark is allowed to run before finishing (secs).
-   *
-   * Note: Cycle delays aren't counted toward the maximum time.
-   *
-   * @default 5
-   */
-  maxTime?: number
-
-  /**
-   * The minimum sample size required to perform statistical analysis.
-   *
-   * @default 5
-   */
-  minSamples?: number
-
-  /**
-   * The time needed to reduce the percent uncertainty of measurement to 1% (secs).
-   *
-   * @default 0
-   */
-  minTime?: number
-}
+import { Options } from './internal/common-types'
 
 type SkipResult = {
   name: 'skip'
