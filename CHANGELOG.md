@@ -49,3 +49,9 @@ Initial release.
 ## 3.1.0
 
 - Added relative differences between cases (default cycle output and file content)
+
+## 3.2.0
+
+- Added progress status
+- Added examples for custom logging
+- Updated example GIF

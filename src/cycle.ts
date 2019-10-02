@@ -27,6 +27,14 @@ const defaultCycle: CycleFn = (_, summary) => {
   const allCompleted = summary.results.every((item) => item.samples > 0)
   const fastestOps = format(summary.results[summary.fastest.index].ops)
 
+  const progress = Math.round(
+    (summary.results.filter((result) => result.samples !== 0).length /
+      summary.results.length) *
+      100,
+  )
+
+  const progressInfo = `Progress: ${progress}%`
+
   const output = summary.results
     .map((item, index) => {
       const ops = format(item.ops)
@@ -44,7 +52,7 @@ const defaultCycle: CycleFn = (_, summary) => {
     .filter((item) => item !== null)
     .join('\n')
 
-  return output
+  return `${progressInfo}\n${output}`
 }
 
 type Cycle = (fn?: CycleFn) => Promise<(suiteObj: Suite) => Suite>

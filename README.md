@@ -189,7 +189,7 @@ suite(
    *
    * You can pass a function that takes:
    *   - as a first argument: an object with the current result
-   *   - as a first argument: an object with all results
+   *   - as a second argument: an object with all cases (even unfinished ones)
    * If you return a value, it will be logged,
    * replacing in-place the previous cycle output.
    *
@@ -199,6 +199,7 @@ suite(
 
   /**
    * This will run after all benchmarks in the suite.
+   *
    * You can pass a function that takes an object with all results.
    *
    * By default, it pretty-prints a simple summary.

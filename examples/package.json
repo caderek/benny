@@ -7,7 +7,7 @@
   "dependencies": {
     "@arrows/array": "^0.4.9",
     "@arrows/composition": "^0.2.5",
-    "benny": "^3.0.2",
+    "benny": "^3.2.0",
     "immer": "^4.0.0",
     "immutable": "^4.0.0-rc.12",
     "lodash": "^4.17.15",
