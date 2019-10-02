@@ -44,10 +44,10 @@ benchmark@^2.1.4:
     lodash "^4.17.4"
     platform "^1.3.3"
 
-benny@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/benny/-/benny-3.1.0.tgz#869ffc8ea4e125b0c09d7180214ab9eb0bafead7"
-  integrity sha512-ctF61O1YEA1/b3nkIosq/Yzhrgvnw+++40e+82rVE2fpdhWyi2795OtoGwozdFiGEqYchm4BGRPqvimFlQQBjg==
+benny@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/benny/-/benny-3.2.0.tgz#ee2a45333e243d7192b9937f2bf3718b2cb10b6f"
+  integrity sha512-NddtPqgNJNkyp/e4+pLzTo3rTUMFreLUxyd+bIA33r01iDMKyCq2pVOgd3rES+JbjiDCk1zpjEeuhFt39s+G8g==
   dependencies:
     "@arrows/composition" "^0.2.5"
     "@arrows/dispatch" "^0.2.5"
