@@ -44,10 +44,10 @@ benchmark@^2.1.4:
     lodash "^4.17.4"
     platform "^1.3.3"
 
-benny@^3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/benny/-/benny-3.2.0.tgz#ee2a45333e243d7192b9937f2bf3718b2cb10b6f"
-  integrity sha512-NddtPqgNJNkyp/e4+pLzTo3rTUMFreLUxyd+bIA33r01iDMKyCq2pVOgd3rES+JbjiDCk1zpjEeuhFt39s+G8g==
+benny@^3.3.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/benny/-/benny-3.3.0.tgz#b19eba8c81561953afdc7737ae72a37d035c1ddf"
+  integrity sha512-3lTWhV8Z9p7vsNIaAZBXZw4Q5Rc9vK5/Ocz2MXiyocCI32RBg3RQNLR8cAR1zD7bniqqWd9R7ykXstolY5pt/Q==
   dependencies:
     "@arrows/composition" "^0.2.5"
     "@arrows/dispatch" "^0.2.5"
@@ -55,6 +55,7 @@ benny@^3.2.0:
     fs-extra "^8.1.0"
     kleur "^3.0.3"
     log-update "^3.3.0"
+    stats-median "^1.0.1"
 
 cli-cursor@^2.1.0:
   version "2.1.0"
@@ -169,6 +170,11 @@ signal-exit@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.2.tgz#b5fdc08f1287ea1178628e415e25132b73646c6d"
   integrity sha1-tf3AjxKH6hF4Yo5BXiUTK3NkbG0=
+
+stats-median@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/stats-median/-/stats-median-1.0.1.tgz#ca8497cb1014d23d145db4d6fc93c8e815eed3ef"
+  integrity sha512-IYsheLg6dasD3zT/w9+8Iq9tcIQqqu91ZIpJOnIEM25C3X/g4Tl8mhXwW2ZQpbrsJISr9+wizEYgsibN5/b32Q==
 
 string-width@^3.0.0:
   version "3.1.0"

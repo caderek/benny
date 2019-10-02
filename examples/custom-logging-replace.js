@@ -19,7 +19,7 @@ module.exports = suite(
   cycle((result, summary) => {
     // This will be replaced in-place by each cycle:
     return `Progress: ${
-      summary.results.filter((result) => result.samples !== 0).length
+      summary.results.filter((result) => result.completed).length
     } / ${summary.results.length}`
   }),
   complete((summary) => {

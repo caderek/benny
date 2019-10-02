@@ -6,7 +6,7 @@ const R = require('ramda')
 const _ = require('lodash/fp')
 
 // Prepare an array of 1..10
-const initialArr = Array.from({ length: 10 }, (_, i) => i + 1)
+const initialArr = Array.from({ length: 100 }, (_, i) => i + 1)
 
 // Helper functions identical for each case
 const isOdd = (x) => x % 2 !== 0
