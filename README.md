@@ -299,6 +299,46 @@ Run:
 node benchmark.js
 ```
 
+### Multiple async suites
+
+If your suites contain async benchmarks, you should wrap them in a function (so they wont execute immediately), and use await when calling each of them:
+
+```js
+/* suites/async-suite-one.js */
+
+const b = require('benny')
+
+module.exports = () => b.suite(/* ...your async benchmarks */)
+```
+
+```js
+/* suites/async-suite-two.js */
+
+const b = require('benny')
+
+module.exports = () => b.suite(/* ...your async benchmarks */)
+```
+
+```js
+/* async-benchmark.js */
+
+const asyncSuite1 = require('./suites/async-suite-one')
+const asyncSuite2 = require('./suites/async-suite-two')
+
+const main = async () => {
+  await asyncSuite1()
+  await asyncSuite2()
+}
+
+main()
+```
+
+Run:
+
+```
+node async-benchmark.js
+```
+
 <a id="async-code"></a>
 
 ## Working with async code

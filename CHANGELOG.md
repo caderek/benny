@@ -52,6 +52,11 @@ Initial release.
 
 ## 3.2.0
 
-- Added progress status
-- Added examples for custom logging
-- Updated example GIF
+- Added progress status.
+- Added examples for custom logging.
+- Updated example GIF.
+
+## 3.2.1
+
+- Fixed bug with overriding logs of many suites.
+- Added examples for running many async suites.
