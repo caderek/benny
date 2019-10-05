@@ -25,18 +25,18 @@
 
 ## Overview
 
-Under the hood, Benny uses an excellent (but complex) [benchmark](https://www.npmjs.com/package/benchmark) package.
+Benny builds on top of the excellent (but complex) [benchmark](https://www.npmjs.com/package/benchmark) package.
 
 Benny provides an improved API that allows you to:
 
 - easily prepare benchmarks for synchronous, as well as async code,
-- prepare local setup (sync or async) for each case
-- skip or run only selected cases
-- save essential results to a file in a JSON format
-- pretty-print results without additional setup
-- use suite results as Promises
+- prepare local setup (sync or async) for each case,
+- skip or run only selected cases,
+- save results to a JSON file (in a simplified or detailed form),
+- pretty-print results without additional setup,
+- use suite results as Promises.
 
-Additionally, it provides sound defaults suitable for most use cases and excellent IDE support with built-in type definitions.
+Additionally, it provides sound defaults suitable for most use cases (that you can tweak if you need) and excellent IDE support with built-in type definitions.
 
 <a id='installation'></a>
 
