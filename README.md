@@ -622,7 +622,7 @@ const handlers = (fileName) => {
     cycle((currentResult, summary) => {
       /* your custom cycle handling goes here */
     }),
-    cycle((summary) => {
+    complete((summary) => {
       /* your custom complete handling goes here */
     }),
     save({ file: fileName, /* other custom save options */ }),
