@@ -17,9 +17,10 @@
 5. [Working with many suites](#many-suites)
 6. [Working with async code](#async-code)
 7. [Tweaking benchmarks](#tweaking)
-8. [Snippets](#snippets)
-9. [Additional examples](#additional-examples)
-10. [License](#license)
+8. [Code reuse](#code-reuse)
+9. [Snippets](#snippets)
+10. [Additional examples](#additional-examples)
+11. [License](#license)
 
 <a id='overview'></a>
 
@@ -306,7 +307,7 @@ node benchmark.js
 
 ### Multiple async suites
 
-If your suites contain async benchmarks, you should wrap them in a function (so they wont execute immediately), and use await when calling each of them:
+If your suites contain async benchmarks, you should wrap them in a function (so they wont execute immediately), and use await when calling each of them. That way the results of many suites won't interfere with each other.
 
 ```js
 /* suites/async-suite-one.js */
@@ -497,6 +498,192 @@ b.suite(
   // ...other methods
 )
 ```
+
+<a id="code-reuse"></a>
+
+## Code reuse
+
+You may wonder why I chose functions over chainable methods - it allows you to better reuse your code, while keeping the API minimal and instead leveraging the language itself.
+
+### Reusing benchmark options
+
+If you have many cases, where default benchmarking options are not optimal, you can decorate the `add` function and use the new function instead, for example:
+
+```js
+/**
+ * Let's import and add `function` and rename it to `rawAdd`.
+ * You can also import it unchanged, and give the decorating function
+ * a different name - that would be a better approach
+ * if you want to use a decorated version only in some cases.
+ */
+const { add: rawAdd } = require('benny')
+
+const add = (caseName, fn) => rawAdd(caseName, fn, {/* custom options */})
+```
+
+Now you can use this new function instead of the original version in your benchmark suite.
+
+### Reusing handlers
+
+If you use custom handlers for `cycle` and `complete` functions (or you have custom options for `save` function) you can setup them once, and youse everywhere you need.
+
+For example:
+
+```js
+/* helpers/handlers.js */
+const { complete, cycle, save } = require('benny')
+
+const handlers = (fileName) => {
+  return [
+    cycle((currentResult, summary) => {
+      /* your custom cycle handling goes here */
+    }),
+    cycle((summary) => {
+      /* your custom complete handling goes here */
+    }),
+    save({ file: fileName, /* other custom save options */ }),
+  ]
+}
+
+module.exports = handlers
+```
+
+Now you can reuse it, using the spread operator:
+
+```js
+const { add, suite } = require('benny')
+const handlers = require('./helpers/handlers')
+
+module.exports = suite(
+  'My suite',
+  add(/* benchmark setup */),
+  add(/* benchmark setup */),
+  add(/* benchmark setup */),
+
+  ...handlers('my-suite'),
+)
+```
+
+### Parameterized cases
+
+There will often be the case, that you want to run very similar benchmarks, that differ very slightly, and can be parameterized, for example, let's say that we want to check the performance of our code for different size od the array:
+
+Instead of:
+
+```js
+const { add, cycle, suite } = require('benny')
+
+suite(
+  'Reduce',
+
+  add('Raw JS 10 elements', () => {
+    const input = Array.from({ length: 10 }, (_, i) => i)
+
+    return () => input.reduce((a, b) => a + b)
+  }),
+
+  add('Raw JS 1000 elements', () => {
+    const input = Array.from({ length: 1000 }, (_, i) => i)
+
+    return () => input.reduce((a, b) => a + b)
+  }),
+
+  add('Raw JS 1000000 elements', () => {
+    const input = Array.from({ length: 1000000 }, (_, i) => i)
+
+    return () => input.reduce((a, b) => a + b)
+  }),
+
+  cycle(),
+)
+```
+
+We can auto-generate cases like this:
+
+```js
+const { add, cycle, suite } = require('benny')
+
+const testManySizes = (...sizes) =>
+  sizes.map((size) => {
+    return add(`Raw JS ${size} elements`, () => {
+      const input = Array.from({ length: size }, (_, i) => i)
+
+      return () => input.reduce((a, b) => a + b)
+    })
+  })
+
+module.exports = suite(
+  'Reduce',
+
+  ...testManySizes(10, 1000, 1000000),
+
+  cycle(),
+)
+```
+
+Similarly, we can test many implementations of the same function:
+
+Instead of:
+
+```js
+const { add, cycle, suite } = require('benny')
+const A = require('@arrows/array')
+const R = require('ramda')
+const _ = require('lodash/fp')
+
+const input = Array.from({ length: 100 }, (_, i) => i)
+
+module.exports = suite(
+  'Reduce',
+
+  add('Ramda', () => {
+    R.reduce((a, b) => a + b, 0)(input)
+  }),
+
+  add('Arrows', () => {
+    A.reduce((a, b) => a + b, 0)(input)
+  }),
+
+  add('Lodash', () => {
+    _.reduce((a, b) => a + b, 0)(input)
+  }),
+
+  cycle(),
+)
+```
+
+We can auto-generate cases like this:
+```js
+const { add, cycle, suite } = require('benny')
+const A = require('@arrows/array')
+const R = require('ramda')
+const _ = require('lodash/fp')
+
+const input = Array.from({ length: 100 }, (_, i) => i)
+
+const testManyImplementations = (...cases) =>
+  cases.map(([name, fn]) => {
+    return add(name, () => {
+      fn((a, b) => a + b, 0)(input)
+    })
+  })
+
+module.exports = suite(
+  'Reduce',
+
+  ...testManyImplementations(
+    ['Ramda', R.reduce],
+    ['Arrows', A.reduce],
+    ['Lodash', _.reduce],
+  ),
+
+  cycle(),
+)
+```
+
+---
+
+These are the three most useful techniques - you can combine them together to achieve less repetition in your benchmark code. Just remember to not overuse them - benchmarks, just like tests, should remain straightforward and not be to cryptic.
 
 <a id="snippets"></a>
 
