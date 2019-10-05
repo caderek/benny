@@ -70,3 +70,8 @@ Initial release.
 ## 3.3.1
 
 - Improved README.
+
+## 3.3.2
+
+- Added code reuse guide to the README.
+- Added code reuse examples.
