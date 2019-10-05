@@ -66,3 +66,7 @@ Initial release.
 - Added details field to the benchmark result.
 - Added option to save detailed results.
 - Improved JSDocs for benchmark result object.
+
+## 3.3.1
+
+- Improved README.
