@@ -135,6 +135,90 @@ File content:
   }
 }
 ```
+If you use the `{ details: true }` option in your save function, you will get the result similar to this one:
+
+<details>
+<summary>click to expand</summary>
+<pre lang="json">
+{
+  "name": "Example",
+  "date": "2019-10-05T21:27:31.499Z",
+  "version": "1.0.0",
+  "results": [
+    {
+      "name": "Reduce two elements",
+      "ops": 155698721,
+      "margin": 0.26,
+      "options": {
+        "delay": 0.005,
+        "initCount": 1,
+        "minTime": 0.05,
+        "maxTime": 5,
+        "minSamples": 5
+      },
+      "samples": 93,
+      "promise": false,
+      "details": {
+        "min": 6.322384196242101e-9,
+        "max": 6.782332376525101e-9,
+        "mean": 6.422660356853871e-9,
+        "median": 6.4097083823166475e-9,
+        "standardDeviation": 8.128639309933352e-11,
+        "marginOfError": 1.6520852364243977e-11,
+        "relativeMarginOfError": 0.25722755752783866,
+        "standardErrorOfMean": 8.429006308287744e-12,
+        "sampleVariance": 6.6074777030993775e-21,
+        "sampleResults": [
+          6.322384196242101e-9,
+          ...other 
+        ]
+      },
+      "completed": true,
+      "percentSlower": 0
+    },
+    {
+      "name": "Reduce five elements",
+      "ops": 124826929,
+      "margin": 0.44,
+      "options": {
+        "delay": 0.005,
+        "initCount": 1,
+        "minTime": 0.05,
+        "maxTime": 5,
+        "minSamples": 5
+      },
+      "samples": 92,
+      "promise": false,
+      "details": {
+        "min": 7.883575368181068e-9,
+        "max": 9.165871289977022e-9,
+        "mean": 8.011091926762444e-9,
+        "median": 7.975875391687402e-9,
+        "standardDeviation": 1.7083049955895464e-10,
+        "marginOfError": 3.4908209088240544e-11,
+        "relativeMarginOfError": 0.43574845236294957,
+        "standardErrorOfMean": 1.78103107593064e-11,
+        "sampleVariance": 2.9183059579562e-20,
+        "sampleResults": [
+          7.883575368181068e-9,
+          ...other 
+        ]
+      },
+      "completed": true,
+      "percentSlower": 19.83
+    }
+  ],
+  "fastest": {
+    "name": "Reduce two elements",
+    "index": 0
+  },
+  "slowest": {
+    "name": "Reduce five elements",
+    "index": 1
+  }
+}
+</pre>
+</details>
 
 <a id='api'></a>
 
@@ -503,7 +587,7 @@ b.suite(
 
 ## Code reuse
 
-You may wonder why I chose functions over chainable methods - it allows you to better reuse your code, while keeping the API minimal and instead leveraging the language itself.
+You may wonder why I chose functions over chainable methods - it allows you to better reuse your code while keeping the API minimal and instead leveraging the language itself.
 
 ### Reusing benchmark options
 
@@ -521,11 +605,11 @@ const { add: rawAdd } = require('benny')
 const add = (caseName, fn) => rawAdd(caseName, fn, {/* custom options */})
 ```
 
-Now you can use this new function instead of the original version in your benchmark suite.
+You can now use this new function instead of the original version in your benchmark suite.
 
 ### Reusing handlers
 
-If you use custom handlers for `cycle` and `complete` functions (or you have custom options for `save` function) you can setup them once, and youse everywhere you need.
+If you use custom handlers for `cycle` and `complete` functions (or you have custom options for `save` function) you can set up them once, and reuse everywhere you need.
 
 For example:
 
@@ -548,7 +632,7 @@ const handlers = (fileName) => {
 module.exports = handlers
 ```
 
-Now you can reuse it, using the spread operator:
+You can now reuse it, using the spread operator:
 
 ```js
 const { add, suite } = require('benny')
@@ -598,7 +682,7 @@ suite(
 )
 ```
 
-We can auto-generate cases like this:
+You can auto-generate cases like this:
 
 ```js
 const { add, cycle, suite } = require('benny')
@@ -621,7 +705,7 @@ module.exports = suite(
 )
 ```
 
-Similarly, we can test many implementations of the same function:
+Similarly, you can test many implementations of the same function:
 
 Instead of:
 
@@ -652,7 +736,7 @@ module.exports = suite(
 )
 ```
 
-We can auto-generate cases like this:
+You can auto-generate cases like this:
 ```js
 const { add, cycle, suite } = require('benny')
 const A = require('@arrows/array')
@@ -683,7 +767,7 @@ module.exports = suite(
 
 ---
 
-These are the three most useful techniques - you can combine them together to achieve less repetition in your benchmark code. Just remember to not overuse them - benchmarks, just like tests, should remain straightforward and not be to cryptic.
+These are the three most useful techniques - you can combine them together to achieve less repetition in your benchmark code. Just remember to not overuse them - benchmarks, just like tests, should remain straightforward and not be too cryptic.
 
 <a id="snippets"></a>
 

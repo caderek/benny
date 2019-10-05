@@ -75,3 +75,8 @@ Initial release.
 
 - Added code reuse guide to the README.
 - Added code reuse examples.
+
+## 3.3.3
+
+- Improved grammar in README.
+- Added detailed summary example to the README.
