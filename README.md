@@ -4,6 +4,7 @@
 ![CircleCI](https://img.shields.io/circleci/build/github/caderek/benny)
 ![David](https://img.shields.io/david/caderek/benny)
 ![Codecov](https://img.shields.io/codecov/c/github/caderek/benny)
+[![Package Quality](https://npm.packagequality.com/shield/benny.svg)](https://packagequality.com/#?package=benny)
 ![GitHub](https://img.shields.io/github/license/caderek/benny)
 
 ![Example](benny.gif)
