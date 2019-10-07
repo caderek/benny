@@ -84,3 +84,7 @@ Initial release.
 ## 3.3.4, 3.3.5
 
 - Added package quality badge, removed wrong typings
+
+## 3.4.0
+
+- Added support for simple or detailed output in CSV format (on save).

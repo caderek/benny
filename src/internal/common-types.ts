@@ -134,3 +134,23 @@ export type Summary = {
     index: number
   }
 }
+
+export type CSVEntry = {
+  name: string
+  ops: number
+  margin: number
+  percentSlower: number
+  samples: number
+  promise: boolean
+  min: number
+  max: number
+  mean: number
+  median: number
+  standardDeviation: number
+  marginOfError: number
+  relativeMarginOfError: number
+  standardErrorOfMean: number
+  sampleVariance: number
+}
+
+export type CSVContent = CSVEntry[]

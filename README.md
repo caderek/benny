@@ -278,6 +278,8 @@ suite(
    *   - as a second argument: an object with all cases (even unfinished ones)
    * If you return a value, it will be logged,
    * replacing in-place the previous cycle output.
+   * 
+   * You can use this function multiple times with different handlers.
    *
    * By default, it pretty-prints case results
    */
@@ -287,6 +289,8 @@ suite(
    * This will run after all benchmarks in the suite.
    *
    * You can pass a function that takes an object with all results.
+   * 
+   * You can use this function multiple times with different handlers.
    *
    * By default, it pretty-prints a simple summary.
    */
@@ -295,6 +299,9 @@ suite(
   /**
    * This will save the results to a file.
    * You can pass an options object.
+   * 
+   * You can use this function multiple times
+   * if you need multiple output files with different options.
    *
    * By default saves to benchmark/results/<ISO-DATE-TIME>.json
    */
@@ -317,6 +324,11 @@ suite(
      * Default: false (simplified results)
      */
     details: true,
+    /**
+     * Output format, currently supported: 'json' | 'csv'
+     * Default: 'json'
+     */
+    format: 'csv',
   }),
 )
 ```
@@ -651,7 +663,7 @@ module.exports = suite(
 
 ### Parameterized cases
 
-There will often be the case, that you want to run very similar benchmarks, that differ very slightly, and can be parameterized, for example, let's say that we want to check the performance of our code for different size od the array:
+There will often be the case, that you want to run very similar benchmarks, that differ very slightly, and can be parameterized, for example, let's say that we want to check the performance of our code for different size of the array:
 
 Instead of:
 
@@ -768,7 +780,7 @@ module.exports = suite(
 
 ---
 
-These are the three most useful techniques - you can combine them together to achieve less repetition in your benchmark code. Just remember to not overuse them - benchmarks, just like tests, should remain straightforward and not be too cryptic.
+These are the three most useful techniques - you can combine them together to achieve less repetition in your benchmark code. Just remember to not overuse them - benchmarks, just like tests, should remain straightforward.
 
 <a id="snippets"></a>
 

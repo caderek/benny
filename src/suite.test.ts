@@ -1,12 +1,17 @@
+import * as csvReader from 'csvtojson'
 import * as fs from 'fs-extra'
 import { add, complete, cycle, save, suite } from './index'
-import { CaseResult, Summary } from './internal/common-types'
+import { CaseResult, CSVContent, Summary } from './internal/common-types'
 
 const TIMEOUT = 30000
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
 describe('suite', () => {
+  beforeAll(() => {
+    fs.removeSync('benchmark')
+  })
+
   afterEach(() => {
     fs.removeSync('benchmark')
   })
@@ -585,6 +590,108 @@ describe('suite', () => {
       const result = summary.results[0]
 
       expect(result.ops).toEqual(1)
+    },
+    TIMEOUT,
+  )
+
+  it(
+    'Correctly saves simple csv output',
+    async () => {
+      await suite(
+        'Example 2',
+
+        add('First', () => {
+          return () => [1, 2, 3, 4, 5].reduce((a, b) => a + b)
+        }),
+
+        add('Second', () => {
+          return () => [1, 2].reduce((a, b) => a + b)
+        }),
+
+        save({ format: 'csv' }),
+      )
+
+      await delay(1000)
+
+      const file = fs.readdirSync('benchmark/results')[0]
+
+      const content: CSVContent = await csvReader().fromFile(
+        `benchmark/results/${file}`,
+      )
+
+      expect(content.length).toEqual(2)
+
+      expect(content[0].name).toEqual('First')
+      expect(content[0]).toHaveProperty('ops')
+      expect(content[0]).toHaveProperty('margin')
+      expect(content[0]).toHaveProperty('percentSlower')
+
+      expect(content[1].name).toEqual('Second')
+      expect(content[1]).toHaveProperty('ops')
+      expect(content[1]).toHaveProperty('margin')
+      expect(content[1]).toHaveProperty('percentSlower')
+    },
+    TIMEOUT,
+  )
+
+  it(
+    'Correctly saves detailed csv output',
+    async () => {
+      await suite(
+        'Example 2',
+
+        add('First', () => {
+          return () => [1, 2, 3, 4, 5].reduce((a, b) => a + b)
+        }),
+
+        add('Second', () => {
+          return () => [1, 2].reduce((a, b) => a + b)
+        }),
+
+        save({ format: 'csv', details: true }),
+      )
+
+      await delay(1000)
+
+      const file = fs.readdirSync('benchmark/results')[0]
+
+      const content: CSVContent = await csvReader().fromFile(
+        `benchmark/results/${file}`,
+      )
+
+      expect(content.length).toEqual(2)
+
+      expect(content[0].name).toEqual('First')
+      expect(content[0]).toHaveProperty('ops')
+      expect(content[0]).toHaveProperty('margin')
+      expect(content[0]).toHaveProperty('percentSlower')
+      expect(content[0]).toHaveProperty('samples')
+      expect(content[0]).toHaveProperty('promise')
+      expect(content[0]).toHaveProperty('min')
+      expect(content[0]).toHaveProperty('max')
+      expect(content[0]).toHaveProperty('mean')
+      expect(content[0]).toHaveProperty('median')
+      expect(content[0]).toHaveProperty('standardDeviation')
+      expect(content[0]).toHaveProperty('marginOfError')
+      expect(content[0]).toHaveProperty('relativeMarginOfError')
+      expect(content[0]).toHaveProperty('standardErrorOfMean')
+      expect(content[0]).toHaveProperty('sampleVariance')
+
+      expect(content[1].name).toEqual('Second')
+      expect(content[1]).toHaveProperty('ops')
+      expect(content[1]).toHaveProperty('margin')
+      expect(content[1]).toHaveProperty('percentSlower')
+      expect(content[1]).toHaveProperty('samples')
+      expect(content[1]).toHaveProperty('promise')
+      expect(content[1]).toHaveProperty('min')
+      expect(content[1]).toHaveProperty('max')
+      expect(content[1]).toHaveProperty('mean')
+      expect(content[1]).toHaveProperty('median')
+      expect(content[1]).toHaveProperty('standardDeviation')
+      expect(content[1]).toHaveProperty('marginOfError')
+      expect(content[1]).toHaveProperty('relativeMarginOfError')
+      expect(content[1]).toHaveProperty('standardErrorOfMean')
+      expect(content[1]).toHaveProperty('sampleVariance')
     },
     TIMEOUT,
   )

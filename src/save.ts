@@ -4,6 +4,7 @@ import * as kleur from 'kleur'
 import * as path from 'path'
 import { Summary } from './internal/common-types'
 import getSummary from './internal/getSummary'
+import prepareFileContent from './internal/prepareFileContent'
 
 type Options = {
   /**
@@ -32,6 +33,12 @@ type Options = {
    * @default false
    */
   details?: boolean
+  /**
+   * Suite version - will be added to the results file content
+   *
+   * @default 'json'
+   */
+  format?: 'json' | 'csv'
 }
 
 const defaultOptions: Options = {
@@ -39,6 +46,7 @@ const defaultOptions: Options = {
   folder: 'benchmark/results',
   version: null,
   details: false,
+  format: 'json',
 }
 
 type Save = (options?: Options) => Promise<(suiteObj: Suite) => Suite>
@@ -52,28 +60,15 @@ const save: Save = async (options = {}) => (suiteObj) => {
   suiteObj.on('complete', (event: Event) => {
     const summary: Summary = getSummary(event)
 
-    const results = opt.details
-      ? summary.results
-      : summary.results.map(({ name, ops, margin, percentSlower }) => {
-          return { name, ops, margin, percentSlower }
-        })
-
     const fileName =
       typeof opt.file === 'function' ? opt.file(summary) : opt.file
-    const fullPath = path.join(opt.folder, `${fileName}.json`)
+    const fullPath = path.join(opt.folder, `${fileName}.${opt.format}`)
 
-    const fileContent = {
-      name: summary.name,
-      date: summary.date.toISOString(),
-      version: opt.version,
-      results,
-      fastest: summary.fastest,
-      slowest: summary.slowest,
-    }
+    const fileContent = prepareFileContent(summary, opt)
 
     fs.ensureDirSync(opt.folder)
 
-    fs.writeFileSync(fullPath, JSON.stringify(fileContent, null, 2))
+    fs.writeFileSync(fullPath, fileContent)
 
     console.log(kleur.cyan(`\nSaved to: ${fullPath}`))
   })
