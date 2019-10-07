@@ -37,7 +37,6 @@
     "lint": "tslint -c tslint.json 'src/**/*.ts'"
   },
   "devDependencies": {
-    "@types/benchmark": "^1.0.31",
     "@types/jest": "^24.0.18",
     "@types/node": "^12.7.8",
     "codecov": "^3.6.1",
