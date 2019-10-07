@@ -80,3 +80,7 @@ Initial release.
 
 - Improved grammar in README.
 - Added detailed summary example to the README.
+
+## 3.3.4, 3.3.5
+
+- Added package quality badge, removed wrong typings
