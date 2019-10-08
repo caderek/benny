@@ -34,7 +34,7 @@ Benny provides an improved API that allows you to:
 - easily prepare benchmarks for synchronous, as well as async code,
 - prepare local setup (sync or async) for each case,
 - skip or run only selected cases,
-- save results to a JSON file (in a simplified or detailed form),
+- save results to a JSON/CSV file (in a simplified or detailed form),
 - pretty-print results without additional setup,
 - use suite results as Promises.
 
