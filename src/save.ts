@@ -38,7 +38,7 @@ type Options = {
    *
    * @default 'json'
    */
-  format?: 'json' | 'csv' | 'table.html'
+  format?: 'json' | 'csv' | 'table.html' | 'chart.html'
 }
 
 const defaultOptions: Options = {

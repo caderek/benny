@@ -34,7 +34,7 @@ Benny provides an improved API that allows you to:
 - easily prepare benchmarks for synchronous, as well as async code,
 - prepare local setup (sync or async) for each case,
 - skip or run only selected cases,
-- save results to a JSON / CSV / HTML file,
+- save results to a JSON / CSV / HTML (table or chart) file,
 - pretty-print results without additional setup,
 - use suite results as Promises.
 
@@ -78,6 +78,7 @@ b.suite(
   b.cycle(),
   b.complete(),
   b.save({ file: 'reduce', version: '1.0.0' }),
+  b.save({ file: 'reduce', format: 'chart.html' }),
 )
 ```
 
@@ -91,39 +92,41 @@ Output:
 
 ```
 Running "Example" suite...
+Progress: 100%
 
   Reduce two elements:
-    147 663 243 ops/s, ±0.78%   | fastest
+    153 067 277 ops/s, ±0.11%   | fastest
 
   Reduce five elements:
-    118 640 209 ops/s, ±0.93%   | slowest, 19.65% slower
+    119 100 958 ops/s, ±1.86%   | slowest, 22.19% slower
 
 Finished 2 cases!
   Fastest: Reduce two elements
   Slowest: Reduce five elements
 
 Saved to: benchmark/results/reduce.json
+Saved to: benchmark/results/reduce.chart.html
 ```
 
-File content:
+JSON file content:
 
 ```json
 {
   "name": "Example",
-  "date": "2019-10-01T21:45:13.058Z",
+  "date": "2019-10-08T22:46:16.945Z",
   "version": "1.0.0",
   "results": [
     {
       "name": "Reduce two elements",
-      "ops": 147663243,
-      "margin": 0.78,
+      "ops": 154214403,
+      "margin": 0.49,
       "percentSlower": 0
     },
     {
       "name": "Reduce five elements",
-      "ops": 118640209,
-      "margin": 0.93,
-      "percentSlower": 19.65
+      "ops": 121592526,
+      "margin": 0.66,
+      "percentSlower": 21.15
     }
   ],
   "fastest": {
@@ -136,6 +139,12 @@ File content:
   }
 }
 ```
+
+HTML chart (it uses Chart.js on canvas, so you can save it as PNG by right-clicking on it):
+
+![chart](chart.png)
+
+
 If you use the `{ details: true }` option in your save function, you will get the result similar to this one:
 
 <details>
@@ -325,7 +334,8 @@ suite(
      */
     details: true,
     /**
-     * Output format, currently supported: 'json' | 'csv' | 'table.html'
+     * Output format, currently supported:
+     *   'json' | 'csv' | 'table.html' | 'chart.html'
      * Default: 'json'
      */
     format: 'csv',

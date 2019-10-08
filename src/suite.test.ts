@@ -736,7 +736,6 @@ describe('suite', () => {
       expect(document.querySelectorAll('tr').length).toEqual(3)
       expect(document.querySelectorAll('th').length).toEqual(4)
       expect(document.querySelectorAll('td').length).toEqual(4 * 2)
-      expect(true).toBe(true)
     },
     TIMEOUT,
   )
@@ -780,7 +779,47 @@ describe('suite', () => {
       expect(document.querySelectorAll('tr').length).toEqual(3)
       expect(document.querySelectorAll('th').length).toEqual(15)
       expect(document.querySelectorAll('td').length).toEqual(15 * 2)
-      expect(true).toBe(true)
+    },
+    TIMEOUT,
+  )
+
+  it(
+    'Correctly saves html chart',
+    async () => {
+      await suite(
+        'Example 19',
+
+        add(
+          'First',
+          () => {
+            return () => [1, 2, 3, 4, 5].reduce((a, b) => a + b)
+          },
+          { maxTime: 0.01 },
+        ),
+
+        add(
+          'Second',
+          () => {
+            return () => [1, 2].reduce((a, b) => a + b)
+          },
+          { maxTime: 0.01 },
+        ),
+
+        save({ format: 'chart.html' }),
+      )
+
+      await delay(1000)
+
+      const file = fs.readdirSync('benchmark/results')[0]
+
+      const content = fs.readFileSync(`benchmark/results/${file}`).toString()
+
+      const { document } = new JSDOM(content).window
+
+      const chart = document.querySelector('canvas')
+
+      expect(document.title).toEqual('Example 19')
+      expect(chart).not.toEqual(null)
     },
     TIMEOUT,
   )

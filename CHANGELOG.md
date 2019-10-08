@@ -92,3 +92,7 @@ Initial release.
 ## 3.5.0
 
 - Added support for simple or detailed output as HTML table (on save).
+
+## 3.6.0
+
+- Added support for output as HTML chart (on save).
