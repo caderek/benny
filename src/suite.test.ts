@@ -1,5 +1,6 @@
 import * as csvReader from 'csvtojson'
 import * as fs from 'fs-extra'
+import { JSDOM } from 'jsdom'
 import { add, complete, cycle, save, suite } from './index'
 import { CaseResult, CSVContent, Summary } from './internal/common-types'
 
@@ -598,7 +599,7 @@ describe('suite', () => {
     'Correctly saves simple csv output',
     async () => {
       await suite(
-        'Example 2',
+        'Example 15',
 
         add('First', () => {
           return () => [1, 2, 3, 4, 5].reduce((a, b) => a + b)
@@ -638,7 +639,7 @@ describe('suite', () => {
     'Correctly saves detailed csv output',
     async () => {
       await suite(
-        'Example 2',
+        'Example 16',
 
         add('First', () => {
           return () => [1, 2, 3, 4, 5].reduce((a, b) => a + b)
@@ -692,6 +693,94 @@ describe('suite', () => {
       expect(content[1]).toHaveProperty('relativeMarginOfError')
       expect(content[1]).toHaveProperty('standardErrorOfMean')
       expect(content[1]).toHaveProperty('sampleVariance')
+    },
+    TIMEOUT,
+  )
+
+  it(
+    'Correctly saves simple html table',
+    async () => {
+      await suite(
+        'Example 17',
+
+        add(
+          'First',
+          () => {
+            return () => [1, 2, 3, 4, 5].reduce((a, b) => a + b)
+          },
+          { maxTime: 0.01 },
+        ),
+
+        add(
+          'Second',
+          () => {
+            return () => [1, 2].reduce((a, b) => a + b)
+          },
+          { maxTime: 0.01 },
+        ),
+
+        save({ format: 'table.html' }),
+      )
+
+      await delay(1000)
+
+      const file = fs.readdirSync('benchmark/results')[0]
+
+      const content = fs.readFileSync(`benchmark/results/${file}`).toString()
+
+      const { document } = new JSDOM(content).window
+
+      const table = document.querySelector('table')
+
+      expect(document.title).toEqual('Example 17')
+      expect(document.querySelectorAll('tr').length).toEqual(3)
+      expect(document.querySelectorAll('th').length).toEqual(4)
+      expect(document.querySelectorAll('td').length).toEqual(4 * 2)
+      expect(true).toBe(true)
+    },
+    TIMEOUT,
+  )
+
+  it(
+    'Correctly saves detailed html table',
+    async () => {
+      await suite(
+        'Example 18',
+
+        add(
+          'First',
+          () => {
+            return () => [1, 2, 3, 4, 5].reduce((a, b) => a + b)
+          },
+          { maxTime: 0.01 },
+        ),
+
+        add(
+          'Second',
+          () => {
+            return () => [1, 2].reduce((a, b) => a + b)
+          },
+          { maxTime: 0.01 },
+        ),
+
+        save({ format: 'table.html', details: true }),
+      )
+
+      await delay(1000)
+
+      const file = fs.readdirSync('benchmark/results')[0]
+
+      const content = fs.readFileSync(`benchmark/results/${file}`).toString()
+
+      const { document } = new JSDOM(content).window
+
+      const table = document.querySelector('table')
+
+      expect(document.title).toEqual('Example 18')
+      expect(document.querySelectorAll('tr').length).toEqual(3)
+      expect(document.querySelectorAll('th').length).toEqual(15)
+      expect(document.querySelectorAll('td').length).toEqual(15 * 2)
+      expect(true).toBe(true)
     },
     TIMEOUT,
   )

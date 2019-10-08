@@ -88,3 +88,7 @@ Initial release.
 ## 3.4.0
 
 - Added support for simple or detailed output in CSV format (on save).
+
+## 3.5.0
+
+- Added support for simple or detailed output as HTML table (on save).
