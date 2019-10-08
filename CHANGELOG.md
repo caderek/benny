@@ -96,3 +96,7 @@ Initial release.
 ## 3.6.0
 
 - Added support for output as HTML chart (on save).
+
+## 3.6.1
+
+- Rebuilt the library.
