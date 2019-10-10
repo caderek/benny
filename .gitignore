@@ -8,3 +8,4 @@ coverage
 *.log
 benchmark
 examples/results
+examples/yarn.lock

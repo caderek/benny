@@ -9,3 +9,4 @@ coverage
 benchmark
 examples.temp
 examples/results
+examples/yarn.lock
