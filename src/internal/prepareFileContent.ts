@@ -99,24 +99,27 @@ const prepareHTMLTable = (summary, options) => {
 }
 
 const colors = [
-  (opacity) => `rgba(63, 142, 252, ${opacity})`,
-  (opacity) => `rgba(116, 165, 127, ${opacity})`,
-  (opacity) => `rgba(158, 206, 154, ${opacity})`,
-  (opacity) => `rgba(58, 175, 185, ${opacity})`,
-  (opacity) => `rgba(79, 124, 172, ${opacity})`,
-  (opacity) => `rgba(113, 128, 172, ${opacity})`,
-  (opacity) => `rgba(182, 140, 184, ${opacity})`,
-  (opacity) => `rgba(219, 108, 121, ${opacity})`,
-  (opacity) => `rgba(189, 79, 108, ${opacity})`,
-  (opacity) => `rgba(138, 79, 125, ${opacity})`,
-  (opacity) => `rgba(95, 75, 102, ${opacity})`,
-  (opacity) => `rgba(204, 139, 134, ${opacity})`,
-  (opacity) => `rgba(215, 129, 106, ${opacity})`,
-  (opacity) => `rgba(245, 143, 41, ${opacity})`,
+  '63, 142, 252',
+  '116, 165, 127',
+  '158, 206, 154',
+  '58, 175, 185',
+  '79, 124, 172',
+  '113, 128, 172',
+  '182, 140, 184',
+  '219, 108, 121',
+  '189, 79, 108',
+  '138, 79, 125',
+  '95, 75, 102',
+  '204, 139, 134',
+  '215, 129, 106',
+  '245, 143, 41',
 ]
 
 const prepareColors = (length, opacity) => {
-  return Array.from({ length }, (_, i) => colors[i % colors.length](opacity))
+  return Array.from(
+    { length },
+    (_, i) => `rgba(${colors[i % colors.length]}, ${opacity})`,
+  )
 }
 
 const prepareHTMLChart = (summary) => {
