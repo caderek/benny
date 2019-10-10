@@ -81,12 +81,14 @@ b.suite(
   b.save({ file: 'reduce', format: 'chart.html' }),
 )
 ```
+---
 
 Execute:
 
 ```sh
 node benchmark.js
 ```
+---
 
 Output:
 
@@ -107,6 +109,7 @@ Finished 2 cases!
 Saved to: benchmark/results/reduce.json
 Saved to: benchmark/results/reduce.chart.html
 ```
+---
 
 JSON file content:
 
@@ -140,12 +143,7 @@ JSON file content:
 }
 ```
 
-HTML chart (it uses Chart.js on canvas, so you can save it as PNG by right-clicking on it):
-
-![chart](chart.png)
-
-
-If you use the `{ details: true }` option in your save function, you will get the result similar to this one:
+Note: If you use the `{ details: true }` option in your save function, you will get the result similar to this one:
 
 <details>
 <summary>click to expand</summary>
@@ -229,6 +227,12 @@ If you use the `{ details: true }` option in your save function, you will get th
 }
 </pre>
 </details>
+
+---
+
+HTML chart (it uses Chart.js on canvas, so you can save it as PNG by right-clicking on it):
+
+![chart](chart.png)
 
 <a id='api'></a>
 

@@ -100,3 +100,7 @@ Initial release.
 ## 3.6.1
 
 - Rebuilt the library.
+
+## 3.6.2
+
+- Improved charts generation (renders only colors you need, in a cyclical manner).

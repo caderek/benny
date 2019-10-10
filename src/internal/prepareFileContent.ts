@@ -98,6 +98,27 @@ const prepareHTMLTable = (summary, options) => {
   )
 }
 
+const colors = [
+  (opacity) => `rgba(63, 142, 252, ${opacity})`,
+  (opacity) => `rgba(116, 165, 127, ${opacity})`,
+  (opacity) => `rgba(158, 206, 154, ${opacity})`,
+  (opacity) => `rgba(58, 175, 185, ${opacity})`,
+  (opacity) => `rgba(79, 124, 172, ${opacity})`,
+  (opacity) => `rgba(113, 128, 172, ${opacity})`,
+  (opacity) => `rgba(182, 140, 184, ${opacity})`,
+  (opacity) => `rgba(219, 108, 121, ${opacity})`,
+  (opacity) => `rgba(189, 79, 108, ${opacity})`,
+  (opacity) => `rgba(138, 79, 125, ${opacity})`,
+  (opacity) => `rgba(95, 75, 102, ${opacity})`,
+  (opacity) => `rgba(204, 139, 134, ${opacity})`,
+  (opacity) => `rgba(215, 129, 106, ${opacity})`,
+  (opacity) => `rgba(245, 143, 41, ${opacity})`,
+]
+
+const prepareColors = (length, opacity) => {
+  return Array.from({ length }, (_, i) => colors[i % colors.length](opacity))
+}
+
 const prepareHTMLChart = (summary) => {
   const labels = summary.results.map((result) => result.name)
   const values = summary.results.map((result) => result.ops)
@@ -148,38 +169,12 @@ const prepareHTMLChart = (summary) => {
                 datasets: [
                   {
                     data: ${JSON.stringify(values)},
-                    backgroundColor: [
-                      'rgba(63, 142, 252, 0.8)',
-                      'rgba(116, 165, 127, 0.8)',
-                      'rgba(158, 206, 154, 0.8)',
-                      'rgba(58, 175, 185, 0.8)',
-                      'rgba(79, 124, 172, 0.8)',
-                      'rgba(113, 128, 172, 0.8)',
-                      'rgba(182, 140, 184, 0.8)',
-                      'rgba(219, 108, 121, 0.8)',
-                      'rgba(189, 79, 108, 0.8)',
-                      'rgba(138, 79, 125, 0.8)',
-                      'rgba(95, 75, 102, 0.8)',
-                      'rgba(204, 139, 134, 0.8)',
-                      'rgba(215, 129, 106, 0.8)',
-                      'rgba(245, 143, 41, 0.8)',
-                    ],
-                    borderColor: [
-                      'rgba(63, 142, 252, 1)',
-                      'rgba(116, 165, 127, 1)',
-                      'rgba(158, 206, 154, 1)',
-                      'rgba(58, 175, 185, 1)',
-                      'rgba(79, 124, 172, 1)',
-                      'rgba(113, 128, 172, 1)',
-                      'rgba(182, 140, 184, 1)',
-                      'rgba(219, 108, 121, 1)',
-                      'rgba(189, 79, 108, 1)',
-                      'rgba(138, 79, 125, 1)',
-                      'rgba(95, 75, 102, 1)',
-                      'rgba(204, 139, 134, 1)',
-                      'rgba(215, 129, 106, 1)',
-                      'rgba(245, 143, 41, 1)',
-                    ],
+                    backgroundColor: ${JSON.stringify(
+                      prepareColors(values.length, 0.8),
+                    )},
+                    borderColor: ${JSON.stringify(
+                      prepareColors(values.length, 1),
+                    )},
                     borderWidth: 1,
                   },
                 ],
@@ -210,7 +205,6 @@ const prepareHTMLChart = (summary) => {
                       scaleLabel: {
                         display: true,
                         labelString: 'Operations per second',
-                        fontSize: 14,
                       },
                       ticks: {
                         beginAtZero: true,
@@ -223,6 +217,7 @@ const prepareHTMLChart = (summary) => {
                       gridLines: {
                         color: 'rgba(127, 127, 127, 0.2)',
                       },
+                      maxBarThickness: 150,
                     },
                   ],
                 },
