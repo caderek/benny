@@ -104,3 +104,7 @@ Initial release.
 ## 3.6.2
 
 - Improved charts generation (renders only colors you need, in a cyclical manner).
+
+## 3.6.3
+
+- Updated dependencies, added CONTRIBUTING info.
