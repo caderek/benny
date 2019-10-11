@@ -1,0 +1,6 @@
+*.* linguist-language=TypeScript
+
+# Ignore all test and documentation with “export-ignore”.
+.gitattributes export-ignore
+.gitignore export-ignore
+*/**/*.test.* export-ignore
