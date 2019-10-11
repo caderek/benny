@@ -7,7 +7,7 @@
 [![Package Quality](https://npm.packagequality.com/shield/benny.svg)](https://packagequality.com/#?package=benny)
 ![GitHub](https://img.shields.io/github/license/caderek/benny)
 
-![Example](benny.gif)
+![Example](https://raw.githubusercontent.com/caderek/benny/master/benny.gif)
 
 ## Table of contents
 
@@ -81,6 +81,7 @@ b.suite(
   b.save({ file: 'reduce', format: 'chart.html' }),
 )
 ```
+
 ---
 
 Execute:
@@ -88,6 +89,7 @@ Execute:
 ```sh
 node benchmark.js
 ```
+
 ---
 
 Output:
@@ -109,6 +111,7 @@ Finished 2 cases!
 Saved to: benchmark/results/reduce.json
 Saved to: benchmark/results/reduce.chart.html
 ```
+
 ---
 
 JSON file content:
@@ -232,7 +235,7 @@ Note: If you use the `{ details: true }` option in your save function, you will 
 
 HTML chart (it uses Chart.js on canvas, so you can save it as PNG by right-clicking on it):
 
-![chart](chart.png)
+![chart](https://raw.githubusercontent.com/caderek/benny/master/chart.png)
 
 <a id='api'></a>
 
@@ -291,7 +294,7 @@ suite(
    *   - as a second argument: an object with all cases (even unfinished ones)
    * If you return a value, it will be logged,
    * replacing in-place the previous cycle output.
-   * 
+   *
    * You can use this function multiple times with different handlers.
    *
    * By default, it pretty-prints case results
@@ -302,7 +305,7 @@ suite(
    * This will run after all benchmarks in the suite.
    *
    * You can pass a function that takes an object with all results.
-   * 
+   *
    * You can use this function multiple times with different handlers.
    *
    * By default, it pretty-prints a simple summary.
@@ -312,7 +315,7 @@ suite(
   /**
    * This will save the results to a file.
    * You can pass an options object.
-   * 
+   *
    * You can use this function multiple times
    * if you need multiple output files with different options.
    *
@@ -629,7 +632,10 @@ If you have many cases, where default benchmarking options are not optimal, you 
  */
 const { add: rawAdd } = require('benny')
 
-const add = (caseName, fn) => rawAdd(caseName, fn, {/* custom options */})
+const add = (caseName, fn) =>
+  rawAdd(caseName, fn, {
+    /* custom options */
+  })
 ```
 
 You can now use this new function instead of the original version in your benchmark suite.
@@ -652,7 +658,7 @@ const handlers = (fileName) => {
     complete((summary) => {
       /* your custom complete handling goes here */
     }),
-    save({ file: fileName, /* other custom save options */ }),
+    save({ file: fileName /* other custom save options */ }),
   ]
 }
 
@@ -764,6 +770,7 @@ module.exports = suite(
 ```
 
 You can auto-generate cases like this:
+
 ```js
 const { add, cycle, suite } = require('benny')
 const A = require('@arrows/array')
