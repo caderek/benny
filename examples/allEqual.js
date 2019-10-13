@@ -2,8 +2,10 @@ const { add, complete, cycle, save, suite } = require('benny')
 const path = require('path')
 
 function allEqualImperative(arr) {
-  for (item of arr) {
-    if (item !== arr[0]) {
+  const first = arr[0]
+
+  for (const item of arr) {
+    if (item !== first) {
       return false
     }
   }
