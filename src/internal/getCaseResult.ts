@@ -1,11 +1,11 @@
 import { Event } from 'benchmark'
-import * as median from 'stats-median'
-import { CaseResult } from './common-types'
+import { calc as median } from 'stats-median'
+import { CaseResult, Target } from './common-types'
 
 type GetCaseResult = (event: Event) => CaseResult
 
 const getCaseResult: GetCaseResult = (event) => {
-  const target = event.target || event
+  const target = (event.target || event) as Target
 
   return {
     name: target.name,
@@ -24,7 +24,7 @@ const getCaseResult: GetCaseResult = (event) => {
       min: Math.min(...target.stats.sample),
       max: Math.max(...target.stats.sample),
       mean: target.stats.mean,
-      median: median.calc(target.stats.sample),
+      median: median(target.stats.sample),
       standardDeviation: target.stats.deviation,
       marginOfError: target.stats.moe,
       relativeMarginOfError: target.stats.rme,

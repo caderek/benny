@@ -1,8 +1,9 @@
 import { method, multi } from '@arrows/multimethod'
 import { parse } from 'json2csv'
 import { format } from 'prettier'
+import { CaseResultWithDiff, SaveOptions, Summary } from './common-types'
 
-const flattenResults = (results) => {
+const flattenResults = (results: CaseResultWithDiff[]) => {
   return results.map((result) => ({
     name: result.name,
     ops: result.ops,
@@ -22,7 +23,7 @@ const flattenResults = (results) => {
   }))
 }
 
-const prepareJSON = (summary, options) => {
+const prepareJSON = (summary: Summary, options: SaveOptions) => {
   const results = options.details
     ? summary.results
     : summary.results.map(({ name, ops, margin, percentSlower }) => {
@@ -41,7 +42,7 @@ const prepareJSON = (summary, options) => {
   return JSON.stringify(content, null, 2)
 }
 
-const prepareCSV = (summary, options) => {
+const prepareCSV = (summary: Summary, options: SaveOptions) => {
   const results = options.details
     ? flattenResults(summary.results)
     : summary.results.map(({ name, ops, margin, percentSlower }) => {
@@ -51,7 +52,7 @@ const prepareCSV = (summary, options) => {
   return parse(results)
 }
 
-const prepareHTMLTable = (summary, options) => {
+const prepareHTMLTable = (summary: Summary, options: SaveOptions) => {
   const results = options.details
     ? flattenResults(summary.results)
     : summary.results.map(({ name, ops, margin, percentSlower }) => {
@@ -115,14 +116,14 @@ const colors = [
   '245, 143, 41',
 ]
 
-const prepareColors = (length, opacity) => {
+const prepareColors = (length: number, opacity: number) => {
   return Array.from(
     { length },
     (_, i) => `rgba(${colors[i % colors.length]}, ${opacity})`,
   )
 }
 
-const prepareHTMLChart = (summary) => {
+const prepareHTMLChart = (summary: Summary) => {
   const labels = summary.results.map((result) => result.name)
   const values = summary.results.map((result) => result.ops)
 
@@ -235,7 +236,7 @@ const prepareHTMLChart = (summary) => {
 }
 
 const prepareFileContent = multi(
-  (_, options) => options.format,
+  (_: Summary, options: SaveOptions) => options.format,
   method('csv', prepareCSV),
   method('table.html', prepareHTMLTable),
   method('chart.html', prepareHTMLChart),

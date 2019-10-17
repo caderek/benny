@@ -1,7 +1,8 @@
 type Format = (num: number) => string
 
 const format: Format = (num) => {
-  const chunked = []
+  const chunked: any[] = []
+
   String(num)
     .split('')
     .reverse()

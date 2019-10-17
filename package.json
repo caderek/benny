@@ -44,8 +44,12 @@
     "prepublishOnly": "yarn build"
   },
   "devDependencies": {
+    "@types/benchmark": "^1.0.31",
+    "@types/fs-extra": "^8.0.1",
     "@types/jest": "^24.0.19",
+    "@types/json2csv": "^4.5.0",
     "@types/node": "^12.11.1",
+    "@types/prettier": "^1.18.3",
     "codecov": "^3.6.1",
     "csvtojson": "^2.0.10",
     "jest": "^24.9.0",

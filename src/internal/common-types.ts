@@ -37,6 +37,41 @@ export type Options = {
   minSamples?: number
 }
 
+export type SaveOptions = {
+  /**
+   * File name or function that takes case timestamp and produces file name
+   *
+   * @default '<ISO_DATE_TIME>.json'
+   */
+  file?: string | ((summary: Summary) => string)
+  /**
+   * Destination folder fo for results file
+   *
+   * Note: will be created if not exists
+   *
+   * @default 'benchmark/results'
+   */
+  folder?: string
+  /**
+   * Suite version - will be added to the results file content
+   *
+   * @default null
+   */
+  version?: string | null
+  /**
+   * Suite version - will be added to the results file content
+   *
+   * @default false
+   */
+  details?: boolean
+  /**
+   * Suite version - will be added to the results file content
+   *
+   * @default 'json'
+   */
+  format?: 'json' | 'csv' | 'table.html' | 'chart.html'
+}
+
 export type CaseResult = {
   /**
    * The name of the benchmark case
@@ -119,7 +154,7 @@ export type CaseResult = {
   completed: boolean
 }
 
-type CaseResultWithDiff = CaseResult & { percentSlower: number }
+export type CaseResultWithDiff = CaseResult & { percentSlower: number }
 
 export type Summary = {
   name: string
@@ -151,6 +186,26 @@ export type CSVEntry = {
   relativeMarginOfError: number
   standardErrorOfMean: number
   sampleVariance: number
+}
+
+export type Target = {
+  name: string
+  hz: number
+  stats: {
+    rme: number
+    sample: number[]
+    mean: number
+    deviation: number
+    moe: number
+    sem: number
+    variance: number
+  }
+  delay: number
+  initCount: number
+  minTime: number
+  maxTime: number
+  minSamples: number
+  defer: boolean
 }
 
 export type CSVContent = CSVEntry[]

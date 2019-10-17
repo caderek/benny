@@ -1,12 +1,24 @@
-import { Suite } from 'benchmark'
+import { Event, Suite } from 'benchmark'
 import * as kleur from 'kleur'
 import logUpdate from 'log-update'
-import { CaseResult, Summary } from './internal/common-types'
+import {
+  CaseResult,
+  CaseResultWithDiff,
+  Summary,
+} from './internal/common-types'
 import format from './internal/format'
 import getCaseResult from './internal/getCaseResult'
 import getSummary from './internal/getSummary'
 
-const getStatus = (item, index, summary, ops, fastestOps) => {
+type GetStatus = (
+  item: CaseResultWithDiff,
+  index: number,
+  summary: Summary,
+  ops: string,
+  fastestOps: string,
+) => string
+
+const getStatus: GetStatus = (item, index, summary, ops, fastestOps) => {
   const isFastest = index === summary.fastest.index
   const isSlowest = index === summary.slowest.index
   const statusShift = fastestOps.length - ops.length + 2
@@ -61,7 +73,7 @@ type Cycle = (fn?: CycleFn) => Promise<(suiteObj: Suite) => Suite>
  * Handles complete events of each case
  */
 const cycle: Cycle = async (fn = defaultCycle) => (suiteObj) => {
-  suiteObj.on('cycle', (event) => {
+  suiteObj.on('cycle', (event: Event) => {
     const summary = getSummary(event)
     const current = getCaseResult(event)
     const output = fn(current, summary)

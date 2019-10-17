@@ -9,12 +9,16 @@ type SkipResult = {
 
 type Test = () => any | Test
 
-const prepareCaseFn = async (test) => {
+type Deferred = {
+  resolve(): void
+}
+
+const prepareCaseFn = async (test: Test) => {
   const returnType = getType(test())
 
   if (returnType === types.Function && getType(test()()) === types.Promise) {
     return {
-      rawTest: (deferred) => test()().then(() => deferred.resolve()),
+      rawTest: (deferred: Deferred) => test()().then(() => deferred.resolve()),
       defer: true,
     }
   }
@@ -34,7 +38,7 @@ const prepareCaseFn = async (test) => {
 
       if (getType(nestedReturnType) === types.Promise) {
         return {
-          rawTest: (deferred) =>
+          rawTest: (deferred: Deferred) =>
             promiseContent().then(() => deferred.resolve()),
           defer: true,
         }
@@ -47,7 +51,7 @@ const prepareCaseFn = async (test) => {
     }
 
     return {
-      rawTest: (deferred) => test().then(() => deferred.resolve()),
+      rawTest: (deferred: Deferred) => test().then(() => deferred.resolve()),
       defer: true,
     }
   }
@@ -76,7 +80,7 @@ type Add = {
 const add: Add = async (caseName, test, options = {}) => {
   const { rawTest, defer } = await prepareCaseFn(test)
 
-  const fn = (suiteObj) => {
+  const fn = (suiteObj: Suite) => {
     suiteObj.add(caseName, rawTest, { ...options, defer })
     return suiteObj
   }
@@ -87,7 +91,7 @@ const add: Add = async (caseName, test, options = {}) => {
 }
 
 add.only = async (caseName, test, options = {}) => {
-  const fn = (suiteObj) => {
+  const fn = (suiteObj: Suite) => {
     suiteObj.add(
       caseName,
       typeof test() === 'function' ? test() : test,

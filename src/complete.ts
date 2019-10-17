@@ -1,4 +1,4 @@
-import { Suite } from 'benchmark'
+import { Event, Suite } from 'benchmark'
 import kleur = require('kleur')
 import logUpdate from 'log-update'
 import { Summary } from './internal/common-types'
@@ -26,7 +26,7 @@ type Complete = (fn?: CompleteFn) => Promise<(suiteObj: Suite) => Suite>
  */
 const complete: Complete = async (fn = defaultComplete) => (suiteObj) => {
   logUpdate.done()
-  suiteObj.on('complete', (event) => fn(getSummary(event)))
+  suiteObj.on('complete', (event: Event) => fn(getSummary(event)))
   return suiteObj
 }
 

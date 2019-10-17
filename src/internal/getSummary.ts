@@ -5,7 +5,9 @@ import getCaseResult from './getCaseResult'
 type GetSummary = (event: Event) => Summary
 
 const getSummary: GetSummary = (event) => {
-  const results = Object.entries(event.currentTarget)
+  const currentTarget = event.currentTarget
+
+  const results = Object.entries(currentTarget)
     .filter(([key]) => !Number.isNaN(Number(key)))
     .map(([_, target]) => getCaseResult(target))
 
@@ -13,14 +15,14 @@ const getSummary: GetSummary = (event) => {
     (prev, next, index) => {
       return next.ops > prev.ops ? { ops: next.ops, index } : prev
     },
-    { ops: 0, index: null },
+    { ops: 0, index: 0 },
   ).index
 
   const slowestIndex = results.reduce(
     (prev, next, index) => {
       return next.ops < prev.ops ? { ops: next.ops, index } : prev
     },
-    { ops: Infinity, index: null },
+    { ops: Infinity, index: 0 },
   ).index
 
   const resultsWithDiffs = results.map((result, index) => {
@@ -35,6 +37,7 @@ const getSummary: GetSummary = (event) => {
   })
 
   return {
+    // @ts-ignore
     name: event.currentTarget.name,
     date: new Date(event.timeStamp),
     results: resultsWithDiffs,
