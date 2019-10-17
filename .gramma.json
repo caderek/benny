@@ -23,6 +23,7 @@
     "json",
     "linter",
     "npm",
+    "prepublish",
     "typings"
   ],
   "language": "en-US",
