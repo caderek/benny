@@ -14,12 +14,19 @@
   dependencies:
     "@arrows/array" "^0.4.9"
 
-"@arrows/dispatch@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@arrows/dispatch/-/dispatch-1.0.0.tgz#cd2442f71dcd5a3967178818c5ae5b5cd3b9f070"
-  integrity sha512-DFAUjYiKx4ocPdmA3E9dcvwrvDKbd6ATad9FUOloy00s8zpmJFGZleWUQoxEMhY1zsuSBhVptLfAgFagxl15MA==
+"@arrows/composition@^0.3.1":
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/@arrows/composition/-/composition-0.3.1.tgz#6a50eff8b02acb5aea8adc280b41a022d9557f8c"
+  integrity sha512-VJA/KIZhRl6Q3o0U4/32TE0Dt1KFND1cnB41U2e5NbpQRH3mBL/YquwmO7CqxnbiA2P+McWuezVLABDrGXVKQw==
   dependencies:
-    "@arrows/composition" "^0.3.0"
+    "@arrows/array" "^0.4.9"
+
+"@arrows/dispatch@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@arrows/dispatch/-/dispatch-1.0.1.tgz#6becda7230e48a45ef49edba4a4c28c877b3d19f"
+  integrity sha512-nkb6dFCNEJR5aOc2O1CfnhixPmHUCp/wgDbHjh9cMUP9DzSfvAeqPsuMPFoJzcfPBjb1rMaOvGbLpo27D9yC7w==
+  dependencies:
+    "@arrows/composition" "^0.3.1"
 
 "@arrows/error@^1.0.2":
   version "1.0.2"
