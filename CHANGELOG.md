@@ -109,6 +109,6 @@ Initial release.
 
 - Updated dependencies, added CONTRIBUTING info.
 
-## 3.6.4 - 3.6.7
+## 3.6.4 - 3.6.8
 
 - Updated dependencies

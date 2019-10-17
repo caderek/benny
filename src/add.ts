@@ -1,4 +1,5 @@
-import { getType, types } from '@arrows/dispatch'
+import getType from '@arrows/dispatch/getType'
+import types from '@arrows/dispatch/types'
 import { Suite } from 'benchmark'
 import { Options } from './internal/common-types'
 
@@ -28,9 +29,7 @@ const prepareCaseFn = async (test) => {
   if (returnType === types.Promise) {
     const promiseContent = await test()
 
-    if (
-      [types.Function, types.AsyncFunction].includes(getType(promiseContent))
-    ) {
+    if (getType(promiseContent) === types.Function) {
       const nestedReturnType = promiseContent()
 
       if (getType(nestedReturnType) === types.Promise) {
