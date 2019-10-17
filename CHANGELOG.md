@@ -116,3 +116,7 @@ Initial release.
 ## 3.6.10 - 3.6.11
 
 - Added async keyword to the package.json to improve searching on npm.
+
+## 3.6.12
+
+- Improved typings by adding strict type checks.
