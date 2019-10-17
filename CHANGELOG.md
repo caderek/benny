@@ -113,6 +113,6 @@ Initial release.
 
 - Updated dependencies
 
-## 3.6.10
+## 3.6.10 - 3.6.11
 
 - Added async keyword to the package.json to improve searching on npm.

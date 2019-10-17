@@ -12,6 +12,7 @@
     "simple",
     "framework",
     "async",
+    "asynchronous",
     "async setup",
     "await",
     "promise",
@@ -31,7 +32,8 @@
     "statistical",
     "execution time",
     "time",
-    "hrtime"
+    "hrtime",
+    "setup"
   ],
   "author": "Maciej Cąderek",
   "scripts": {
