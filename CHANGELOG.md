@@ -112,3 +112,7 @@ Initial release.
 ## 3.6.4 - 3.6.9
 
 - Updated dependencies
+
+## 3.6.10
+
+- Added async keyword to the package.json to improve searching on npm.
