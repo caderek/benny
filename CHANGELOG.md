@@ -120,3 +120,7 @@ Initial release.
 ## 3.6.12
 
 - Improved typings by adding strict type checks.
+
+## 3.6.13
+
+- Updated dependencies

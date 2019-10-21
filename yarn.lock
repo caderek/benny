@@ -7,13 +7,6 @@
   resolved "https://registry.yarnpkg.com/@arrows/array/-/array-0.4.9.tgz#20b6bf8b1314ac01801102cc809f5e24780f9a8a"
   integrity sha512-xuDbkXMpoeRJVIgljbUFaMAGIaOrMeu8RddxmLHnM9z3YCWNkGxcoA6EvKRwxoRg0VuaMlLbC7ztZD7I2lcCfA==
 
-"@arrows/composition@^0.3.0":
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/@arrows/composition/-/composition-0.3.0.tgz#b35f617366f3afc37e7cc7a81a8a8d8256a842d1"
-  integrity sha512-JCbtF/z2SW2dsC5VodfhehUZuWZTJ1hNwcFATWuRMUhQt5GZd8ruz82AudBhf7Wu2V6L74/6UlBrzkynVmIoGQ==
-  dependencies:
-    "@arrows/array" "^0.4.9"
-
 "@arrows/composition@^0.3.1":
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/@arrows/composition/-/composition-0.3.1.tgz#6a50eff8b02acb5aea8adc280b41a022d9557f8c"
@@ -21,25 +14,30 @@
   dependencies:
     "@arrows/array" "^0.4.9"
 
-"@arrows/dispatch@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@arrows/dispatch/-/dispatch-1.0.1.tgz#6becda7230e48a45ef49edba4a4c28c877b3d19f"
-  integrity sha512-nkb6dFCNEJR5aOc2O1CfnhixPmHUCp/wgDbHjh9cMUP9DzSfvAeqPsuMPFoJzcfPBjb1rMaOvGbLpo27D9yC7w==
+"@arrows/composition@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@arrows/composition/-/composition-1.0.0.tgz#8f285fbdd96d42229a0a7689da661b8b5ff52c14"
+  integrity sha512-6Lzg41Pkwf2JrJfnMsgDH8tnJ/KL4yXuxPZr3qnCqMSF7cEWDjXBuBh+ShmNNb0O8Ou/Haf0wqIj9GwuVHwoaw==
+
+"@arrows/dispatch@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@arrows/dispatch/-/dispatch-1.0.2.tgz#80f2af6ec02e0cb0f51a671ce9921bf54da7bfcc"
+  integrity sha512-NlPP5GBuEMl3GC/leFK2s9jDCNOVLLrF1AqySA5Vm7LEy49zcoeTEooetkwWZ506ST5fBvoVcEjonONaROcQCA==
   dependencies:
-    "@arrows/composition" "^0.3.1"
+    "@arrows/composition" "^1.0.0"
 
 "@arrows/error@^1.0.2":
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@arrows/error/-/error-1.0.2.tgz#4e68036f901118ba6f1de88656ef6be49e650414"
   integrity sha512-yvkiv1ay4Z3+Z6oQsUkedsQm5aFdyPpkBUQs8vejazU/RmANABx6bMMcBPPHI4aW43VPQmXFfBzr/4FExwWTEA==
 
-"@arrows/multimethod@^1.1.3":
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/@arrows/multimethod/-/multimethod-1.1.3.tgz#6d7a3f96ac8c8e58b6f7b9df6a61e34972895e59"
-  integrity sha512-maZEFE/4phyFDKwZSV/4/7qf5MtStAGUGdEpqIvJEOqllrxHTXJFLxPvpQ1gRbmYaHHDRczZUBySD57+wBwnlA==
+"@arrows/multimethod@^1.1.5":
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/@arrows/multimethod/-/multimethod-1.1.5.tgz#b29150f5df869f89dd714aded12aa49148c98d95"
+  integrity sha512-YhEz0gmRbqlPrmk0czxnUxdVeubVIBKnhlGth7g5og4tyR+5BpqP7scHMqIflGrkoitektC0pd6qdB8LDPYj+A==
   dependencies:
     "@arrows/array" "^0.4.9"
-    "@arrows/composition" "^0.3.0"
+    "@arrows/composition" "^1.0.0"
     "@arrows/error" "^1.0.2"
     fast-deep-equal "^2.0.1"
 
