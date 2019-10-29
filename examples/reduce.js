@@ -21,6 +21,10 @@ module.exports = suite(
     A.reduce((a, b) => a + b, 0)(input)
   }),
 
+  add('@arrows/array first', () => {
+    A.reduce.first((a, b) => a + b)(input)
+  }),
+
   add('rambda', () => {
     RB.reduce((a, b) => a + b, 0)(input)
   }),
