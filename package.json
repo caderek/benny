@@ -1,6 +1,6 @@
 {
   "name": "benny",
-  "version": "3.6.13",
+  "version": "3.6.14",
   "main": "lib/index.js",
   "license": "ISC",
   "repository": "https://github.com/caderek/benny",
