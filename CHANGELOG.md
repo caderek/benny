@@ -121,6 +121,6 @@ Initial release.
 
 - Improved typings by adding strict type checks.
 
-## 3.6.13
+## 3.6.13 - 3.6.14
 
 - Updated dependencies
