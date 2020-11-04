@@ -817,7 +817,7 @@ You can see how they work in the demo GIF.
 
 ## Additional examples
 
-For more examples check out the [/examples](examples) folder.
+For more examples check out the [/examples](https://github.com/caderek/benny/tree/master/examples) folder.
 
 You can run all the examples locally if you want. Just remember to run `npm i` or `yarn` in the examples folder first.
 
@@ -825,4 +825,4 @@ You can run all the examples locally if you want. Just remember to run `npm i` o
 
 ## License
 
-Project is under open, non-restrictive [ISC license](LICENSE).
+Project is under open, non-restrictive [ISC license](https://github.com/caderek/benny/blob/master/LICENSE.md).
