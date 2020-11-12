@@ -825,4 +825,4 @@ You can run all the examples locally if you want. Just remember to run `npm i` o
 
 ## License
 
-Project is under open, non-restrictive [ISC license](LICENSE).
+Project is under open, non-restrictive [ISC license](LICENSE.md).
