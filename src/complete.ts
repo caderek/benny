@@ -1,6 +1,6 @@
 import { Event, Suite } from 'benchmark'
-import kleur = require('kleur')
-import logUpdate from 'log-update'
+import * as kleur from 'kleur'
+import * as logUpdate from 'log-update'
 import { Summary } from './internal/common-types'
 import getSummary from './internal/getSummary'
 

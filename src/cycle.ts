@@ -1,6 +1,6 @@
 import { Event, Suite } from 'benchmark'
 import * as kleur from 'kleur'
-import logUpdate from 'log-update'
+import * as logUpdate from 'log-update'
 import {
   CaseResult,
   CaseResultWithDiff,
