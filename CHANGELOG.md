@@ -124,3 +124,8 @@ Initial release.
 ## 3.6.13 - 3.6.14
 
 - Updated dependencies
+
+## 3.6.15
+
+- Updated dependencies
+- Fixed precision issues for slow cases

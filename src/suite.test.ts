@@ -1,6 +1,7 @@
 import * as csvReader from 'csvtojson'
 import * as fs from 'fs-extra'
 import { JSDOM } from 'jsdom'
+import { clearConfigCache } from 'prettier'
 import { add, complete, cycle, save, suite } from './index'
 import { CaseResult, CSVContent, Summary } from './internal/common-types'
 
@@ -820,6 +821,38 @@ describe('suite', () => {
 
       expect(document.title).toEqual('Example 19')
       expect(chart).not.toEqual(null)
+    },
+    TIMEOUT,
+  )
+
+  it(
+    'Rounds results to smallest distinctive precision',
+    async () => {
+      const summary = await suite(
+        'Example 20',
+
+        add('Slow case - less ops', () => {
+          return () => delay(500)
+        }),
+
+        add('Slow case - middle ops', () => {
+          return () => delay(495)
+        }),
+
+        add('Slow case - more ops', () => {
+          return () => delay(490)
+        }),
+
+        cycle(),
+        complete(),
+      )
+
+      const resultAOps = summary.results[0].ops
+      const resultBOps = summary.results[1].ops
+      const resultCOps = summary.results[2].ops
+
+      expect(resultBOps).toBeGreaterThan(resultAOps)
+      expect(resultCOps).toBeGreaterThan(resultBOps)
     },
     TIMEOUT,
   )

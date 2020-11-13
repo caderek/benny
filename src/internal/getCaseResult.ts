@@ -9,7 +9,7 @@ const getCaseResult: GetCaseResult = (event) => {
 
   return {
     name: target.name,
-    ops: Math.round(target.hz),
+    ops: target.hz,
     margin: Number(target.stats.rme.toFixed(2)),
     options: {
       delay: target.delay,

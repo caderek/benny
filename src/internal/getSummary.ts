@@ -1,15 +1,39 @@
 import { Event } from 'benchmark'
-import { Summary } from './common-types'
+import { Summary, CaseResult } from './common-types'
 import getCaseResult from './getCaseResult'
 
 type GetSummary = (event: Event) => Summary
 
+const roundNumbersToDistinctValues = (
+  numbers: number[],
+  precision: number = 0,
+): number[] => {
+  const rounded = numbers.map((num) => {
+    return Math.round(num * 10 ** precision) / 10 ** precision
+  })
+
+  const originalSizeWithoutDuplicates = new Set(numbers).size
+  const roundedSizeWithoutDuplicates = new Set(rounded).size
+
+  return roundedSizeWithoutDuplicates === originalSizeWithoutDuplicates
+    ? rounded
+    : roundNumbersToDistinctValues(numbers, precision + 1)
+}
+
 const getSummary: GetSummary = (event) => {
   const currentTarget = event.currentTarget
 
-  const results = Object.entries(currentTarget)
+  const resultsWithoutRoundedOps = Object.entries(currentTarget)
     .filter(([key]) => !Number.isNaN(Number(key)))
     .map(([_, target]) => getCaseResult(target))
+
+  const roundedOps = roundNumbersToDistinctValues(
+    resultsWithoutRoundedOps.map((result) => result.ops),
+  )
+  const results = resultsWithoutRoundedOps.map((result, index) => ({
+    ...result,
+    ops: roundedOps[index],
+  }))
 
   const fastestIndex = results.reduce(
     (prev, next, index) => {
