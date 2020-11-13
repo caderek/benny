@@ -1,9 +1,10 @@
 type Format = (num: number) => string
 
 const format: Format = (num) => {
+  const [whole, fraction] = String(num).split('.')
   const chunked: any[] = []
 
-  String(num)
+  whole
     .split('')
     .reverse()
     .forEach((char, index) => {
@@ -14,7 +15,10 @@ const format: Format = (num) => {
       }
     })
 
-  return chunked.map((chunk) => chunk.join('')).join(' ')
+  return (
+    chunked.map((chunk) => chunk.join('')).join(' ') +
+    (fraction ? `.${fraction}` : '')
+  )
 }
 
 export default format

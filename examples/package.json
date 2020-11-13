@@ -7,7 +7,7 @@
   "dependencies": {
     "@arrows/array": "^1.0.0",
     "@arrows/composition": "^1.0.0",
-    "benny": "^3.6.14",
+    "benny": "^3.6.15",
     "clone": "^2.1.2",
     "clone-deep": "^4.0.1",
     "immer": "^4.0.0",
