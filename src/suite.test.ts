@@ -1,7 +1,6 @@
 import * as csvReader from 'csvtojson'
 import * as fs from 'fs-extra'
 import { JSDOM } from 'jsdom'
-import { clearConfigCache } from 'prettier'
 import { add, complete, cycle, save, suite } from './index'
 import { CaseResult, CSVContent, Summary } from './internal/common-types'
 
