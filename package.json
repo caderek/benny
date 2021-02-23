@@ -2,6 +2,7 @@
   "name": "benny",
   "version": "3.6.15",
   "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "license": "ISC",
   "repository": "https://github.com/caderek/benny",
   "homepage": "https://caderek.github.io/benny/",
