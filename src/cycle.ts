@@ -5,6 +5,7 @@ import {
   CaseResult,
   CaseResultWithDiff,
   Summary,
+  Config,
 } from './internal/common-types'
 import format from './internal/format'
 import getCaseResult from './internal/getCaseResult'
@@ -67,14 +68,16 @@ const defaultCycle: CycleFn = (_, summary) => {
   return `${progressInfo}\n${output}`
 }
 
-type Cycle = (fn?: CycleFn) => Promise<(suiteObj: Suite) => Suite>
+type Cycle = (
+  fn?: CycleFn,
+) => (config: Config) => Promise<(suiteObj: Suite) => Suite>
 
 /**
  * Handles complete events of each case
  */
-const cycle: Cycle = async (fn = defaultCycle) => (suiteObj) => {
+const cycle: Cycle = (fn = defaultCycle) => async (config) => (suiteObj) => {
   suiteObj.on('cycle', (event: Event) => {
-    const summary = getSummary(event)
+    const summary = getSummary(event, config.minDisplayPrecision ?? 0)
     const current = getCaseResult(event)
     const output = fn(current, summary)
 

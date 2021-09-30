@@ -37,6 +37,21 @@ export type Options = {
   minSamples?: number
 }
 
+export type Config = {
+  /**
+   * Options for every `add` method.
+   * Can be overridden by each `add` method.
+   */
+  cases?: Options
+  /**
+   * The minimum precision (decimal places) of the result displayed by the default `cycle`, `complete` and `save` functions.
+   * This precision will be automatically increased if needed.
+   *
+   * @default 0
+   */
+  minDisplayPrecision?: number
+}
+
 export type SaveOptions = {
   /**
    * File name or function that takes case timestamp and produces file name

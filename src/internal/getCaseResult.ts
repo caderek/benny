@@ -1,6 +1,13 @@
 import { Event } from 'benchmark'
-import { calc as median } from 'stats-median'
 import { CaseResult, Target } from './common-types'
+
+const median = (data: number[]) => {
+  data.sort((a, b) => (a < b ? -1 : 1))
+
+  return data.length % 2 === 0
+    ? (data[data.length / 2 - 1] + data[data.length / 2]) / 2
+    : data[Math.floor(data.length / 2)]
+}
 
 type GetCaseResult = (event: Event) => CaseResult
 

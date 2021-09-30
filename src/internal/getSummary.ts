@@ -2,7 +2,7 @@ import { Event } from 'benchmark'
 import { Summary, CaseResult } from './common-types'
 import getCaseResult from './getCaseResult'
 
-type GetSummary = (event: Event) => Summary
+type GetSummary = (event: Event, precision: number) => Summary
 
 const roundNumbersToDistinctValues = (
   numbers: number[],
@@ -20,7 +20,7 @@ const roundNumbersToDistinctValues = (
     : roundNumbersToDistinctValues(numbers, precision + 1)
 }
 
-const getSummary: GetSummary = (event) => {
+const getSummary: GetSummary = (event, precision = 0) => {
   const currentTarget = event.currentTarget
 
   const resultsWithoutRoundedOps = Object.entries(currentTarget)
@@ -29,6 +29,7 @@ const getSummary: GetSummary = (event) => {
 
   const roundedOps = roundNumbersToDistinctValues(
     resultsWithoutRoundedOps.map((result) => result.ops),
+    precision,
   )
   const results = resultsWithoutRoundedOps.map((result, index) => ({
     ...result,

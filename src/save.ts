@@ -2,7 +2,7 @@ import { Event, Suite } from 'benchmark'
 import * as fs from 'fs-extra'
 import * as kleur from 'kleur'
 import * as path from 'path'
-import { SaveOptions, Summary } from './internal/common-types'
+import { SaveOptions, Summary, Config } from './internal/common-types'
 import getSummary from './internal/getSummary'
 import prepareFileContent from './internal/prepareFileContent'
 
@@ -16,16 +16,18 @@ const defaultOptions: Opt = {
   format: 'json',
 }
 
-type Save = (options?: SaveOptions) => Promise<(suiteObj: Suite) => Suite>
+type Save = (
+  options?: SaveOptions,
+) => (config: Config) => Promise<(suiteObj: Suite) => Suite>
 
 /**
  * Saves results to a file
  */
-const save: Save = async (options = {}) => (suiteObj) => {
+const save: Save = (options = {}) => async (config) => (suiteObj) => {
   const opt = { ...defaultOptions, ...options } as Opt
 
   suiteObj.on('complete', (event: Event) => {
-    const summary: Summary = getSummary(event)
+    const summary: Summary = getSummary(event, config.minDisplayPrecision ?? 0)
 
     const fileName =
       typeof opt.file === 'function' ? opt.file(summary) : opt.file

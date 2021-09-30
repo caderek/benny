@@ -1,7 +1,7 @@
 import getType from '@arrows/dispatch/getType'
 import types from '@arrows/dispatch/types'
 import { Suite } from 'benchmark'
-import { Options } from './internal/common-types'
+import { Options, Config } from './internal/common-types'
 
 type SkipResult = {
   name: 'skip'
@@ -63,25 +63,29 @@ const prepareCaseFn = async (test: Test) => {
 }
 
 type Add = {
-  (caseName: string, test: Test, options?: Options): Promise<
-    (suiteObj: Suite) => Suite
-  >
+  (caseName: string, test: Test, options?: Options): (
+    config: Config,
+  ) => Promise<(suiteObj: Suite) => Suite>
+
   only: (
     caseName: string,
     test: Test,
     options?: Options,
-  ) => Promise<(suiteObj: Suite) => Suite>
-  skip: (...args: any[]) => Promise<SkipResult>
+  ) => (config: Config) => Promise<(suiteObj: Suite) => Suite>
+  skip: (...args: any[]) => SkipResult
 }
 
 /**
  * Adds a benchmark case
  */
-const add: Add = async (caseName, test, options = {}) => {
+const add: Add = (caseName, test, options = {}) => async (config) => {
   const { rawTest, defer } = await prepareCaseFn(test)
 
+  const defaultOptions = config.cases ?? {}
+  const cfg = { ...defaultOptions, ...options }
+
   const fn = (suiteObj: Suite) => {
-    suiteObj.add(caseName, rawTest, { ...options, defer })
+    suiteObj.add(caseName, rawTest, { ...cfg, defer })
     return suiteObj
   }
 
@@ -90,13 +94,14 @@ const add: Add = async (caseName, test, options = {}) => {
   return fn
 }
 
-add.only = async (caseName, test, options = {}) => {
+add.only = (caseName, test, options = {}) => async (config) => {
+  const { rawTest, defer } = await prepareCaseFn(test)
+
+  const defaultOptions = config.cases ?? {}
+  const cfg = { ...defaultOptions, ...options }
+
   const fn = (suiteObj: Suite) => {
-    suiteObj.add(
-      caseName,
-      typeof test() === 'function' ? test() : test,
-      options,
-    )
+    suiteObj.add(caseName, rawTest, { ...cfg, defer })
     return suiteObj
   }
 
@@ -105,7 +110,7 @@ add.only = async (caseName, test, options = {}) => {
   return fn
 }
 
-add.skip = (...args) => Promise.resolve({ name: 'skip' })
+add.skip = (...args) => ({ name: 'skip' })
 
 export { add, Add, SkipResult }
 export default add
