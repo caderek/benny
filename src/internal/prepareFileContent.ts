@@ -65,67 +65,13 @@ const prepareHTMLTable = (summary: Summary, options: SaveOptions) => {
 
   const rows = results
     .map((result) => {
-      return `<tr>${Object.values(result)
-        .map((item) => `<td>${item}</td>`)
-        .join('')}</tr>`
+      return `<tr>
+        ${Object.values(result)
+          .map((item) => `<td>${item}</td>`)
+          .join('')}
+      </tr>`
     })
     .join('')
-
-  return format(
-    `
-    <!DOCTYPE html>
-    <html lang="en">
-      <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta http-equiv="X-UA-Compatible" />
-        <title>${summary.name}</title>
-      </head>
-      <body>
-        <table>
-          <thead>
-            <tr>
-              ${headers}
-            </tr>
-          </thead>
-          <tbody>
-            ${rows}
-          </tbody>
-        </table>
-      </body>
-    </html>
-  `,
-    { parser: 'html' },
-  )
-}
-
-const colors = [
-  '63, 142, 252',
-  '116, 165, 127',
-  '158, 206, 154',
-  '58, 175, 185',
-  '79, 124, 172',
-  '113, 128, 172',
-  '182, 140, 184',
-  '219, 108, 121',
-  '189, 79, 108',
-  '138, 79, 125',
-  '95, 75, 102',
-  '204, 139, 134',
-  '215, 129, 106',
-  '245, 143, 41',
-]
-
-const prepareColors = (length: number, opacity: number) => {
-  return Array.from(
-    { length },
-    (_, i) => `rgba(${colors[i % colors.length]}, ${opacity})`,
-  )
-}
-
-const prepareHTMLChart = (summary: Summary) => {
-  const labels = summary.results.map((result) => result.name)
-  const values = summary.results.map((result) => result.ops)
 
   return format(
     `
@@ -133,104 +79,156 @@ const prepareHTMLChart = (summary: Summary) => {
       <html lang="en">
         <head>
           <meta charset="UTF-8" />
-          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+          />
           <meta http-equiv="X-UA-Compatible" />
-          <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js"></script>
-          <style>
-            .wrapper {
-              display: flex;
-              flex: wrap;
-              order: row;
-            }
-          </style>
           <title>${summary.name}</title>
         </head>
         <body>
-          <div style="max-width: 800px;">
-            <canvas id="chart${summary.date.getTime()}" width="16" height="9"></canvas>
+          <table>
+            <thead>
+              <tr>
+                ${headers}
+              </tr>
+            </thead>
+            <tbody>
+              ${rows}
+            </tbody>
+          </table>
+        </body>
+      </html>
+    `,
+    { parser: 'html' },
+  )
+}
+
+const prepareColors = (percents: number[]) => {
+  return percents.map((percent) => {
+    const hue = 120 * ((100 - percent) / 100)
+    return `hsl(${hue}, 85%, 55%)`
+  })
+}
+
+const prepareHTMLChart = (summary: Summary) => {
+  const labels = summary.results.map((result) => result.name)
+  const values = summary.results.map((result) => result.ops)
+  const percents = summary.results.map((result) => result.percentSlower)
+  const suffix = summary.date.getTime()
+
+  return format(
+    `
+      <!DOCTYPE html>
+      <html lang="en">
+        <head>
+          <meta charset="UTF-8" />
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+          />
+          <meta http-equiv="X-UA-Compatible" />
+          <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+          <title>${summary.name}</title>
+          <style>
+            body {
+              margin: 0;
+              padding: 0;
+              background: #ddd;
+            }
+
+            .container {
+              box-sizing: border-box;
+              height: 96vh;
+              width: 96vw;
+              margin: 2vh 2vw;
+              resize: both;
+              overflow: hidden;
+              padding: 20px;
+              background: white;
+              box-shadow: 0 0 15px #aaa;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <canvas id="chart${suffix}" width="16" height="9"></canvas>
           </div>
           <script>
             const format = (num) => {
+              const [whole, fraction] = String(num).split('.')
               const chunked = []
-              String(num)
+              whole
                 .split('')
                 .reverse()
                 .forEach((char, index) => {
-                  if (index % 3 === 0) {
-                    chunked.unshift([char])
-                  } else {
-                    chunked[0].unshift(char)
-                  }
-                })
+                if (index % 3 === 0) {
+                  chunked.unshift([char])
+                } else {
+                  chunked[0].unshift(char)
+                }
+              })
+              
+              const fractionStr = fraction !== undefined ? '.' + fraction : ''
 
-              return chunked.map((chunk) => chunk.join('')).join(' ')
+              return chunked.map((chunk) => chunk.join('')).join(' ') + fractionStr
             }
-            const ctx${summary.date.getTime()} = document.getElementById('chart${summary.date.getTime()}').getContext('2d')
-            const chart${summary.date.getTime()} = new Chart(ctx${summary.date.getTime()}, {
+            const ctx${suffix} = document
+              .getElementById('chart${suffix}')
+              .getContext('2d')
+            const chart${suffix} = new Chart(ctx${suffix}, {
               type: 'bar',
               data: {
                 labels: ${JSON.stringify(labels)},
                 datasets: [
                   {
                     data: ${JSON.stringify(values)},
-                    backgroundColor: ${JSON.stringify(
-                      prepareColors(values.length, 0.8),
-                    )},
-                    borderColor: ${JSON.stringify(
-                      prepareColors(values.length, 1),
-                    )},
-                    borderWidth: 1,
+                    backgroundColor: ${JSON.stringify(prepareColors(percents))},
+                    borderColor: ${JSON.stringify(prepareColors(percents))},
+                    borderWidth: 2,
                   },
                 ],
               },
               options: {
-                legend: {
-                  display: false
-                },
-                title: {
-                  display: true,
-                  text: '${summary.name}',
-                  fontSize: 16,
-                  padding: 20,
-                },
-                tooltips: {
-                  callbacks: {
-                    label: (tooltipItem) => {
-                      return format(tooltipItem.yLabel) + ' ops/s'
-                    }
-                  }
+                maintainAspectRatio: false,
+                plugins: {
+                  title: {
+                    display: true,
+                    text: '${summary.name}',
+                    font: { size: 20 },
+                    padding: 20,
+                  },
+                  legend: {
+                    display: false,
+                  },
+                  tooltip: {
+                    callbacks: {
+                      label: (context) => {
+                        return format(context.parsed.y) + ' ops/s'
+                      },
+                    },
+                    displayColors: false,
+                    backgroundColor: '#222222',
+                    padding: 10,
+                    cornerRadius: 5,
+                    intersect: false,
+                  },
                 },
                 scales: {
-                  yAxes: [
-                    {
-                      gridLines: {
-                        color: 'rgba(127, 127, 127, 0.2)',
-                      },
-                      scaleLabel: {
-                        display: true,
-                        labelString: 'Operations per second',
-                      },
-                      ticks: {
-                        beginAtZero: true,
-                        callback: format,
-                      },
+                  y: {
+                    title: {
+                      display: true,
+                      text: 'Operations per second',
+                      padding: 10,
                     },
-                  ],
-                  xAxes: [
-                    {
-                      gridLines: {
-                        color: 'rgba(127, 127, 127, 0.2)',
-                      },
-                      maxBarThickness: 150,
-                    },
-                  ],
+                  }
                 },
               },
             })
           </script>
         </body>
       </html>
-  `,
+    `,
     { parser: 'html' },
   )
 }
