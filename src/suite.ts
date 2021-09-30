@@ -20,7 +20,7 @@ const suite: SuiteFn = async (name, ...entries) => {
   ) as PartialMethod[]
 
   const configResult = entries.find(
-    (x) => x.name === 'config',
+    (entry) => entry.name === 'config',
   ) as ConfigureResult
 
   const config = configResult ? configResult.entries : {}
