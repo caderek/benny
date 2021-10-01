@@ -1,7 +1,7 @@
 import * as csvReader from 'csvtojson'
 import * as fs from 'fs-extra'
 import { JSDOM } from 'jsdom'
-import { add, complete, cycle, save, suite } from './index'
+import { add, complete, configure, cycle, save, suite } from './index'
 import { CaseResult, CSVContent, Summary } from './internal/common-types'
 
 const TIMEOUT = 30000
@@ -342,38 +342,18 @@ describe('suite', () => {
   )
 
   it(
-    'Returns a Promise with the array of results - custom options',
+    'Returns a Promise with the array of results - default options',
     async () => {
       const summary = await suite(
-        'Example 8',
+        'Example 7',
 
-        add(
-          'First',
-          () => {
-            ;[1, 2].reduce((a, b) => a + b)
-          },
-          {
-            delay: 0.01,
-            initCount: 2,
-            maxTime: 4,
-            minSamples: 4,
-            minTime: 0.06,
-          },
-        ),
+        add('First', () => {
+          ;[1, 2].reduce((a, b) => a + b)
+        }),
 
-        add(
-          'Second',
-          () => {
-            ;[1, 2, 3, 4, 5].reduce((a, b) => a + b)
-          },
-          {
-            delay: 0.02,
-            initCount: 3,
-            maxTime: 3,
-            minSamples: 6,
-            minTime: 0.07,
-          },
-        ),
+        add('Second', () => {
+          ;[1, 2, 3, 4, 5].reduce((a, b) => a + b)
+        }),
 
         cycle(),
         complete(),
@@ -394,21 +374,21 @@ describe('suite', () => {
       expect(results[0].name).toEqual('First')
       expect(results[0].promise).toEqual(false)
       expect(typeof results[0].samples).toEqual('number')
-      expect(results[0].options.delay).toEqual(0.01)
-      expect(results[0].options.initCount).toEqual(2)
-      expect(results[0].options.minTime).toEqual(0.06)
-      expect(results[0].options.maxTime).toEqual(4)
-      expect(results[0].options.minSamples).toEqual(4)
+      expect(results[0].options.delay).toEqual(0.005)
+      expect(results[0].options.initCount).toEqual(1)
+      expect(results[0].options.minTime).toEqual(0.05)
+      expect(results[0].options.maxTime).toEqual(5)
+      expect(results[0].options.minSamples).toEqual(5)
 
       expect(typeof results[1].ops).toEqual('number')
       expect(results[1].name).toEqual('Second')
       expect(results[1].promise).toEqual(false)
       expect(typeof results[1].samples).toEqual('number')
-      expect(results[1].options.delay).toEqual(0.02)
-      expect(results[1].options.initCount).toEqual(3)
-      expect(results[1].options.minTime).toEqual(0.07)
-      expect(results[1].options.maxTime).toEqual(3)
-      expect(results[1].options.minSamples).toEqual(6)
+      expect(results[1].options.delay).toEqual(0.005)
+      expect(results[1].options.initCount).toEqual(1)
+      expect(results[1].options.minTime).toEqual(0.05)
+      expect(results[1].options.maxTime).toEqual(5)
+      expect(results[1].options.minSamples).toEqual(5)
     },
     TIMEOUT,
   )
@@ -852,6 +832,85 @@ describe('suite', () => {
 
       expect(resultBOps).toBeGreaterThan(resultAOps)
       expect(resultCOps).toBeGreaterThan(resultBOps)
+    },
+    TIMEOUT,
+  )
+
+  it(
+    'Works with `configure` method - custom precision',
+    async () => {
+      const summary = await suite(
+        'Example 21',
+
+        add('Example', () => {
+          ;[1, 2].reduce((a, b) => a + b)
+        }),
+
+        configure({ minDisplayPrecision: 3 }),
+        cycle(),
+        complete(),
+      )
+
+      const { results, date } = summary
+
+      expect(date).toBeInstanceOf(Date)
+      expect(results).toBeInstanceOf(Array)
+      expect(results.length).toEqual(1)
+
+      const [_, fraction] = String(results[0].ops).split('.')
+
+      expect(typeof results[0].ops).toEqual('number')
+      expect(fraction.length).toEqual(3)
+      expect(results[0].name).toEqual('Example')
+      expect(results[0].promise).toEqual(false)
+      expect(typeof results[0].samples).toEqual('number')
+    },
+    TIMEOUT,
+  )
+
+  it(
+    'Works with `configure` method - general case options',
+    async () => {
+      const summary = await suite(
+        'Example 22',
+
+        add(
+          'Example',
+          () => {
+            ;[1, 2].reduce((a, b) => a + b)
+          },
+          { maxTime: 1, minSamples: 10 },
+        ),
+
+        configure({
+          cases: {
+            maxTime: 2,
+            minSamples: 7,
+            minTime: 0.7,
+            delay: 0.1,
+            initCount: 2,
+          },
+        }),
+
+        cycle(),
+        complete(),
+      )
+
+      const { results, date } = summary
+
+      expect(date).toBeInstanceOf(Date)
+      expect(results).toBeInstanceOf(Array)
+      expect(results.length).toEqual(1)
+
+      expect(typeof results[0].ops).toEqual('number')
+      expect(results[0].name).toEqual('Example')
+      expect(results[0].promise).toEqual(false)
+      expect(typeof results[0].samples).toEqual('number')
+      expect(results[0].options.delay).toEqual(0.1)
+      expect(results[0].options.initCount).toEqual(2)
+      expect(results[0].options.minTime).toEqual(0.7)
+      expect(results[0].options.maxTime).toEqual(1)
+      expect(results[0].options.minSamples).toEqual(10)
     },
     TIMEOUT,
   )
