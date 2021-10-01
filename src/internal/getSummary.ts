@@ -20,7 +20,7 @@ const roundNumbersToDistinctValues = (
     : roundNumbersToDistinctValues(numbers, precision + 1)
 }
 
-const getSummary: GetSummary = (event, precision = 0) => {
+const getSummary: GetSummary = (event, precision) => {
   const currentTarget = event.currentTarget
 
   const resultsWithoutRoundedOps = Object.entries(currentTarget)
