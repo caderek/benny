@@ -6,7 +6,7 @@ type GetSummary = (event: Event, precision: number) => Summary
 
 const roundNumbersToDistinctValues = (
   numbers: number[],
-  precision: number = 0,
+  precision: number,
 ): number[] => {
   const rounded = numbers.map((num) => {
     return Math.round(num * 10 ** precision) / 10 ** precision
