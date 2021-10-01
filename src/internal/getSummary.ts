@@ -1,5 +1,5 @@
 import { Event } from 'benchmark'
-import { Summary, CaseResult } from './common-types'
+import { Summary } from './common-types'
 import getCaseResult from './getCaseResult'
 
 type GetSummary = (event: Event, precision: number) => Summary
