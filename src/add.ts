@@ -78,37 +78,41 @@ type Add = {
 /**
  * Adds a benchmark case
  */
-const add: Add = (caseName, test, options = {}) => async (config) => {
-  const { rawTest, defer } = await prepareCaseFn(test)
+const add: Add =
+  (caseName, test, options = {}) =>
+  async (config) => {
+    const { rawTest, defer } = await prepareCaseFn(test)
 
-  const defaultOptions = config.cases ?? {}
-  const cfg = { ...defaultOptions, ...options }
+    const defaultOptions = config.cases ?? {}
+    const cfg = { ...defaultOptions, ...options }
 
-  const fn = (suiteObj: Suite) => {
-    suiteObj.add(caseName, rawTest, { ...cfg, defer })
-    return suiteObj
+    const fn = (suiteObj: Suite) => {
+      suiteObj.add(caseName, rawTest, { ...cfg, defer })
+      return suiteObj
+    }
+
+    Object.defineProperty(fn, 'name', { value: 'add' })
+
+    return fn
   }
 
-  Object.defineProperty(fn, 'name', { value: 'add' })
+add.only =
+  (caseName, test, options = {}) =>
+  async (config) => {
+    const { rawTest, defer } = await prepareCaseFn(test)
 
-  return fn
-}
+    const defaultOptions = config.cases ?? {}
+    const cfg = { ...defaultOptions, ...options }
 
-add.only = (caseName, test, options = {}) => async (config) => {
-  const { rawTest, defer } = await prepareCaseFn(test)
+    const fn = (suiteObj: Suite) => {
+      suiteObj.add(caseName, rawTest, { ...cfg, defer })
+      return suiteObj
+    }
 
-  const defaultOptions = config.cases ?? {}
-  const cfg = { ...defaultOptions, ...options }
+    Object.defineProperty(fn, 'name', { value: 'only' })
 
-  const fn = (suiteObj: Suite) => {
-    suiteObj.add(caseName, rawTest, { ...cfg, defer })
-    return suiteObj
+    return fn
   }
-
-  Object.defineProperty(fn, 'name', { value: 'only' })
-
-  return fn
-}
 
 add.skip = (...args) => ({ name: 'skip' })
 

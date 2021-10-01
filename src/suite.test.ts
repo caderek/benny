@@ -710,8 +710,6 @@ describe('suite', () => {
 
       const { document } = new JSDOM(content).window
 
-      const table = document.querySelector('table')
-
       expect(document.title).toEqual('Example 17')
       expect(document.querySelectorAll('tr').length).toEqual(3)
       expect(document.querySelectorAll('th').length).toEqual(4)
@@ -752,8 +750,6 @@ describe('suite', () => {
       const content = fs.readFileSync(`benchmark/results/${file}`).toString()
 
       const { document } = new JSDOM(content).window
-
-      const table = document.querySelector('table')
 
       expect(document.title).toEqual('Example 18')
       expect(document.querySelectorAll('tr').length).toEqual(3)
