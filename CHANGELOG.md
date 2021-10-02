@@ -129,3 +129,10 @@ Initial release.
 
 - Updated dependencies
 - Fixed precision issues for slow cases
+
+## 3.7.0
+
+- Updated dependencies
+- Added `configure` function (default case options, custom results precision)
+- Improved `chart.html` generation (resizable chart, color-coded cases)
+- Fixed bug in async case with sync setup

@@ -98,16 +98,17 @@ Running "Example" suite...
 Progress: 100%
 
   Reduce two elements:
-    153 067 277 ops/s, ±0.11%   | fastest
+    213 985 744 ops/s, ±0.61%   | fastest
 
   Reduce five elements:
-    119 100 958 ops/s, ±1.86%   | slowest, 22.19% slower
+    109 395 371 ops/s, ±0.66%   | slowest, 48.88% slower
 
 Finished 2 cases!
   Fastest: Reduce two elements
   Slowest: Reduce five elements
 
 Saved to: benchmark/results/reduce.json
+
 Saved to: benchmark/results/reduce.chart.html
 ```
 
@@ -118,20 +119,20 @@ JSON file content:
 ```json
 {
   "name": "Example",
-  "date": "2019-10-08T22:46:16.945Z",
+  "date": "2021-10-02T03:00:10.907Z",
   "version": "1.0.0",
   "results": [
     {
       "name": "Reduce two elements",
-      "ops": 154214403,
-      "margin": 0.49,
+      "ops": 213985744,
+      "margin": 0.61,
       "percentSlower": 0
     },
     {
       "name": "Reduce five elements",
-      "ops": 121592526,
+      "ops": 109395371,
       "margin": 0.66,
-      "percentSlower": 21.15
+      "percentSlower": 48.88
     }
   ],
   "fastest": {
@@ -152,44 +153,13 @@ Note: If you use the `{ details: true }` option in your save function, you will 
 <pre lang="json">
 {
   "name": "Example",
-  "date": "2019-10-05T21:27:31.499Z",
+  "date": "2021-10-02T03:29:32.520Z",
   "version": "1.0.0",
   "results": [
     {
       "name": "Reduce two elements",
-      "ops": 155698721,
-      "margin": 0.26,
-      "options": {
-        "delay": 0.005,
-        "initCount": 1,
-        "minTime": 0.05,
-        "maxTime": 5,
-        "minSamples": 5
-      },
-      "samples": 93,
-      "promise": false,
-      "details": {
-        "min": 6.322384196242101e-9,
-        "max": 6.782332376525101e-9,
-        "mean": 6.422660356853871e-9,
-        "median": 6.4097083823166475e-9,
-        "standardDeviation": 8.128639309933352e-11,
-        "marginOfError": 1.6520852364243977e-11,
-        "relativeMarginOfError": 0.25722755752783866,
-        "standardErrorOfMean": 8.429006308287744e-12,
-        "sampleVariance": 6.6074777030993775e-21,
-        "sampleResults": [
-          6.322384196242101e-9,
-          ...other 
-        ]
-      },
-      "completed": true,
-      "percentSlower": 0
-    },
-    {
-      "name": "Reduce five elements",
-      "ops": 124826929,
-      "margin": 0.44,
+      "ops": 213928866,
+      "margin": 0.68,
       "options": {
         "delay": 0.005,
         "initCount": 1,
@@ -200,22 +170,53 @@ Note: If you use the `{ details: true }` option in your save function, you will 
       "samples": 92,
       "promise": false,
       "details": {
-        "min": 7.883575368181068e-9,
-        "max": 9.165871289977022e-9,
-        "mean": 8.011091926762444e-9,
-        "median": 7.975875391687402e-9,
-        "standardDeviation": 1.7083049955895464e-10,
-        "marginOfError": 3.4908209088240544e-11,
-        "relativeMarginOfError": 0.43574845236294957,
-        "standardErrorOfMean": 1.78103107593064e-11,
-        "sampleVariance": 2.9183059579562e-20,
+        "min": 4.430438606424907e-9,
+        "max": 5.0581801724029255e-9,
+        "mean": 4.6744509956552405e-9,
+        "median": 4.656646139027003e-9,
+        "standardDeviation": 1.5617421028409467e-10,
+        "marginOfError": 3.191328246925009e-11,
+        "relativeMarginOfError": 0.6827172324389006,
+        "standardErrorOfMean": 1.628228697410719e-11,
+        "sampleVariance": 2.439038395786062e-20,
         "sampleResults": [
-          7.883575368181068e-9,
+          4.430438606424907e-9,
           ...other 
         ]
       },
       "completed": true,
-      "percentSlower": 19.83
+      "percentSlower": 0
+    },
+    {
+      "name": "Reduce five elements",
+      "ops": 109203399,
+      "margin": 0.92,
+      "options": {
+        "delay": 0.005,
+        "initCount": 1,
+        "minTime": 0.05,
+        "maxTime": 5,
+        "minSamples": 5
+      },
+      "samples": 90,
+      "promise": false,
+      "details": {
+        "min": 8.963947485831316e-9,
+        "max": 1.2164955890034665e-8,
+        "mean": 9.15722416437813e-9,
+        "median": 9.072483556407842e-9,
+        "standardDeviation": 4.0880731896036814e-10,
+        "marginOfError": 8.446046713469782e-11,
+        "relativeMarginOfError": 0.9223370053913447,
+        "standardErrorOfMean": 4.309207506872338e-11,
+        "sampleVariance": 1.6712342403556417e-19,
+        "sampleResults": [
+          8.963947485831316e-9,
+          ...other 
+        ]
+      },
+      "completed": true,
+      "percentSlower": 48.95
     }
   ],
   "fastest": {
@@ -310,6 +311,37 @@ suite(
    * By default, it pretty-prints a simple summary.
    */
   complete(),
+
+  /**
+   * This will set the config for the whole suite.
+   *
+   * All entries are optional.
+   */
+  configure({
+    /**
+     * Benchmark options for every case.
+     *
+     * Can be overridden by each individual case (as a third parameter to the `add` method).
+     *
+     * See: "Tweaking benchmarks" section.
+     */
+    cases: {
+      ...optionsForEveryTestCase,
+    },
+    /**
+     * Other general setting for the whole suite.
+     */
+
+    /**
+     * The minimum precision (decimal places) of the results displayed
+     * by the default `cycle`, `complete` and `save` functions.
+     *
+     * This precision will be automatically increased if needed.
+     *
+     * Default: 0 (no decimal places, unless required to differentiate cases)
+     */
+    minDisplayPrecision: 2,
+  }),
 
   /**
    * This will save the results to a file.
@@ -547,6 +579,14 @@ _Note: If you look closely, because of the `async` keyword, the last two example
 
 If the default results are not optimal (high error margin, etc.), you can change parameters for each case by providing an options object as a third parameter to the `add` function.
 
+You can also provide non-default, general settings for every case under `cases` key in the `configure` function.
+
+Priority of the options:
+
+1. options passed to the `add` function,
+2. options passed to the `configure` function,
+3. library defaults
+
 Available options:
 
 ```typescript
@@ -629,15 +669,17 @@ If you have many cases, where default benchmarking options are not optimal, you 
  * a different name - that would be a better approach
  * if you want to use a decorated version only in some cases.
  */
-const { add: rawAdd } = require('benny')
+const { add } = require('benny')
 
-const add = (caseName, fn) =>
+const customAdd = (caseName, fn) =>
   rawAdd(caseName, fn, {
     /* custom options */
   })
 ```
 
 You can now use this new function instead of the original version in your benchmark suite.
+
+_TIP: If you want to provide custom options for every case in the suite, you can use `configure` function instead of this._
 
 ### Reusing handlers
 

@@ -185,9 +185,9 @@ const prepareHTMLChart = (summary: Summary) => {
                     data: ${JSON.stringify(values)},
                     backgroundColor: ${JSON.stringify(prepareColors(percents))},
                     borderColor: ${JSON.stringify(prepareColors(percents))},
-                    borderWidth: 2,
-                  },
-                ],
+                    borderWidth: 2
+                  }
+                ]
               },
               options: {
                 maintainAspectRatio: false,
@@ -196,34 +196,42 @@ const prepareHTMLChart = (summary: Summary) => {
                     display: true,
                     text: '${summary.name}',
                     font: { size: 20 },
-                    padding: 20,
+                    padding: 20
                   },
                   legend: {
-                    display: false,
+                    display: false
                   },
                   tooltip: {
                     callbacks: {
                       label: (context) => {
                         return format(context.parsed.y) + ' ops/s'
-                      },
+                      }
                     },
                     displayColors: false,
                     backgroundColor: '#222222',
                     padding: 10,
                     cornerRadius: 5,
-                    intersect: false,
-                  },
+                    intersect: false
+                  }
                 },
                 scales: {
+                  x: {
+                    grid: {
+                      color: '#888888'
+                    }
+                  },
                   y: {
                     title: {
                       display: true,
                       text: 'Operations per second',
-                      padding: 10,
+                      padding: 10
                     },
+                    grid: {
+                      color: '#888888'
+                    }
                   }
-                },
-              },
+                }
+              }
             })
           </script>
         </body>
