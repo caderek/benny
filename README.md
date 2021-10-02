@@ -5,6 +5,7 @@
 ![David](https://img.shields.io/david/caderek/benny)
 ![Codecov](https://img.shields.io/codecov/c/github/caderek/benny)
 ![GitHub](https://img.shields.io/github/license/caderek/benny)
+![Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/npm/benny)
 
 ![Example](https://raw.githubusercontent.com/caderek/benny/master/benny.gif)
 
