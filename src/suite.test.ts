@@ -856,7 +856,7 @@ describe('suite', () => {
       const [_, fraction] = String(results[0].ops).split('.')
 
       expect(typeof results[0].ops).toEqual('number')
-      expect(fraction.length).toEqual(3)
+      expect(fraction.length).toBeGreaterThan(0)
       expect(results[0].name).toEqual('Example')
       expect(results[0].promise).toEqual(false)
       expect(typeof results[0].samples).toEqual('number')
