@@ -1,20 +1,20 @@
 {
   "name": "benny-examples",
-  "version": "1.0.0",
+  "version": "3.7.0",
   "description": "Benny benchmark examples",
   "author": "Maciej Cąderek",
   "license": "ISC",
   "dependencies": {
     "@arrows/array": "^1.0.0",
     "@arrows/composition": "^1.0.0",
-    "benny": "^3.6.15",
+    "benny": "^3.7.0",
     "clone": "^2.1.2",
     "clone-deep": "^4.0.1",
-    "immer": "^4.0.0",
+    "immer": "^9.0.6",
     "immutable": "^4.0.0-rc.12",
     "lodash": "^4.17.15",
-    "rambda": "^3.2.0",
-    "ramda": "^0.26.1",
+    "rambda": "^6.9.0",
+    "ramda": "^0.27.1",
     "rfdc": "^1.1.4",
     "transmutable": "^0.17.0"
   }

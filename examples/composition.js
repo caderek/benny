@@ -26,22 +26,19 @@ module.exports = suite(
   }),
 
   add('@arrows', () => {
-    pipe(
-      A.filter(isOdd),
-      A.map(triple),
-      A.reduce(sum, 0),
-    )(initialArr)
+    pipe(A.filter(isOdd), A.map(triple), A.reduce(sum, 0))(initialArr)
   }),
 
   add('lodash/fp', () => {
-    _.pipe(
-      _.filter(isOdd),
-      _.map(triple),
-      _.reduce(sum, 0),
-    )(initialArr)
+    _.pipe(_.filter(isOdd), _.map(triple), _.reduce(sum, 0))(initialArr)
   }),
 
   cycle(),
   complete(),
   save({ file: 'composition', folder: path.join(__dirname, 'results') }),
+  save({
+    file: 'composition',
+    format: 'chart.html',
+    folder: path.join(__dirname, 'results'),
+  }),
 )
