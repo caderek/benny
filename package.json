@@ -36,6 +36,9 @@
     "setup"
   ],
   "author": "Maciej Cąderek",
+  "engines": {
+    "node": ">=12"
+  },
   "scripts": {
     "build": "tsc",
     "test": "jest",
