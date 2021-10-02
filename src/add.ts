@@ -17,8 +17,10 @@ const prepareCaseFn = async (test: Test) => {
   const returnType = getType(test())
 
   if (returnType === types.Function && getType(test()()) === types.Promise) {
+    const content = test()
+
     return {
-      rawTest: (deferred: Deferred) => test()().then(() => deferred.resolve()),
+      rawTest: (deferred: Deferred) => content().then(() => deferred.resolve()),
       defer: true,
     }
   }
