@@ -11,7 +11,7 @@
     "clone": "^2.1.2",
     "clone-deep": "^4.0.1",
     "immer": "^9.0.6",
-    "immutable": "^4.0.0-rc.12",
+    "immutable": "^4.0.0-rc.15",
     "lodash": "^4.17.15",
     "rambda": "^6.9.0",
     "ramda": "^0.27.1",
