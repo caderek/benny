@@ -9,4 +9,3 @@ coverage
 benchmark
 examples/results
 examples/yarn.lock
-src/bench

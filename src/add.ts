@@ -1,13 +1,11 @@
 import getType from '@arrows/dispatch/getType'
 import types from '@arrows/dispatch/types'
 import { Suite } from 'benchmark'
-import { Options, Config } from './internal/common-types'
+import { Options, Config, Test } from './internal/common-types'
 
 type SkipResult = {
   name: 'skip'
 }
-
-type Test = () => any | Test
 
 type Deferred = {
   resolve(): void

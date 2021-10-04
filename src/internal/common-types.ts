@@ -224,3 +224,30 @@ export type Target = {
 }
 
 export type CSVContent = CSVEntry[]
+
+export type Test = () => any | Test
+
+export type BenchmarkOptions = {
+  minSamples?: number
+  minTime?: bigint
+  maxTime?: bigint
+  maxMargin?: number
+}
+
+export type FullBenchmarkOptions = {
+  minSamples: number
+  minTime: bigint
+  maxTime: bigint
+  maxMargin: number
+}
+
+export type BenchmarkResult = {
+  name: string
+  stats: {
+    ops: number
+    n: number
+    mean: number
+    margin: number
+  }
+  time: number
+}
