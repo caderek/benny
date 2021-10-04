@@ -1,18 +1,18 @@
 import runningStats from './stats/runningStats'
+import detectTimerResolution from './detectTimerResolution'
 import {
   Test,
   BenchmarkOptions,
   FullBenchmarkOptions,
   BenchmarkResult,
 } from '../internal/common-types'
-import { RSA_NO_PADDING } from 'constants'
 
 const MIN_USEFUL_SAMPLES = 2
 
 const defaultOptions: BenchmarkOptions = {
   minSamples: 1000,
-  minTime: 5000000000n,
-  maxTime: 300000000000n,
+  minTime: 5,
+  maxTime: 30,
   maxMargin: 1,
 }
 
@@ -27,77 +27,7 @@ const measureBrowser = (test: Test) => {
   const t0 = performance.now()
   test()
   const t1 = performance.now()
-  return (t1 - t0) * 1000000
-}
-
-const detect = () => {
-  const getSample = () => {
-    const t0 = performance.now()
-    while (true) {
-      const t1 = performance.now()
-      if (t0 !== t1) {
-        return Number(t1 - t0)
-      }
-    }
-  }
-
-  const rs = runningStats()
-
-  let stats = { n: 0, mean: 0, margin: Infinity }
-
-  while (stats.margin > 1 || stats.n < 100) {
-    rs(getSample())
-  }
-
-  return stats
-}
-
-const detectTimerResolution = () => {
-  const getSample = () => {
-    const t0 = performance.now()
-    while (true) {
-      const t1 = performance.now()
-      if (t0 !== t1) {
-        return t1 - t0
-      }
-    }
-  }
-
-  let samples = []
-
-  for (let i = 0; i < 1000; i++) {
-    samples.push(getSample())
-  }
-
-  samples.sort((a, b) => a - b)
-
-  const median = (samples[499] + samples[500]) / 2
-
-  return median
-}
-
-const detectNodeTimerResolution = () => {
-  const getSample = () => {
-    const t0 = process.hrtime.bigint()
-    while (true) {
-      const t1 = process.hrtime.bigint()
-      if (t0 !== t1) {
-        return t1 - t0
-      }
-    }
-  }
-
-  let samples = []
-
-  for (let i = 0; i < 1000; i++) {
-    samples.push(getSample())
-  }
-
-  samples.sort((a, b) => (a > b ? 1 : -1))
-
-  const median = (samples[499] + samples[500]) / 2n
-
-  return median
+  return (t1 - t0) * 1e6
 }
 
 const getTimer = () => {
@@ -106,12 +36,17 @@ const getTimer = () => {
 
   if (isNode) {
     if (process?.hrtime?.bigint) {
+      let start: bigint
+
       return {
         measure: measureNode,
-        sec: process.hrtime.bigint,
-        since(start: bigint) {
-          return this.sec() - start
+        init() {
+          start = process.hrtime.bigint()
         },
+        since() {
+          return Number(process.hrtime.bigint() - start) / 1e9
+        },
+        resolution: detectTimerResolution(isNode),
         isNode,
       }
     }
@@ -120,12 +55,17 @@ const getTimer = () => {
   }
 
   if (isModernBrowser) {
+    let start: number
+
     return {
       measure: measureBrowser,
-      now: performance.now.bind(performance),
-      since(start: number) {
-        return this.now() - start
+      init() {
+        start = performance.now()
       },
+      since() {
+        return (performance.now() - start) / 1e3
+      },
+      resolution: detectTimerResolution(isNode),
       isNode,
     }
   }
@@ -144,11 +84,12 @@ const bench = async (
   const opt = { ...defaultOptions, ...options } as FullBenchmarkOptions
 
   let stats = { n: 0, mean: 0, margin: Infinity }
-  let benchStart = timer.now()
-  let benchTime = 0n
+  let benchTime = 0
+
+  timer.init()
 
   while (true) {
-    benchTime = timer.since(benchStart)
+    benchTime = timer.since()
 
     if (
       (benchTime > opt.maxTime ||
@@ -165,10 +106,12 @@ const bench = async (
     stats = rs(Number(time))
   }
 
+  console.log({ mean: stats.mean, res: timer.resolution })
+
   return {
     name,
     stats: { ...stats, ops: 1000000000 / stats.mean },
-    time: Number(benchTime / 1000000n) / 1000,
+    time: benchTime,
   }
 }
 

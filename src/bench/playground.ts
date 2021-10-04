@@ -33,7 +33,7 @@ const display = ({ name, stats, time }: BenchmarkResult) => {
   console.log(
     `${format(Number(stats.ops.toFixed(2)))} ops/s ±${stats.margin.toFixed(
       2,
-    )}% (${format(stats.n)} samples in ${time}s)\n`,
+    )}% (${format(stats.n)} samples in ${time.toFixed(2)}s)\n`,
   )
 }
 
@@ -42,14 +42,14 @@ const main = async () => {
 
   const options = {
     minSamples: 1000,
-    minTime: 5000000000n,
-    maxTime: 30000000000n,
+    minTime: 5,
+    maxTime: 30,
     maxMargin: 1,
   }
 
   console.log(`Platform: ${platform.description}\n`)
 
-  // await bench("empty", () => {}, options).then(display)
+  await bench('empty', () => {}, options).then(display)
 
   await bench(
     'sum',

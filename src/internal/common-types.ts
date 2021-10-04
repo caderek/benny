@@ -229,15 +229,15 @@ export type Test = () => any | Test
 
 export type BenchmarkOptions = {
   minSamples?: number
-  minTime?: bigint
-  maxTime?: bigint
+  minTime?: number
+  maxTime?: number
   maxMargin?: number
 }
 
 export type FullBenchmarkOptions = {
   minSamples: number
-  minTime: bigint
-  maxTime: bigint
+  minTime: number
+  maxTime: number
   maxMargin: number
 }
 
