@@ -41,7 +41,7 @@
   },
   "scripts": {
     "build": "tsc && yarn run build:browser",
-    "build:browser": "esbuild lib/bench/playground.js --bundle --outfile=lib/browser.js",
+    "build:browser": "esbuild lib/bench/bench.js --bundle --outfile=lib/browser.js",
     "test": "jest",
     "coverage": "jest --coverage && codecov",
     "lint": "eslint 'src/**/*.ts'",

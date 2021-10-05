@@ -1,5 +1,6 @@
-import { BenchmarkResult } from './../internal/common-types'
+import { BenchmarkResult } from '../internal/common-types'
 import * as platform from 'platform'
+import noop from './tools/noop'
 import bench from './bench'
 // const v8 = require("v8")
 // const vm = require("vm")
@@ -29,11 +30,16 @@ const format = (num: number) => {
 }
 
 const display = ({ name, stats, time }: BenchmarkResult) => {
+  const ops =
+    stats.ops === Infinity ? 'MAX' : format(Number(stats.ops.toFixed(2)))
+  const margin =
+    stats.margin === Infinity ? '' : `±${stats.margin.toFixed(2)}% `
+
   console.log(`Custom - ${name}:`)
   console.log(
-    `${format(Number(stats.ops.toFixed(2)))} ops/s ±${stats.margin.toFixed(
+    `${ops} ops/s ${margin}(${format(stats.n)} samples in ${time.toFixed(
       2,
-    )}% (${format(stats.n)} samples in ${time.toFixed(2)}s)\n`,
+    )}s)\n`,
   )
 }
 
@@ -46,6 +52,8 @@ const main = async () => {
     maxTime: 30,
     maxMargin: 1,
   }
+
+  console.log({ noop })
 
   console.log(`Platform: ${platform.description}\n`)
 

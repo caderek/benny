@@ -1,11 +1,13 @@
 import runningStats from './stats/runningStats'
-import detectTimerResolution from './detectTimerResolution'
+import timer from './tools/timer'
 import {
   Test,
   BenchmarkOptions,
   FullBenchmarkOptions,
   BenchmarkResult,
 } from '../internal/common-types'
+import noop from './tools/noop'
+import isNode from './tools/isNode'
 
 const MIN_USEFUL_SAMPLES = 2
 
@@ -15,65 +17,6 @@ const defaultOptions: BenchmarkOptions = {
   maxTime: 30,
   maxMargin: 1,
 }
-
-const measureNode = (test: Test) => {
-  const t0 = process.hrtime.bigint()
-  test()
-  const t1 = process.hrtime.bigint()
-  return Number(t1 - t0)
-}
-
-const measureBrowser = (test: Test) => {
-  const t0 = performance.now()
-  test()
-  const t1 = performance.now()
-  return (t1 - t0) * 1e6
-}
-
-const getTimer = () => {
-  const isNode = typeof process !== 'undefined'
-  const isModernBrowser = typeof performance !== 'undefined'
-
-  if (isNode) {
-    if (process?.hrtime?.bigint) {
-      let start: bigint
-
-      return {
-        measure: measureNode,
-        init() {
-          start = process.hrtime.bigint()
-        },
-        since() {
-          return Number(process.hrtime.bigint() - start) / 1e9
-        },
-        resolution: detectTimerResolution(isNode),
-        isNode,
-      }
-    }
-
-    throw new Error('Unsupported Node version (< v10.7.0)')
-  }
-
-  if (isModernBrowser) {
-    let start: number
-
-    return {
-      measure: measureBrowser,
-      init() {
-        start = performance.now()
-      },
-      since() {
-        return (performance.now() - start) / 1e3
-      },
-      resolution: detectTimerResolution(isNode),
-      isNode,
-    }
-  }
-
-  throw new Error('Unsupported browser')
-}
-
-const timer = getTimer()
 
 const bench = async (
   name: string,
@@ -103,14 +46,22 @@ const bench = async (
     }
 
     const time = timer.measure(test)
+
     stats = rs(Number(time))
   }
 
   console.log({ mean: stats.mean, res: timer.resolution })
 
+  if (stats.mean <= noop.boundary) {
+    stats.mean = 0
+    stats.margin = Infinity
+  }
+
+  const ops = isNode ? 1000000000 / stats.mean : 1000 / stats.mean
+
   return {
     name,
-    stats: { ...stats, ops: 1000000000 / stats.mean },
+    stats: { ...stats, ops },
     time: benchTime,
   }
 }
