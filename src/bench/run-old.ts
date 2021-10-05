@@ -9,19 +9,19 @@ const main = async () => {
   b.suite(
     'Old',
 
-    // b.add('empty', () => {}),
+    b.add('noop', () => {}),
 
-    // b.add('sum', () => {
-    //   1 + 1
-    // }),
+    b.add('sum', () => {
+      1 + 1
+    }),
 
-    // b.add('sum 2 elements', () => {
-    //   ;[1, 2].reduce((a, b) => a + b)
-    // }),
+    b.add('sum 2 elements', () => {
+      ;[1, 2].reduce((a, b) => a + b)
+    }),
 
-    // b.add('sum 5 elements', () => {
-    //   ;[1, 2, 3, 4, 5].reduce((a, b) => a + b)
-    // }),
+    b.add('sum 5 elements', () => {
+      ;[1, 2, 3, 4, 5].reduce((a, b) => a + b)
+    }),
 
     b.add(
       `sum ${data.length} elements`,
