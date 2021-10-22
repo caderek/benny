@@ -139,4 +139,4 @@ Initial release.
 
 ## 3.7.1
 
-- Removed prettier from main lib
+- Removed prettier as a dependency
