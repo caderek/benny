@@ -136,3 +136,7 @@ Initial release.
 - Added `configure` function (default case options, custom results precision)
 - Improved `chart.html` generation (resizable chart, color-coded cases)
 - Fixed bug in async case with sync setup
+
+## 3.7.1
+
+- Removed prettier from dependencies

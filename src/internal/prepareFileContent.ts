@@ -1,6 +1,5 @@
 import { method, multi } from '@arrows/multimethod'
 import { parse } from 'json2csv'
-import { format } from 'prettier'
 import { CaseResultWithDiff, SaveOptions, Summary } from './common-types'
 
 const flattenResults = (results: CaseResultWithDiff[]) => {
@@ -73,8 +72,7 @@ const prepareHTMLTable = (summary: Summary, options: SaveOptions) => {
     })
     .join('')
 
-  return format(
-    `
+  return `
       <!DOCTYPE html>
       <html lang="en">
         <head>
@@ -99,9 +97,7 @@ const prepareHTMLTable = (summary: Summary, options: SaveOptions) => {
           </table>
         </body>
       </html>
-    `,
-    { parser: 'html' },
-  )
+    `
 }
 
 const prepareColors = (percents: number[]) => {
@@ -117,8 +113,7 @@ const prepareHTMLChart = (summary: Summary) => {
   const percents = summary.results.map((result) => result.percentSlower)
   const suffix = summary.date.getTime()
 
-  return format(
-    `
+  return `
       <!DOCTYPE html>
       <html lang="en">
         <head>
@@ -236,9 +231,7 @@ const prepareHTMLChart = (summary: Summary) => {
           </script>
         </body>
       </html>
-    `,
-    { parser: 'html' },
-  )
+    `
 }
 
 const prepareFileContent = multi(
