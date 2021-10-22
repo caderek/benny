@@ -2,7 +2,6 @@
 
 ![npm](https://img.shields.io/npm/v/benny)
 ![CircleCI](https://img.shields.io/circleci/build/github/caderek/benny)
-![David](https://img.shields.io/david/caderek/benny)
 ![Codecov](https://img.shields.io/codecov/c/github/caderek/benny)
 ![Snyk Vulnerabilities for npm package](https://img.shields.io/snyk/vulnerabilities/npm/benny)
 ![GitHub](https://img.shields.io/github/license/caderek/benny)
