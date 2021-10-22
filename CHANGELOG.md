@@ -139,4 +139,4 @@ Initial release.
 
 ## 3.7.1
 
-- Removed prettier as a dependency
+- Replaced prettier with common-tags for formatting generated HTML
