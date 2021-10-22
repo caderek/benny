@@ -82,7 +82,7 @@ const prepareHTMLTable = (summary: Summary, options: SaveOptions) => {
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta http-equiv="X-UA-Compatible" />
-        <title>Benny: ${summary.name}</title>
+        <title>${summary.name}</title>
       </head>
       <body>
         <table>
