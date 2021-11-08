@@ -12,5 +12,5 @@ const configure: Configure = (config) => ({
   entries: config,
 })
 
-export { ConfigureResult }
+export { configure, Configure, ConfigureResult }
 export default configure

@@ -49,5 +49,5 @@ const suite: SuiteFn = async (name, ...entries) => {
   })
 }
 
-export { suite }
+export { suite, SuiteFn, Entry }
 export default suite

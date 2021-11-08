@@ -36,5 +36,5 @@ const complete: Complete = (fn = defaultComplete) => async (config) => (
   return suiteObj
 }
 
-export { complete, Complete }
+export { complete, Complete, CompleteFn }
 export default complete
