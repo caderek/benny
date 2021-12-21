@@ -672,7 +672,7 @@ If you have many cases, where default benchmarking options are not optimal, you 
 const { add } = require('benny')
 
 const customAdd = (caseName, fn) =>
-  rawAdd(caseName, fn, {
+  add(caseName, fn, {
     /* custom options */
   })
 ```
