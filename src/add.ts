@@ -118,5 +118,5 @@ add.only =
 
 add.skip = (...args) => ({ name: 'skip' })
 
-export { add, Add, SkipResult }
+export { add, Add, SkipResult, Deferred }
 export default add

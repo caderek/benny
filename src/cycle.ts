@@ -88,5 +88,5 @@ const cycle: Cycle = (fn = defaultCycle) => async (config) => (suiteObj) => {
   return suiteObj
 }
 
-export { cycle, Cycle }
+export { cycle, Cycle, CycleFn }
 export default cycle
