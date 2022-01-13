@@ -16,13 +16,13 @@ type GetStatus = (
   index: number,
   summary: Summary,
   ops: string,
-  fastestOps: string,
+  longestOps: string,
 ) => string
 
-const getStatus: GetStatus = (item, index, summary, ops, fastestOps) => {
+const getStatus: GetStatus = (item, index, summary, ops, longestOps) => {
   const isFastest = index === summary.fastest.index
   const isSlowest = index === summary.slowest.index
-  const statusShift = fastestOps.length - ops.length + 2
+  const statusShift = longestOps.length - ops.length + 2
 
   return (
     ' '.repeat(statusShift) +
@@ -38,7 +38,10 @@ type CycleFn = (result: CaseResult, summary: Summary) => any
 
 const defaultCycle: CycleFn = (_, summary) => {
   const allCompleted = summary.results.every((item) => item.samples > 0)
-  const fastestOps = format(summary.results[summary.fastest.index].ops)
+  const formatOps = summary.results.map((item) => format(item.ops))
+
+  // copy and sort the array
+  const longestOps = formatOps.slice().sort((a, b) => b.length - a.length)[0]
 
   const progress = Math.round(
     (summary.results.filter((result) => result.samples !== 0).length /
@@ -50,14 +53,14 @@ const defaultCycle: CycleFn = (_, summary) => {
 
   const output = summary.results
     .map((item, index) => {
-      const ops = format(item.ops)
+      const ops = formatOps[index]
       const margin = item.margin.toFixed(2)
 
       return item.samples
         ? kleur.cyan(`\n  ${item.name}:\n`) +
             `    ${ops} ops/s, ±${margin}% ${
               allCompleted
-                ? getStatus(item, index, summary, ops, fastestOps)
+                ? getStatus(item, index, summary, ops, longestOps)
                 : ''
             }`
         : null
