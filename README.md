@@ -852,6 +852,10 @@ If you are using Visual Studio Code or [VSCodium](https://github.com/VSCodium/vs
 
 To add them, open `File -> Preferences -> User Snippets`, chose a language (JS, TS or both) and paste additional keys from the snippets file.
 
+If you are using a JetBrains IDE (PhpStorm, WebStorm...), you can use following Live Templates -> [click](live-templates.zip)
+
+To add them, open `File -> Manage IDE Settings -> Import settings...` and select the file in your folder tree.
+
 You can see how they work in the demo GIF.
 
 <a id="additional-examples"></a>
