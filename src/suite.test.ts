@@ -801,6 +801,88 @@ describe('suite', () => {
   )
 
   it(
+    'Correctly saves simple Markdown table',
+    async () => {
+      await suite(
+        'Example 17',
+
+        add(
+          'First',
+          () => {
+            return () => [1, 2, 3, 4, 5].reduce((a, b) => a + b)
+          },
+          { maxTime: 0.01 },
+        ),
+
+        add(
+          'Second',
+          () => {
+            return () => [1, 2].reduce((a, b) => a + b)
+          },
+          { maxTime: 0.01 },
+        ),
+
+        save({ format: 'table.md' }),
+      )
+
+      await delay(1000)
+
+      const file = fs.readdirSync('benchmark/results')[0]
+
+      const content = fs.readFileSync(`benchmark/results/${file}`).toString()
+
+      const lineSplit = content.split('\n')
+
+      expect(lineSplit[0]).toMatch(/.*(Example 17).*$/)
+      expect(lineSplit[2]).toMatch(/.*(name).*(ops).*(margin).*(percentSlower).*$/)
+      expect(lineSplit[4]).toMatch(/.*(First).*$/)
+      expect(lineSplit[5]).toMatch(/.*(Second).*$/)
+    },
+    TIMEOUT,
+  )
+
+  it(
+    'Correctly saves detailed Markdown table',
+    async () => {
+      await suite(
+        'Example 18',
+
+        add(
+          'First',
+          () => {
+            return () => [1, 2, 3, 4, 5].reduce((a, b) => a + b)
+          },
+          { maxTime: 0.01 },
+        ),
+
+        add(
+          'Second',
+          () => {
+            return () => [1, 2].reduce((a, b) => a + b)
+          },
+          { maxTime: 0.01 },
+        ),
+
+        save({ format: 'table.md', details: true }),
+      )
+
+      await delay(1000)
+
+      const file = fs.readdirSync('benchmark/results')[0]
+
+      const content = fs.readFileSync(`benchmark/results/${file}`).toString()
+
+      const lineSplit = content.split('\n')
+
+      expect(lineSplit[0]).toMatch(/.*(Example 18).*$/)
+      expect(lineSplit[2]).toMatch(/.*(name).*(ops).*(margin).*(percentSlower).*(samples).*(promise).*(min).*(max).*(mean).*(median).*(standardDeviation).*(marginOfError).*(standardErrorOfMean).*(sampleVariance).*$/)
+      expect(lineSplit[4]).toMatch(/.*(First).*$/)
+      expect(lineSplit[5]).toMatch(/.*(Second).*$/)
+    },
+    TIMEOUT,
+  )
+
+  it(
     'Rounds results to smallest distinctive precision',
     async () => {
       const summary = await suite(
