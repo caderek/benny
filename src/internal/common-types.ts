@@ -84,7 +84,7 @@ export type SaveOptions = {
    *
    * @default 'json'
    */
-  format?: 'json' | 'csv' | 'table.html' | 'chart.html'
+  format?: 'json' | 'csv' | 'table.html' | 'chart.html' | 'table.md'
 }
 
 export type CaseResult = {

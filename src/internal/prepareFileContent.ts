@@ -1,7 +1,8 @@
 import { method, multi } from '@arrows/multimethod'
 import { parse } from 'json2csv'
 import { CaseResultWithDiff, SaveOptions, Summary } from './common-types'
-import { stripIndent, html } from 'common-tags'
+import { stripIndent, html, stripIndents } from 'common-tags'
+import * as markdownTable from 'markdown-table'
 
 const flattenResults = (results: CaseResultWithDiff[]) => {
   return results.map((result) => ({
@@ -100,6 +101,28 @@ const prepareHTMLTable = (summary: Summary, options: SaveOptions) => {
   `
 
   return stripIndent(markup)
+}
+
+const prepareMarkdownTable = (summary: Summary, options: SaveOptions) => {
+  const results = options.details
+    ? flattenResults(summary.results)
+    : summary.results.map(({ name, ops, margin, percentSlower }) => {
+        return { name, ops, margin, percentSlower }
+      })
+
+  const headers = Object.keys(results[0])
+  const tableBody: string[][] =  results.map((result) => {
+    // @ts-ignore
+    return headers.map((key: string) => (String(result[key])))
+  })
+
+  return stripIndents`**${summary.name}:**
+
+    ${markdownTable([
+      headers,
+      ...tableBody
+    ])}
+  `
 }
 
 const prepareColors = (percents: number[]) => {
@@ -242,6 +265,7 @@ const prepareFileContent = multi(
   method('csv', prepareCSV),
   method('table.html', prepareHTMLTable),
   method('chart.html', prepareHTMLChart),
+  method('table.md', prepareMarkdownTable),
   method(prepareJSON),
 )
 
